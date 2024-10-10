@@ -9,4 +9,9 @@ public class MenuController {
     private void switchToPrimary() throws IOException {
         App.setRoot("Home");
     }
+
+    @FXML
+    private void switchToLevels() throws IOException{
+        App.setRoot("Levels");
+    }
 }

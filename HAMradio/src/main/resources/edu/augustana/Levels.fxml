@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="edu.augustana.LevelController"> <!-- Specify the controller here -->
+    <children>
+        <Button onAction="#switchToEasyLevel" text="Easy" />
+        <Button onAction="#switchToMediumLevel" text="Medium" />
+        <Button onAction="#switchToHardLevel" text="Hard" />
+    </children>
+</VBox>

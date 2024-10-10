@@ -48,7 +48,7 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Practice CW Code" textFill="#7590e6" VBox.vgrow="ALWAYS">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToLevels" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Practice CW Code" textFill="#7590e6" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
