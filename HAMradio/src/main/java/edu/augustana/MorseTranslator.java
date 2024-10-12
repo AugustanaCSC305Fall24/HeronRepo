@@ -1,7 +1,9 @@
 package edu.augustana;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
+import java.util.Set;
 
 public class MorseTranslator {
 
@@ -43,7 +45,14 @@ public class MorseTranslator {
     public String getMorseCode(String letter) {
         return morseCodeMap.getOrDefault(letter.toUpperCase(), "");
     }
-
+    public String getLetter(String morseCode){
+        for(Map.Entry<String, String> set : morseCodeMap.entrySet()){
+            if (set.getValue().equals(morseCode) ){
+                return set.getValue();
+            }
+        }
+        throw new InputMismatchException("Invalid morse code");
+    }
     // Method to check if the user's Morse code matches the correct code for a letter
     public boolean validateMorseCode(String letter, String userInput) {
         String correctMorseCode = getMorseCode(letter);

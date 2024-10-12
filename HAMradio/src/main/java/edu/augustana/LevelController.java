@@ -38,6 +38,7 @@ public class LevelController {
         levelChoiceBox.getItems().addAll("Easy", "Medium", "Hard");
         levelChoiceBox.setValue("Easy");  // Default selection
 
+
         // Add a listener for level changes
         levelChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             changeDifficultyLevel(newValue);
@@ -45,6 +46,8 @@ public class LevelController {
 
         // Start with the appropriate level (default: Easy)
         generateRandomText();
+
+
     }
 
     // Adjust the difficulty level and update the display text accordingly
