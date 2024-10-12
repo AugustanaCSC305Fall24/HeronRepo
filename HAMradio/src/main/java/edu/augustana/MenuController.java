@@ -14,4 +14,9 @@ public class MenuController {
     private void switchToLevels() throws IOException{
         App.setRoot("Levels");
     }
+
+    @FXML
+    private void switchToHamRadio() throws IOException{
+        App.setRoot("LiveHamRadio");
+    }
 }
