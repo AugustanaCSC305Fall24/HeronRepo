@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -10,7 +11,11 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.InputMismatchException;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class LevelController {
 
@@ -19,11 +24,18 @@ public class LevelController {
     @FXML
     private Label morseCodeLabel; // Label to display the user's current morse code
     @FXML
+    private Label userInputLettersLabel;
+    @FXML
     private ChoiceBox<String> levelChoiceBox; // ChoiceBox for selecting difficulty level
+    private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private Runnable timerTask;
+    private long TIMER_DELAY = 1000; // 1 second delay for testing purposes
 
     private String currentText;       // The current random letter/word/phrase
     private StringBuilder userInput = new StringBuilder(); // To collect user's Morse code input
+    private StringBuilder userInputLettersString = new StringBuilder(); // To collect user's Morse code input
     private Instant keyPressTime;          // To store the time the space bar is pressed
+    private int step = 0;
     private final long DOT_THRESHOLD = 150; // Threshold in milliseconds to differentiate dot and dash
 
     private MorseTranslator morseCodeTranslator;  // Instance of MorseCodeTranslator
@@ -45,6 +57,9 @@ public class LevelController {
         levelChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             changeDifficultyLevel(newValue);
             letterLabel.requestFocus();
+            userInputLettersString = new StringBuilder();
+            userInputLettersLabel.setText("Your input will appear here");
+
         });
 
         // Start with the appropriate level (default: Easy)
@@ -63,9 +78,17 @@ public class LevelController {
     public void handleKeyPress(KeyEvent event) {
         // Only respond to the space bar being pressed
         if (event.getCode() == KeyCode.SPACE && keyPressTime==null) {
+            if (step == 2){
+                step = 0;
+                userInput.append(" ");
+            }
             // Start measuring the key press time when the space bar is pressed
             keyPressTime = Instant.now();
 
+        }else if (event.getCode() == KeyCode.N) {
+            if (step != 2){
+                step++;
+            }
         }
     }
 
@@ -74,7 +97,7 @@ public class LevelController {
         // Only respond to the space bar being released
         if (event.getCode() == KeyCode.SPACE && keyPressTime != null) {
             // Calculate how long the space bar was held down
-            Instant end = Instant.now();
+             Instant end = Instant.now();
             Duration duration = Duration.between(keyPressTime, end);
             long elapsedMillis = duration.toMillis();
             keyPressTime = null;
@@ -89,8 +112,43 @@ public class LevelController {
             // Update the UI to show the user's Morse code input so far
             morseCodeLabel.setText(userInput.toString());
 
-            // Check if the user's input matches the correct Morse code for the current text (letter, word, or phrase)
-            checkMorseCode();
+            // Cancel and reschedule the timer
+            if (timerTask != null) {
+                scheduler.shutdownNow(); // Cancel any previously running timer
+                scheduler = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
+            }
+
+            // Create a new timer task that will run after the TIMER_DELAY
+            timerTask = () -> {
+                Platform.runLater(() -> {
+
+                    // Try to check the Morse code after the timer finishes
+                try {
+                    String letter = checkMorseCode();
+                    userInputLettersString.append(letter);
+                    userInputLettersLabel.setText(userInputLettersString.toString());
+                    for (int i = 0; i < userInputLettersString.length(); i++){
+                        if(userInputLettersString.charAt(i) != currentText.charAt(i)){
+                            throw new InputMismatchException("Morse code is different than the text");
+                        }
+                    }
+                    userInput = new StringBuilder();
+                    morseCodeLabel.setText("");
+                } catch (InputMismatchException e) {
+                    userInputLettersString = new StringBuilder();
+                    userInputLettersLabel.setText("Try Again");
+                    userInput = new StringBuilder();
+                    morseCodeLabel.setText("");
+
+                }
+                });
+
+            };
+
+            // Schedule the task after the specified delay
+            scheduler.schedule(timerTask, TIMER_DELAY, TimeUnit.MILLISECONDS);
+
+
         }
     }
 
@@ -120,7 +178,7 @@ public class LevelController {
 
         // Reset user input and update the morse code label
         userInput.setLength(0);
-        morseCodeLabel.setText("");  // Clear the Morse code label for the new letter
+
     }
 
     private void generateRandomWord() {
@@ -149,12 +207,8 @@ public class LevelController {
         morseCodeLabel.setText("");  // Clear the Morse code label for the new phrase
     }
 
-    private void checkMorseCode() {
-        // Use MorseCodeTranslator to validate the user's input
-        if (morseCodeTranslator.validateMorseCode(currentText, userInput.toString())) {
-            showAlert("Correct!", "You entered the correct Morse code for " + currentText);
-            generateRandomText(); // Move to the next letter/word/phrase
-        }
+    private String checkMorseCode() {
+        return morseCodeTranslator.getLetter(userInput.toString());
     }
 
     private void showAlert(String title, String message) {

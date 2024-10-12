@@ -48,7 +48,7 @@ public class MorseTranslator {
     public String getLetter(String morseCode){
         for(Map.Entry<String, String> set : morseCodeMap.entrySet()){
             if (set.getValue().equals(morseCode) ){
-                return set.getValue();
+                return set.getKey();
             }
         }
         throw new InputMismatchException("Invalid morse code");
