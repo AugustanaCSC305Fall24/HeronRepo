@@ -49,10 +49,8 @@ public class LiveHamController {
 
 
 
-=======
     @FXML
     void SwitchMenuButton(ActionEvent event) throws IOException {
         App.setRoot("Menu");  // Assuming App.setRoot is a static method to change scenes
     }
->>>>>>> Stashed changes
 }
