@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller= "edu.augustana.LiveHamController">
    <top>
       <Label alignment="CENTER" text="Live HAM Radio" BorderPane.alignment="CENTER">
          <font>
@@ -39,28 +38,28 @@
             <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Label text="Frequency" />
-                  <Slider max="500.0" min="200.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="350.0" />
+                  <Slider fx:id="frequencySlider" max="500.0" min="200.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="350.0" />
                   <Label text="Filter" />
-                  <Slider layoutX="10.0" layoutY="10.0" max="50.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="25.0" />
+                  <Slider fx:id="filterSlider" layoutX="10.0" layoutY="10.0" max="50.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="25.0" />
                </children>
             </VBox>
             <TilePane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: LIGHTGRAY;" GridPane.rowIndex="1">
                <children>
-                  <Label text="Chosen Frequency">
+                  <Label fx:id="chosenFrequency" text="Chosen Frequency">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
                </children>
             </TilePane>
-            <RadioButton mnemonicParsing="false" text="Show Message In English" GridPane.columnIndex="1" />
+            <RadioButton fx:id="showEnglishText" mnemonicParsing="false" text="Show Message In English" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </center>
    <bottom>
       <VBox alignment="CENTER" prefHeight="61.0" prefWidth="706.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Your Message">
+            <Label fx:id="userMessage" text="Your Message">
                <font>
                   <Font size="24.0" />
                </font>
