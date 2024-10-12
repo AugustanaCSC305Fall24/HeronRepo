@@ -5,6 +5,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Button;
+import javafx.event.ActionEvent; // Correct import
+import java.io.IOException;
 
 public class LiveHamController {
     @FXML private Label chosenFrequency;
@@ -12,6 +15,7 @@ public class LiveHamController {
     @FXML private RadioButton showEnglishText;
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
+    @FXML private Button returnMenuButton;
 
     private StaticNoisePlayer staticNoisePlayer = new StaticNoisePlayer();
 
@@ -51,4 +55,10 @@ public class LiveHamController {
 
 
 
+=======
+    @FXML
+    void SwitchMenuButton(ActionEvent event) throws IOException {
+        App.setRoot("Menu");  // Assuming App.setRoot is a static method to change scenes
+    }
+>>>>>>> Stashed changes
 }
