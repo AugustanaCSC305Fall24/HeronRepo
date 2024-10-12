@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Button;
+import javafx.event.ActionEvent; // Correct import
+import java.io.IOException;
 
 public class LiveHamController {
     @FXML private Label chosenFrequency;
@@ -11,7 +14,9 @@ public class LiveHamController {
     @FXML private RadioButton showEnglishText;
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
+    @FXML private Button returnMenuButton;
 
+<<<<<<< Updated upstream
     private String frequencyUnit = " Mhz";
     private final int minFrequency = 200;
     private final int maxFrequency = 500;
@@ -35,4 +40,10 @@ public class LiveHamController {
 
 
 
+=======
+    @FXML
+    void SwitchMenuButton(ActionEvent event) throws IOException {
+        App.setRoot("Menu");  // Assuming App.setRoot is a static method to change scenes
+    }
+>>>>>>> Stashed changes
 }
