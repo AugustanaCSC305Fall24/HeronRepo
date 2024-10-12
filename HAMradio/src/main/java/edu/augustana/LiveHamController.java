@@ -13,6 +13,9 @@ public class LiveHamController {
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
 
+    private StaticNoisePlayer staticNoisePlayer = new StaticNoisePlayer();
+
+
 
     private String frequencyUnit = " Mhz";
     private final int minFrequency = 200;
@@ -31,6 +34,9 @@ public class LiveHamController {
         frequencySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             chosenFrequency.setText(String.format("%.2f", newValue) + frequencyUnit);
         });
+
+
+
 
 
     }
