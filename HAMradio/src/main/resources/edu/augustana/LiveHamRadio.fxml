@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller= "edu.augustana.LiveHamController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LiveHamController">
+<<<<<<< Updated upstream
    <top>
       <Label alignment="CENTER" text="Live HAM Radio" BorderPane.alignment="CENTER">
          <font>
@@ -23,10 +26,12 @@
          </BorderPane.margin>
       </Label>
    </top>
+=======
+>>>>>>> Stashed changes
    <center>
-      <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="329.0" prefWidth="706.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
@@ -53,7 +58,14 @@
                </children>
             </TilePane>
             <RadioButton fx:id="showEnglishText" mnemonicParsing="false" text="Show Message In English" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#simulateReceiving" text="Simulate receiving message " GridPane.rowIndex="2" />
          </children>
+         <BorderPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
       </GridPane>
    </center>
    <bottom>
@@ -67,4 +79,23 @@
          </children>
       </VBox>
    </bottom>
+   <top>
+      <HBox prefHeight="40.0" prefWidth="706.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="returnMenuButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#SwitchMenuButton" text="Back">
+               <HBox.margin>
+                  <Insets left="10.0" right="200.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="185.0" text="Live HAM Radio" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>

@@ -1,9 +1,13 @@
 package edu.augustana;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Button;
+import javafx.event.ActionEvent; // Correct import
+import java.io.IOException;
 
 public class LiveHamController {
     @FXML private Label chosenFrequency;
@@ -11,6 +15,8 @@ public class LiveHamController {
     @FXML private RadioButton showEnglishText;
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
+    @FXML private Button returnMenuButton;
+
 
     private String frequencyUnit = " Mhz";
     private final int minFrequency = 200;
@@ -34,5 +40,19 @@ public class LiveHamController {
     }
 
 
+    // this should open new window where user can input sentence that will be received
+    // and enter a double that will be frequency of sender
+    @FXML
+    private void simulateReceiving(){
 
+    }
+
+
+
+=======
+    @FXML
+    void SwitchMenuButton(ActionEvent event) throws IOException {
+        App.setRoot("Menu");  // Assuming App.setRoot is a static method to change scenes
+    }
+>>>>>>> Stashed changes
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
 
+<<<<<<< Updated upstream
 import java.time.Duration;
 import java.time.Instant;
 import java.util.InputMismatchException;
@@ -16,6 +17,11 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+=======
+import java.io.IOException;
+import java.util.Random;
+import javafx.event.ActionEvent;
+>>>>>>> Stashed changes
 
 public class LevelController {
 
@@ -217,5 +223,9 @@ public class LevelController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    @FXML
+    void SwitchMenuButton(ActionEvent event) throws IOException {
+        App.setRoot("Menu");
     }
 }
