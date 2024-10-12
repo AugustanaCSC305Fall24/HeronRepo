@@ -36,7 +36,7 @@ public class LevelController {
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private Runnable timerTask;
     private long TIMER_DELAY = 1000; // 1 second delay for testing purposes
-
+    private TonePlayer tonePlayer = new TonePlayer();
     private String currentText;       // The current random letter/word/phrase
     private StringBuilder userInput = new StringBuilder(); // To collect user's Morse code input
     private StringBuilder userInputLettersString = new StringBuilder(); // To collect user's Morse code input
@@ -84,17 +84,9 @@ public class LevelController {
     public void handleKeyPress(KeyEvent event) {
         // Only respond to the space bar being pressed
         if (event.getCode() == KeyCode.SPACE && keyPressTime==null) {
-            if (step == 2){
-                step = 0;
-                userInput.append(" ");
-            }
-            // Start measuring the key press time when the space bar is pressed
+            tonePlayer.startAudio();
             keyPressTime = Instant.now();
 
-        }else if (event.getCode() == KeyCode.N) {
-            if (step != 2){
-                step++;
-            }
         }
     }
 
@@ -103,11 +95,11 @@ public class LevelController {
         // Only respond to the space bar being released
         if (event.getCode() == KeyCode.SPACE && keyPressTime != null) {
             // Calculate how long the space bar was held down
-             Instant end = Instant.now();
+            Instant end = Instant.now();
             Duration duration = Duration.between(keyPressTime, end);
             long elapsedMillis = duration.toMillis();
             keyPressTime = null;
-
+            tonePlayer.stopAudio();
             // Determine if the input is a dot or dash and append it to the userInput
             if (elapsedMillis < DOT_THRESHOLD) {
                 userInput.append(".");
