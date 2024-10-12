@@ -8,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Random;
 
 public class LevelController {
@@ -21,8 +23,8 @@ public class LevelController {
 
     private String currentText;       // The current random letter/word/phrase
     private StringBuilder userInput = new StringBuilder(); // To collect user's Morse code input
-    private long keyPressTime;          // To store the time the space bar is pressed
-    private final long DOT_THRESHOLD = 300; // Threshold in milliseconds to differentiate dot and dash
+    private Instant keyPressTime;          // To store the time the space bar is pressed
+    private final long DOT_THRESHOLD = 150; // Threshold in milliseconds to differentiate dot and dash
 
     private MorseTranslator morseCodeTranslator;  // Instance of MorseCodeTranslator
     private String currentLevel = "Easy";  // Store the current level
@@ -42,6 +44,7 @@ public class LevelController {
         // Add a listener for level changes
         levelChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             changeDifficultyLevel(newValue);
+            letterLabel.requestFocus();
         });
 
         // Start with the appropriate level (default: Easy)
@@ -56,23 +59,28 @@ public class LevelController {
         generateRandomText();  // Generate the appropriate text based on the selected level
     }
 
-    private void handleKeyPress(KeyEvent event) {
+    @FXML
+    public void handleKeyPress(KeyEvent event) {
         // Only respond to the space bar being pressed
-        if (event.getCode() == KeyCode.SPACE) {
+        if (event.getCode() == KeyCode.SPACE && keyPressTime==null) {
             // Start measuring the key press time when the space bar is pressed
-            keyPressTime = System.currentTimeMillis();
+            keyPressTime = Instant.now();
+
         }
     }
 
     @FXML
     private void handleKeyRelease(KeyEvent event) {
         // Only respond to the space bar being released
-        if (event.getCode() == KeyCode.SPACE) {
+        if (event.getCode() == KeyCode.SPACE && keyPressTime != null) {
             // Calculate how long the space bar was held down
-            long duration = System.currentTimeMillis() - keyPressTime;
+            Instant end = Instant.now();
+            Duration duration = Duration.between(keyPressTime, end);
+            long elapsedMillis = duration.toMillis();
+            keyPressTime = null;
 
             // Determine if the input is a dot or dash and append it to the userInput
-            if (duration < DOT_THRESHOLD) {
+            if (elapsedMillis < DOT_THRESHOLD) {
                 userInput.append(".");
             } else {
                 userInput.append("-");
