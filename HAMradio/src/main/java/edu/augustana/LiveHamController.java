@@ -1,6 +1,7 @@
 package edu.augustana;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
@@ -11,6 +12,7 @@ public class LiveHamController {
     @FXML private RadioButton showEnglishText;
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
+
 
     private String frequencyUnit = " Mhz";
     private final int minFrequency = 200;
@@ -30,6 +32,14 @@ public class LiveHamController {
             chosenFrequency.setText(String.format("%.2f", newValue) + frequencyUnit);
         });
 
+
+    }
+
+
+    // this should open new window where user can input sentence that will be received
+    // and enter a double that will be frequency of sender
+    @FXML
+    private void simulateReceiving(){
 
     }
 
