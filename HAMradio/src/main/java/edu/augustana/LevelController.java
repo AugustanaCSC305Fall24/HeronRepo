@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.Random;
 import javafx.event.ActionEvent;
 
+import javax.sound.sampled.LineUnavailableException;
+
 public class LevelController {
 
     @FXML
@@ -33,7 +35,7 @@ public class LevelController {
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private Runnable timerTask;
     private long TIMER_DELAY = 1000; // 1 second delay for testing purposes
-//    private TonePlayer tonePlayer = new TonePlayer();
+    private TonePlayer tonePlayer = new TonePlayer();
     private String currentText;       // The current random letter/word/phrase
     private StringBuilder userInput = new StringBuilder(); // To collect user's Morse code input
     private StringBuilder userInputLettersString = new StringBuilder(); // To collect user's Morse code input
@@ -81,7 +83,12 @@ public class LevelController {
     public void handleKeyPress(KeyEvent event) {
         // Only respond to the space bar being pressed
         if (event.getCode() == KeyCode.SPACE && keyPressTime==null) {
-//            tonePlayer.startAudio();
+            try{
+                tonePlayer.startAudio();
+
+            } catch(LineUnavailableException e){
+                System.out.println(e);
+            }
             keyPressTime = Instant.now();
 
         }
@@ -96,7 +103,7 @@ public class LevelController {
             Duration duration = Duration.between(keyPressTime, end);
             long elapsedMillis = duration.toMillis();
             keyPressTime = null;
-//            tonePlayer.stopAudio();
+            tonePlayer.stopAudio();
             // Determine if the input is a dot or dash and append it to the userInput
             if (elapsedMillis < DOT_THRESHOLD) {
                 userInput.append(".");

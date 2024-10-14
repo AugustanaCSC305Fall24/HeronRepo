@@ -41,20 +41,7 @@ public class TonePlayer {
         }
     }
 
-    public static void main(String[] args) {
-        TonePlayer player = new TonePlayer();
 
-        // Simulate button press and release
-        try {
-            System.out.println("Playing...");
-            player.startAudio();  // Start audio (simulate button press)
-            Thread.sleep(1000);    // Keep playing for 1 second
-            System.out.println("Stopped.");
-            player.stopAudio();    // Stop audio (simulate button release)
-        } catch (InterruptedException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
 }
 
 enum Note {
