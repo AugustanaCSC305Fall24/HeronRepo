@@ -70,6 +70,10 @@ public class LevelController {
             public void onTimerComplete(String letter) {
                 String userInputLetters = morseHandler.getUserInputLetters().toString();
                 userInputLettersLabel.setText(userInputLetters.toString());
+                // Check if the lengths match
+                if (userInputLetters.length() != currentText.length()) {
+                    throw new InputMismatchException("Morse code input length does not match the expected text length.");
+                }
                 for (int i = 0; i < userInputLetters.length(); i++) {
                     if (userInputLetters.charAt(i) != currentText.charAt(i)) {
                         throw new InputMismatchException("Morse code is different than the text");
