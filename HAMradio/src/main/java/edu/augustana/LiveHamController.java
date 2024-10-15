@@ -1,13 +1,18 @@
 package edu.augustana;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent; // Correct import
+import javafx.stage.Stage;
+
 import java.io.IOException;
+
 
 public class LiveHamController {
     @FXML private Label chosenFrequency;
@@ -43,10 +48,27 @@ public class LiveHamController {
     // this should open new window where user can input sentence that will be received
     // and enter a double that will be frequency of sender
     @FXML
-    private void simulateReceiving(){
+    private void simulateReceiving() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageInput.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), 580, 800));
 
+            // Pass reference to the main controller
+            MessageInputController controller = loader.getController();
+            controller.setLiveHamController(this);
+
+            stage.setTitle("Input Message and Frequency");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Method to receive and display the message and frequency from the new screen
+    public void receiveMessage(String message, double frequency) {
+        userMessage.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
+    }
 
 
     @FXML
