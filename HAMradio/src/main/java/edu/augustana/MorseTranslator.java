@@ -37,7 +37,7 @@ public class MorseTranslator {
         morseCodeMap.put("V", "...-");
         morseCodeMap.put("W", ".--");
         morseCodeMap.put("X", "-..-");
-        morseCodeMap.put("Y", "-.--");
+        morseCodeMap.put("Y", "-.--") ;
         morseCodeMap.put("Z", "--..");
         morseCodeMap.put("0", "-----");
         morseCodeMap.put("1", ".----");
