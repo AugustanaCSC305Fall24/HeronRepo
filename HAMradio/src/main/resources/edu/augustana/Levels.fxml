@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="461.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LevelController">
+<BorderPane prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LevelController">
     <center>
         <VBox alignment="CENTER" focusTraversable="true" onKeyPressed="#handleKeyPress" onKeyReleased="#handleKeyRelease" spacing="70.0">
             <children>
@@ -44,7 +44,7 @@
                   <Insets left="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Label alignment="CENTER" prefHeight="26.0" prefWidth="298.0" text="Practice your CW" textAlignment="CENTER">
+            <Label alignment="CENTER" prefHeight="26.0" prefWidth="665.0" text="Practice your CW" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
