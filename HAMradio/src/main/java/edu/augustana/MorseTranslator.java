@@ -51,7 +51,7 @@ public class MorseTranslator {
                 return set.getKey();
             }
         }
-        throw new InputMismatchException("Invalid morse code");
+        throw new InputMismatchException(morseCode + " Invalid morse code");
     }
     // Method to check if the user's Morse code matches the correct code for a letter
     public boolean validateMorseCode(String letter, String userInput) {
