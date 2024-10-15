@@ -19,6 +19,16 @@ public class MenuController {
     private void switchToHamRadio() throws IOException{
         App.setRoot("LiveHamRadio");
     }
+    @FXML
+    private Slider volumeSlider;
+
+
+    public void initialize(){
+        volumeSlider.adjustValue((double) App.volume);
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            App.volume = newValue.intValue();  // Update the volume variable
+        });
+    }
 
 
 

@@ -39,6 +39,16 @@ public class MorseTranslator {
         morseCodeMap.put("X", "-..-");
         morseCodeMap.put("Y", "-.--");
         morseCodeMap.put("Z", "--..");
+        morseCodeMap.put("0", "-----");
+        morseCodeMap.put("1", ".----");
+        morseCodeMap.put("2", "..---");
+        morseCodeMap.put("3", "...--");
+        morseCodeMap.put("4", "....-");
+        morseCodeMap.put("5", ".....");
+        morseCodeMap.put("6", "-....");
+        morseCodeMap.put("7", "--...");
+        morseCodeMap.put("8", "---..");
+        morseCodeMap.put("9", "----.");
     }
 
     // Method to get Morse code for a given letter
