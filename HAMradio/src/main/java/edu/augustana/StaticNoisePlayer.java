@@ -9,6 +9,11 @@ public class StaticNoisePlayer {
     private static SourceDataLine line;
     private static Thread noiseThread;
     private static volatile boolean playing;
+    private static float volume = 0.05f; // Volume factor (0.0 to 1.0)
+
+    public static void setVolume(float newVolume) {
+        volume = Math.max(0.0f, Math.min(1.0f, newVolume)); // Clamp between 0.0 and 1.0
+    }
 
     public static void startNoise() throws LineUnavailableException {
         AudioFormat format = new AudioFormat(8000f, 8, 1, true, true);
@@ -29,6 +34,10 @@ public class StaticNoisePlayer {
             byte[] buffer = new byte[1024];
             while (playing) {
                 random.nextBytes(buffer);
+                // Apply volume adjustment
+                for (int i = 0; i < buffer.length; i++) {
+                    buffer[i] = (byte) (buffer[i] * volume);
+                }
                 line.write(buffer, 0, buffer.length);
             }
             line.drain();

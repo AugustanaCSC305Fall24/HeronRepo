@@ -1,6 +1,7 @@
 package edu.augustana;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    public static int sound = 50;
+    public static int sound = 100;
 
     public static int minPlayTimeSound = 100;
     @Override
@@ -25,6 +26,7 @@ public class App extends Application {
         stage.show();
         stage.setOnCloseRequest(event -> {
             StaticNoisePlayer.stopNoise();
+            Platform.exit();
             // Optionally, you can add other cleanup code here
         });
     }
