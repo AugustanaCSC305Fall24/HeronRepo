@@ -4,11 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.event.ActionEvent; // Correct import
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -30,12 +26,13 @@ public class LiveHamController {
     @FXML private Label chosenFrequency;
     @FXML private Label userMessageMorse;
     @FXML private Label userMessageInEnglish;
-    @FXML private RadioButton showEnglishText;
+    @FXML private CheckBox showEnglishText;
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
     @FXML private Button returnMenuButton;
     @FXML
     private BorderPane borderPane;
+    @FXML private Slider volumeSlider;
 
     private StringBuilder userInput = new StringBuilder();
     private StringBuilder userInputLettersString = new StringBuilder();
@@ -91,8 +88,12 @@ public class LiveHamController {
                 if (userInputLettersString.length() > 40){
                     userInputLettersString.deleteCharAt(0);
                 }
-                userMessageInEnglish.setText(userInputLettersString.toString());
+                if(showEnglishText.isSelected()){
 
+                    userMessageInEnglish.setText(userInputLettersString.toString());
+                }else{
+                    userMessageInEnglish.setText("");
+                }
             }
 
             @Override
@@ -117,6 +118,16 @@ public class LiveHamController {
 
         userMessageMorse.requestFocus();
 
+        volumeSlider.adjustValue((double) App.volume);
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            App.volume = newValue.intValue();  // Update the volume variable
+        });
+
+    }
+
+    @FXML
+    private void handleTranslationCheckBoxSelected(){
+        userMessageMorse.requestFocus();
     }
 
 

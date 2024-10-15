@@ -1,6 +1,7 @@
 package edu.augustana;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +27,7 @@ public class App extends Application {
         stage.show();
         stage.setOnCloseRequest(event -> {
             StaticNoisePlayer.stopNoise();
+            Platform.exit();
             // Optionally, you can add other cleanup code here
         });
     }
