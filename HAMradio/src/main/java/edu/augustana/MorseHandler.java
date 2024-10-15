@@ -43,6 +43,10 @@ public class MorseHandler {
             }
             keyPressTime = Instant.now();
 
+            if (timerTask != null) {
+                scheduler.shutdownNow(); // Cancel any previously running timer
+                scheduler = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
+            }
         }
     }
 
@@ -64,11 +68,6 @@ public class MorseHandler {
             }
             keyreleaseCallback.onComplete();
 
-            // Cancel and reschedule the timer
-            if (timerTask != null) {
-                scheduler.shutdownNow(); // Cancel any previously running timer
-                scheduler = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
-            }
 
             // Create a new timer task that will run after the TIMER_DELAY
             timerTask = () -> {

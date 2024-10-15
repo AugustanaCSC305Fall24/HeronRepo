@@ -63,6 +63,7 @@ public class LiveHamController {
             if (!newValue) {
                 userMessageInEnglish.setText("");
             }
+            userMessageMorse.requestFocus();
         });
         morseHandler = new MorseHandler(new CallbackPress() {
             @Override
@@ -95,6 +96,9 @@ public class LiveHamController {
             @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
+                morseHandler.clearUserInput();
+                morseHandler.clearUserInputLetters();
+                userMessageMorse.setText("");
 
             }
         }, borderPane);
@@ -112,18 +116,18 @@ public class LiveHamController {
             e.printStackTrace();
         }
 
-        userMessageMorse.requestFocus();
 
         volumeSlider.adjustValue((double) App.volume);
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             App.volume = newValue.intValue();  // Update the volume variable
         });
+        userMessageMorse.requestFocus();
 
     }
 
     @FXML
     private void handleTranslationCheckBoxSelected() {
-        userMessageMorse.requestFocus();
+
     }
 
 

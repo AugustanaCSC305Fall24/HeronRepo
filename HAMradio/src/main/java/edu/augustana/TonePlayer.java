@@ -89,7 +89,7 @@ enum Note {
     // Generate a sine wave for the tone with adjustable volume
     public byte[] data(int volume) {
         byte[] sin = new byte[SAMPLE_RATE];
-        double maxAmplitude = 127.0 * (volume * 30.0 / 100.0 / 100.0); // Adjust amplitude based on volume (0 to 100)
+        double maxAmplitude = 127.0 * (volume * 80.0 / 100.0 / 100.0); // Adjust amplitude based on volume (0 to 100)
 
         for (int i = 0; i < sin.length; i++) {
             double period = (double) SAMPLE_RATE / FREQUENCY;
