@@ -2,11 +2,16 @@ package edu.augustana;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Button;
 import javafx.event.ActionEvent; // Correct import
+import javafx.stage.Stage;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -18,6 +23,7 @@ import java.util.InputMismatchException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 
 public class LiveHamController {
     @FXML private Label chosenFrequency;
@@ -34,10 +40,9 @@ public class LiveHamController {
 
     private Instant keyPressTime;
 
-    private static final StaticNoisePlayer staticNoisePlayer = new StaticNoisePlayer();
 
 
-    private TonePlayer tonePlayer = new TonePlayer();
+    private TonePlayer tonePlayer = new TonePlayer(App.minPlayTimeSound);
 
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private Runnable timerTask;
@@ -73,7 +78,7 @@ public class LiveHamController {
         // this part is for simulating static noise
         try {
 
-            staticNoisePlayer.startNoise();
+            StaticNoisePlayer.startNoise();
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -157,17 +162,35 @@ public class LiveHamController {
     // this should open new window where user can input sentence that will be received
     // and enter a double that will be frequency of sender
     @FXML
-    private void simulateReceiving(){
+    private void simulateReceiving() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageInput.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), 580, 800));
 
+            // Pass reference to the main controller
+            MessageInputController controller = loader.getController();
+            controller.setLiveHamController(this);
+
+            stage.setTitle("Input Message and Frequency");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     private String checkMorseCode() {
         return morseCodeTranslator.getLetter(userInput.toString());
     }
 
+    // Method to receive and display the message and frequency from the new screen
+    public void receiveMessage(String message, double frequency) {
+        userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
+    }
 
 
     @FXML
     void SwitchMenuButton(ActionEvent event) throws IOException {
-        App.setRoot("Menu");  // Assuming App.setRoot is a static method to change scenes
+        App.setRoot("Menu");// Assuming App.setRoot is a static method to change scenes
+        StaticNoisePlayer.stopNoise();
     }
 }

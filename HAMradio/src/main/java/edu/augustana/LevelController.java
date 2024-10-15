@@ -35,7 +35,7 @@ public class LevelController {
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private Runnable timerTask;
     private long TIMER_DELAY = 1000; // 1 second delay for testing purposes
-    private TonePlayer tonePlayer = new TonePlayer();
+    private TonePlayer tonePlayer = new TonePlayer(App.minPlayTimeSound);
     private String currentText;       // The current random letter/word/phrase
     private StringBuilder userInput = new StringBuilder(); // To collect user's Morse code input
     private StringBuilder userInputLettersString = new StringBuilder(); // To collect user's Morse code input

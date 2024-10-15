@@ -6,11 +6,11 @@ import java.util.Random;
 
 public class StaticNoisePlayer {
 
-    private SourceDataLine line;
-    private Thread noiseThread;
-    private volatile boolean playing;
+    private static SourceDataLine line;
+    private static Thread noiseThread;
+    private static volatile boolean playing;
 
-    public void startNoise() throws LineUnavailableException {
+    public static void startNoise() throws LineUnavailableException {
         AudioFormat format = new AudioFormat(8000f, 8, 1, true, true);
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
 
@@ -37,7 +37,7 @@ public class StaticNoisePlayer {
         noiseThread.start();
     }
 
-    public void stopNoise() {
+    public static void stopNoise() {
         playing = false;
         if (noiseThread != null) {
             try {

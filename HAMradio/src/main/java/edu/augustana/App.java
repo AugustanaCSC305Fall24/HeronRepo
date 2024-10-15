@@ -15,12 +15,18 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    public static int sound = 50;
 
+    public static int minPlayTimeSound = 100;
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Home"), 580, 800);
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(event -> {
+            StaticNoisePlayer.stopNoise();
+            // Optionally, you can add other cleanup code here
+        });
     }
 
     static void setRoot(String fxml) throws IOException {
