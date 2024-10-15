@@ -8,15 +8,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
 /**
  * JavaFX App
  */
 public class App extends Application {
 
     private static Scene scene;
-    public static int sound = 50;
+    public static int volume = 50; // Static volume variable
     public static int minPlayTimeSound = 100;
+
+
+
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Home"), 580, 800);
@@ -36,5 +38,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

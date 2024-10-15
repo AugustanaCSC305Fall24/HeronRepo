@@ -3,6 +3,7 @@ package edu.augustana;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert;
@@ -32,6 +33,8 @@ public class LevelController {
     private Label userInputLettersLabel;
     @FXML
     private ChoiceBox<String> levelChoiceBox; // ChoiceBox for selecting difficulty level
+    @FXML
+    private Slider volumeSlider;
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private Runnable timerTask;
     private long TIMER_DELAY = 1000; // 1 second delay for testing purposes
@@ -52,6 +55,8 @@ public class LevelController {
     public void initialize() {
         // Initialize the MorseCodeTranslator
         morseCodeTranslator = new MorseTranslator();
+
+        
 
         // Populate the level choice box with levels
         levelChoiceBox.getItems().addAll("Easy", "Medium", "Hard");

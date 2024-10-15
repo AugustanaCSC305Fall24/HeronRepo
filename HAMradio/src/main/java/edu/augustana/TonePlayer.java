@@ -30,7 +30,7 @@ public class TonePlayer {
             line.start();
             toneStartTime = Instant.now();  // Record the start time
 
-            byte[] toneData = Note.A4.data(App.sound);  // Volume controlled by App.sound
+            byte[] toneData = Note.A4.data(App.volume);  // Volume controlled by App.sound
             new Thread(() -> {
                 while (isPlaying.get()) {
                     line.write(toneData, 0, toneData.length);
@@ -74,7 +74,11 @@ public class TonePlayer {
             line.close();
         }
     }
+
 }
+
+
+
 
 enum Note {
     A4; // Single tone for testing
