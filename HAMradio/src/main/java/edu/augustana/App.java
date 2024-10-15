@@ -15,7 +15,8 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-
+    public static int sound = 50;
+    public static int minPlayTimeSound = 100;
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Home"), 580, 800);
