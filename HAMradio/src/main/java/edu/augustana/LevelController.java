@@ -84,7 +84,11 @@ public class LevelController {
                 morseHandler.clearUserInput();
 
             }
-
+            @Override
+            public void onTimerWordComplete() {
+                StringBuilder userInputLetters = morseHandler.getUserInputLetters();
+                userInputLettersLabel.setText(userInputLetters.toString());
+            }
             @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());

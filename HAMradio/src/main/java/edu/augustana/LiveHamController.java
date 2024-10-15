@@ -92,7 +92,11 @@ public class LiveHamController {
                     userMessageInEnglish.setText("");
                 }
             }
-
+            @Override
+            public void onTimerWordComplete() {
+                StringBuilder userInputLetters = morseHandler.getUserInputLetters();
+                userMessageInEnglish.setText(userInputLetters.toString());
+            }
             @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
