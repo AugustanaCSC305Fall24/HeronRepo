@@ -4,10 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent; // Correct import
 import javafx.stage.Stage;
@@ -29,7 +26,7 @@ public class LiveHamController {
     @FXML private Label chosenFrequency;
     @FXML private Label userMessageMorse;
     @FXML private Label userMessageInEnglish;
-    @FXML private RadioButton showEnglishText;
+    @FXML private CheckBox showEnglishText;
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
     @FXML private Button returnMenuButton;
@@ -88,6 +85,11 @@ public class LiveHamController {
     }
 
     @FXML
+    private void handleTranslationCheckBoxSelected(){
+        userMessageMorse.requestFocus();
+    }
+
+    @FXML
     public void handleKeyPress(KeyEvent event) {
         // Only respond to the space bar being pressed
         if (event.getCode() == KeyCode.SPACE && keyPressTime==null) {
@@ -133,19 +135,21 @@ public class LiveHamController {
                 Platform.runLater(() -> {
 
                     // Try to check the Morse code after the timer finishes
-                    try {
-                        String letter = checkMorseCode();
-                        userInputLettersString.append(letter);
-                        if (userInputLettersString.length() > 40){
-                            userInputLettersString.deleteCharAt(0);
+                    if(showEnglishText.isSelected()){
+                        try {
+                            String letter = checkMorseCode();
+                            userInputLettersString.append(letter);
+                            if (userInputLettersString.length() > 40){
+                                userInputLettersString.deleteCharAt(0);
+                            }
+
+                            userMessageInEnglish.setText(userInputLettersString.toString());
+
+
+                        } catch (InputMismatchException e) {
+                            System.out.println(e.getMessage());
+
                         }
-
-                        userMessageInEnglish.setText(userInputLettersString.toString());
-
-
-                    } catch (InputMismatchException e) {
-                        System.out.println(e.getMessage());
-
                     }
                 });
 
