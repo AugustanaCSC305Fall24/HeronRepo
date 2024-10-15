@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
+import javafx.scene.control.Slider;
 
 public class MenuController {
 
@@ -41,5 +42,4 @@ public class MenuController {
     private void switchToHamRadio() throws IOException {
         App.setRoot("LiveHamRadio");
     }
-
 }

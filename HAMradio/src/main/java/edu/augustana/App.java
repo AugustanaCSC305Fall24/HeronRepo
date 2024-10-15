@@ -1,6 +1,7 @@
 package edu.augustana;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,14 +15,21 @@ import java.io.IOException;
  */
 public class App extends Application {
 
+    public static long TIMER_DELAY = 1000;
+    public static long DOT_THRESHOLD = 150;
     private static Scene scene;
-    public static int sound = 50;
+    public static int volume = 50; // Static volume variable
     public static int minPlayTimeSound = 100;
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Home"), 800, 580);
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(event -> {
+            StaticNoisePlayer.stopNoise();
+            Platform.exit();
+            // Optionally, you can add other cleanup code here
+        });
     }
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
