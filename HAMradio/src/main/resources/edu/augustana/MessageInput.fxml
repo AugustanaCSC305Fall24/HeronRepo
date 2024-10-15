@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.MessageInputController">
+    <children>
+        <Label text="Enter your message:" />
+        <TextField fx:id="messageInput" promptText="Type a word or phrase" />
+        <Label text="Set frequency (in Mhz):" />
+        <TextField fx:id="frequencyInput" promptText="Frequency" />
+        <Button text="Save Message" onAction="#saveMessage" />
+    </children>
+</VBox>

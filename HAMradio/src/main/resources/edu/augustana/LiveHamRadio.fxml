@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LiveHamController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyPress" onKeyReleased="#handleKeyRelease" prefHeight="502.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LiveHamController">
    <top>
       <Label alignment="CENTER" text="Live HAM Radio" BorderPane.alignment="CENTER">
          <font>
@@ -66,9 +66,14 @@
       </GridPane>
    </center>
    <bottom>
-      <VBox alignment="CENTER" prefHeight="61.0" prefWidth="706.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="61.0" prefWidth="706.0" spacing="29.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="userMessage" text="Your Message">
+            <Label fx:id="userMessageMorse" text="Your Message">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="userMessageInEnglish" layoutX="291.0" layoutY="26.0" text="Your Message English ">
                <font>
                   <Font size="24.0" />
                </font>

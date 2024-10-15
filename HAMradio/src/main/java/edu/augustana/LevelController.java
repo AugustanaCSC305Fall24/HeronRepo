@@ -142,6 +142,7 @@ public class LevelController {
                     userInput = new StringBuilder();
                     morseCodeLabel.setText("");
                 } catch (InputMismatchException e) {
+                    System.out.println(e.getMessage());
                     userInputLettersString = new StringBuilder();
                     userInputLettersLabel.setText("Try Again");
                     userInput = new StringBuilder();
