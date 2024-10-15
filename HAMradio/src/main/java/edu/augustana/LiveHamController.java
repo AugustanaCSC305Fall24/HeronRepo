@@ -23,32 +23,25 @@ import java.util.concurrent.TimeUnit;
 
 
 public class LiveHamController {
-    @FXML private Label chosenFrequency;
-    @FXML private Label userMessageMorse;
-    @FXML private Label userMessageInEnglish;
-    @FXML private CheckBox showEnglishText;
-    @FXML private Slider frequencySlider;
-    @FXML private Slider filterSlider;
-    @FXML private Button returnMenuButton;
+    @FXML
+    private Label chosenFrequency;
+    @FXML
+    private Label userMessageMorse;
+    @FXML
+    private Label userMessageInEnglish;
+    @FXML
+    private CheckBox showEnglishText;
+    @FXML
+    private Slider frequencySlider;
+    @FXML
+    private Slider filterSlider;
+    @FXML
+    private Button returnMenuButton;
     @FXML
     private BorderPane borderPane;
-    @FXML private Slider volumeSlider;
+    @FXML
+    private Slider volumeSlider;
 
-    private StringBuilder userInput = new StringBuilder();
-    private StringBuilder userInputLettersString = new StringBuilder();
-
-
-    private Instant keyPressTime;
-
-
-
-    private TonePlayer tonePlayer = new TonePlayer(App.minPlayTimeSound);
-
-    private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    private Runnable timerTask;
-
-
-    private MorseTranslator morseCodeTranslator;  // Instance of MorseCodeTranslator
 
     // things to put in new Class MorseHandler
     private String frequencyUnit = " Mhz";
@@ -56,19 +49,21 @@ public class LiveHamController {
     private final int maxFrequency = 500;
     private final int initialFrequency = 350;
 
-    private final long DOT_THRESHOLD = 150;
-    private long TIMER_DELAY = 1000;
 
     private MorseHandler morseHandler;
 
     public void initialize() {
-        morseCodeTranslator = new MorseTranslator();
 
         frequencySlider.setMin(minFrequency);
         frequencySlider.setMax(maxFrequency);
         frequencySlider.setValue(initialFrequency);
-       chosenFrequency.setText(Double.toString(frequencySlider.getValue()) + frequencyUnit);
-       userMessageMorse.setText("Your message will be shown here");
+        chosenFrequency.setText(Double.toString(frequencySlider.getValue()) + frequencyUnit);
+        userMessageMorse.setText("Your message will be shown here");
+        showEnglishText.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                userMessageInEnglish.setText("");
+            }
+        });
         morseHandler = new MorseHandler(new CallbackPress() {
             @Override
             public void onComplete() {
@@ -78,20 +73,21 @@ public class LiveHamController {
             @Override
             public void onComplete() {
                 // Update the UI to show the user's Morse code input so far
-                userMessageMorse.setText(userInput.toString());
+                userMessageMorse.setText(morseHandler.getUserInput().toString());
 
             }
 
             @Override
             public void onTimerComplete(String letter) {
                 StringBuilder userInputLettersString = morseHandler.getUserInputLetters();
-                if (userInputLettersString.length() > 40){
+                if (userInputLettersString.length() > 40) {
                     userInputLettersString.deleteCharAt(0);
                 }
-                if(showEnglishText.isSelected()){
+                userMessageMorse.setText("");
+                if (showEnglishText.isSelected()) {
 
                     userMessageInEnglish.setText(userInputLettersString.toString());
-                }else{
+                } else {
                     userMessageInEnglish.setText("");
                 }
             }
@@ -126,11 +122,9 @@ public class LiveHamController {
     }
 
     @FXML
-    private void handleTranslationCheckBoxSelected(){
+    private void handleTranslationCheckBoxSelected() {
         userMessageMorse.requestFocus();
     }
-
-
 
 
     // this should open new window where user can input sentence that will be received
@@ -151,9 +145,6 @@ public class LiveHamController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    private String checkMorseCode() {
-        return morseCodeTranslator.getLetter(userInput.toString());
     }
 
     // Method to receive and display the message and frequency from the new screen

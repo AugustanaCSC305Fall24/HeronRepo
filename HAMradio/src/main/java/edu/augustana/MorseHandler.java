@@ -80,7 +80,6 @@ public class MorseHandler {
                         userInputLettersString.append(letter);
                         keyreleaseCallback.onTimerComplete(letter);
                         this.clearUserInput();
-                        userInput = new StringBuilder();
                     } catch (InputMismatchException e) {
                         keyreleaseCallback.onTimerCatch(e);
                     }
