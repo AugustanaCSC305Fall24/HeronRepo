@@ -22,7 +22,7 @@ public class App extends Application {
     public static int minPlayTimeSound = 100;
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Home"), 580, 800);
+        scene = new Scene(loadFXML("Home"), 800, 580);
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(event -> {
@@ -31,8 +31,7 @@ public class App extends Application {
             // Optionally, you can add other cleanup code here
         });
     }
-
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -40,6 +39,7 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
+
 
     public static void main(String[] args) {
         launch();

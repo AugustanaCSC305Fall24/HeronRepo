@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="579.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.HomeController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.HomeController">
    <stylesheets>
       <URL value="@styles.css" />
    </stylesheets>
@@ -40,14 +40,14 @@
             </Label>
          </children>
       </HBox>
-      <Line endX="100.0" startX="-351.2581787109375" stroke="#7590e6">
+      <Line endX="385.82763671875" endY="-0.49990904331207275" startX="-351.2581787109375" stroke="#7590e6">
          <VBox.margin>
             <Insets top="-5.0" />
          </VBox.margin>
       </Line>
       <Pane id="home" fx:id="home" prefHeight="412.0" prefWidth="471.0" style="-fx-background-image: /Users/youssefchekkori/IdeaProjects/HAMradio/Radio-HeaderiStock_000056373426_1800-x-900-pixels1.png;" styleClass="home" stylesheets="@styles.css">
          <children>
-            <VBox layoutX="110.0" layoutY="55.0" prefHeight="270.0" prefWidth="290.0" style="-fx-background-color: #324eb7; visibility: 4;">
+            <VBox layoutX="224.0" layoutY="48.0" prefHeight="270.0" prefWidth="290.0" style="-fx-background-color: #324eb7; visibility: 4;">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="311.0" text="Enter your account " textAlignment="CENTER" textFill="#f8f6f6">
                      <font>
@@ -79,7 +79,7 @@
                               <Insets top="50.0" />
                            </opaqueInsets>
                         </Button>
-                        <TextField promptText="click here" GridPane.rowIndex="1">
+                        <TextField fx:id="usernameField" promptText="click here" GridPane.rowIndex="1">
                            <effect>
                               <Blend opacity="0.11" />
                            </effect>
@@ -96,10 +96,10 @@
             </VBox>
          </children>
       </Pane>
-      <Pane prefHeight="270.0" prefWidth="437.0">
+      <Pane prefHeight="231.0" prefWidth="737.0">
          <children>
-            <Label layoutX="240.0" layoutY="45.0" text="How to Use" textFill="#7590e6" />
-            <Text layoutX="12.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="As you interact with the AI or practice with real users, all conversations are automatically logged, allowing you to review them later to identify mistakes and track your progress. Upon logging in, your custom settings, such as frequency and signal strength, are saved so you can resume without re-entering your parameters, with log history also stored for future reference. The simulator offers a visually appealing and interactive radio interface, where you can adjust dials and buttons just like a real HAM radio, enhancing your learning experience. You can also modify the difficulty of interactions by speeding up conversations, introducing interference, or adjusting other settings to simulate real-world conditions. Additionally, there is a section dedicated to practicing Morse code, where you can match signals to letters or translate them into Morse code for effective learning. Finally, whether in practice or real communication mode, you can see who is connected to the server. In practice mode, you’ll interact with the AI Chat, which simulates how real users would appear." wrappingWidth="515.21630859375">
+            <Label layoutX="337.0" layoutY="14.0" text="How to Use" textFill="#7590e6" />
+            <Text layoutX="21.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="As you interact with the AI or practice with real users, all conversations are automatically logged, allowing you to review them later to identify mistakes and track your progress. Upon logging in, your custom settings, such as frequency and signal strength, are saved so you can resume without re-entering your parameters, with log history also stored for future reference. The simulator offers a visually appealing and interactive radio interface, where you can adjust dials and buttons just like a real HAM radio, enhancing your learning experience. You can also modify the difficulty of interactions by speeding up conversations, introducing interference, or adjusting other settings to simulate real-world conditions. Additionally, there is a section dedicated to practicing Morse code, where you can match signals to letters or translate them into Morse code for effective learning. Finally, whether in practice or real communication mode, you can see who is connected to the server. In practice mode, you’ll interact with the AI Chat, which simulates how real users would appear." wrappingWidth="709.21630859375">
                <font>
                   <Font size="9.0" />
                </font>

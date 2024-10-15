@@ -11,54 +11,52 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="637.0" prefWidth="587.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.MenuController">
+<VBox alignment="CENTER" prefHeight="580.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.MenuController">
     <children>
-        <HBox prefHeight="68.0" prefWidth="489.0">
-            <children>
-                <ImageView fitHeight="58.0" fitWidth="62.0">
-                    <image>
-                        <Image url="@sound-waves.png" />
-                    </image>
-                </ImageView>
-                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="147.0" text="HAM Radio Software" textFill="#7590e6">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="10.0" top="20.0" />
-                    </HBox.margin>
-                </Label>
-            </children>
-        </HBox>
-        <Line endX="100.0" startX="-351.2581787109375" stroke="#7590e6">
-            <VBox.margin>
-                <Insets top="-20.0" />
-            </VBox.margin>
-        </Line>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="163.0" text="Welcome!" textAlignment="CENTER" textFill="#7590e6">
-            <font>
-                <Font size="21.0" />
-            </font>
-        </Label>
-        <Pane prefHeight="377.0" prefWidth="636.0">
-            <children>
-                <VBox alignment="CENTER" layoutX="-9.0" prefHeight="360.0" prefWidth="566.0">
-                    <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToHamRadio" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Live HAM RADIO" textAlignment="CENTER" textFill="#7590e6" VBox.vgrow="ALWAYS">
-                            <VBox.margin>
-                                <Insets bottom="20.0" />
-                            </VBox.margin>
-                        </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToLevels" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Practice CW Code" textFill="#7590e6" VBox.vgrow="ALWAYS">
-                            <VBox.margin>
-                                <Insets bottom="20.0" />
-                            </VBox.margin>
-                        </Button>
-                        <Button fx:id="secondaryButton" onAction="#switchToPrimary" prefHeight="25.0" prefWidth="128.0" text="Return Home" />
-                    </children>
-                </VBox>
-            </children>
-        </Pane>
+      <HBox prefHeight="68.0" prefWidth="489.0">
+         <children>
+            <ImageView fitHeight="51.0" fitWidth="62.0">
+               <image>
+                  <Image url="@sound-waves.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="147.0" text="HAM Radio Software" textFill="#7590e6">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" top="20.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <Line endX="341.03472900390625" endY="-0.6923887729644775" startX="-351.2581787109375" stroke="#7590e6">
+         <VBox.margin>
+            <Insets top="-20.0" />
+         </VBox.margin>
+      </Line>
+        <Label fx:id="welcomeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="440.0" text="Welcome!" textAlignment="CENTER" textFill="#7590e6">
+         <font>
+            <Font size="21.0" />
+         </font></Label>
+      <Pane prefHeight="377.0" prefWidth="636.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="-9.0" layoutY="1.0" prefHeight="360.0" prefWidth="770.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToHamRadio" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Live HAM RADIO" textAlignment="CENTER" textFill="#7590e6" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToLevels" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Practice CW Code" textFill="#7590e6" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children></Pane>
+        <Button fx:id="secondaryButton" onAction="#switchToPrimary" prefHeight="25.0" prefWidth="128.0" text="Return Home" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
