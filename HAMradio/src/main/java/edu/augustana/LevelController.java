@@ -71,7 +71,7 @@ public class LevelController {
                 String userInputLetters = morseHandler.getUserInputLetters().toString();
                 userInputLettersLabel.setText(userInputLetters.toString());
                 // Check if the lengths match
-                if (userInputLetters.length() != currentText.length()) {
+                if (userInputLetters.length() >= currentText.length()) {
                     throw new InputMismatchException("Morse code input length does not match the expected text length.");
                 }
                 for (int i = 0; i < userInputLetters.length(); i++) {
@@ -92,7 +92,10 @@ public class LevelController {
             @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
-                morseHandler.clearUserInputLetters();
+                StringBuilder userInputLetters = morseHandler.getUserInputLetters();
+                if (userInputLetters.length() > 0){
+                    userInputLetters.deleteCharAt(userInputLetters.length() - 1);
+                }
                 userInputLettersLabel.setText("Try Again");
                 morseHandler.clearUserInput();
                 morseCodeLabel.setText("");
