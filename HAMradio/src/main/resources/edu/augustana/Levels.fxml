@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="461.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LevelController">
+<BorderPane fx:id="borderPane" prefHeight="461.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LevelController">
     <center>
-        <VBox alignment="CENTER" focusTraversable="true" onKeyPressed="#handleKeyPress" onKeyReleased="#handleKeyRelease" prefHeight="487.0" prefWidth="454.0" spacing="70.0">
+        <VBox alignment="CENTER" focusTraversable="true" prefHeight="487.0" prefWidth="454.0" spacing="70.0">
             <children>
                 <!-- ChoiceBox to select difficulty level -->
                 <ChoiceBox fx:id="levelChoiceBox" prefWidth="150" />

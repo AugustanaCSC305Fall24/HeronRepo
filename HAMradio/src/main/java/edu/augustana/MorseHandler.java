@@ -79,6 +79,7 @@ public class MorseHandler {
                         String letter = checkMorseCode();
                         userInputLettersString.append(letter);
                         keyreleaseCallback.onTimerComplete(letter);
+                        this.clearUserInput();
                         userInput = new StringBuilder();
                     } catch (InputMismatchException e) {
                         keyreleaseCallback.onTimerCatch(e);
@@ -96,12 +97,18 @@ public class MorseHandler {
     private String checkMorseCode() {
         return morseCodeTranslator.getLetter(userInput.toString());
     }
-    public void resetUserInput(){
+    public void clearUserInput(){
         this.userInput = new StringBuilder();
+    }
+    public void clearUserInputLetters(){
         this.userInputLettersString = new StringBuilder();
     }
-    public StringBuilder getUserInput(){
+
+    public StringBuilder getUserInputLetters(){
         return this.userInputLettersString;
+    }
+    public StringBuilder getUserInput(){
+        return this.userInput;
     }
 
 }

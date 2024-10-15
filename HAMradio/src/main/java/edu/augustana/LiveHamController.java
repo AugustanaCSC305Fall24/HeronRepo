@@ -10,6 +10,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent; // Correct import
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import javafx.scene.input.KeyCode;
@@ -33,6 +34,8 @@ public class LiveHamController {
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
     @FXML private Button returnMenuButton;
+    @FXML
+    private BorderPane borderPane;
 
     private StringBuilder userInput = new StringBuilder();
     private StringBuilder userInputLettersString = new StringBuilder();
@@ -59,7 +62,7 @@ public class LiveHamController {
     private final long DOT_THRESHOLD = 150;
     private long TIMER_DELAY = 1000;
 
-
+    private MorseHandler morseHandler;
 
     public void initialize() {
         morseCodeTranslator = new MorseTranslator();
@@ -69,6 +72,35 @@ public class LiveHamController {
         frequencySlider.setValue(initialFrequency);
        chosenFrequency.setText(Double.toString(frequencySlider.getValue()) + frequencyUnit);
        userMessageMorse.setText("Your message will be shown here");
+        morseHandler = new MorseHandler(new CallbackPress() {
+            @Override
+            public void onComplete() {
+
+            }
+        }, new CallbackRelease() {
+            @Override
+            public void onComplete() {
+                // Update the UI to show the user's Morse code input so far
+                userMessageMorse.setText(userInput.toString());
+
+            }
+
+            @Override
+            public void onTimerComplete(String letter) {
+                StringBuilder userInputLettersString = morseHandler.getUserInputLetters();
+                if (userInputLettersString.length() > 40){
+                    userInputLettersString.deleteCharAt(0);
+                }
+                userMessageInEnglish.setText(userInputLettersString.toString());
+
+            }
+
+            @Override
+            public void onTimerCatch(InputMismatchException e) {
+                System.out.println(e.getMessage());
+
+            }
+        }, borderPane);
 
 
         frequencySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -87,76 +119,7 @@ public class LiveHamController {
 
     }
 
-    @FXML
-    public void handleKeyPress(KeyEvent event) {
-        // Only respond to the space bar being pressed
-        if (event.getCode() == KeyCode.SPACE && keyPressTime==null) {
-            try{
-                tonePlayer.startAudio();
 
-            } catch(LineUnavailableException e){
-                System.out.println(e.getMessage());
-            }
-            keyPressTime = Instant.now();
-
-        }
-    }
-
-    @FXML
-    private void handleKeyRelease(KeyEvent event) {
-        // Only respond to the space bar being released
-        if (event.getCode() == KeyCode.SPACE && keyPressTime != null) {
-            // Calculate how long the space bar was held down
-            Instant end = Instant.now();
-            Duration duration = Duration.between(keyPressTime, end);
-            long elapsedMillis = duration.toMillis();
-            keyPressTime = null;
-            tonePlayer.stopAudio();
-            // Determine if the input is a dot or dash and append it to the userInput
-            if (elapsedMillis < DOT_THRESHOLD) {
-                userInput.append(".");
-            } else {
-                userInput.append("-");
-            }
-
-            // Update the UI to show the user's Morse code input so far
-            userMessageMorse.setText(userInput.toString());
-
-            // Cancel and reschedule the timer
-            if (timerTask != null) {
-                scheduler.shutdownNow(); // Cancel any previously running timer
-                scheduler = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
-            }
-
-            // Create a new timer task that will run after the TIMER_DELAY
-            timerTask = () -> {
-                Platform.runLater(() -> {
-
-                    // Try to check the Morse code after the timer finishes
-                    try {
-                        String letter = checkMorseCode();
-                        userInputLettersString.append(letter);
-                        if (userInputLettersString.length() > 40){
-                            userInputLettersString.deleteCharAt(0);
-                        }
-
-                        userMessageInEnglish.setText(userInputLettersString.toString());
-
-
-                    } catch (InputMismatchException e) {
-                        System.out.println(e.getMessage());
-
-                    }
-                });
-
-            };
-
-            // Schedule the task after the specified delay
-            scheduler.schedule(timerTask, TIMER_DELAY, TimeUnit.MILLISECONDS);
-
-
-        }
-    }
 
 
     // this should open new window where user can input sentence that will be received
