@@ -19,6 +19,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.io.IOException;
 import java.util.Random;
+
 import javafx.event.ActionEvent;
 import javafx.scene.layout.BorderPane;
 
@@ -49,7 +50,6 @@ public class LevelController {
     public void initialize() {
         // Initialize the MorseCodeTranslator
 
-        
 
         // Populate the level choice box with levels
         levelChoiceBox.getItems().addAll("Easy", "Medium", "Hard");
@@ -70,11 +70,13 @@ public class LevelController {
             public void onTimerComplete(String letter) {
                 String userInputLetters = morseHandler.getUserInputLetters().toString();
                 userInputLettersLabel.setText(userInputLetters.toString());
-                for (int i = 0; i < userInputLetters.length(); i++){
-                    if(userInputLetters.charAt(i) != currentText.charAt(i)){
+                for (int i = 0; i < userInputLetters.length(); i++) {
+                    if (userInputLetters.charAt(i) != currentText.charAt(i)) {
                         throw new InputMismatchException("Morse code is different than the text");
                     }
                 }
+                generateRandomText();
+                morseHandler.clearUserInputLetters();
                 morseHandler.clearUserInput();
 
             }
@@ -118,9 +120,9 @@ public class LevelController {
     }
 
 
-
     private void generateRandomText() {
         // Generate text based on the selected difficulty level
+        String beforeGenerate = currentText;
         switch (currentLevel) {
             case "Easy":
                 generateRandomLetter();
@@ -132,6 +134,10 @@ public class LevelController {
                 generateRandomPhrase();
                 break;
         }
+        if (currentText.equals(beforeGenerate)) {
+            generateRandomText();
+        }
+
     }
 
     private void generateRandomLetter() {
@@ -182,6 +188,7 @@ public class LevelController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     void SwitchMenuButton(ActionEvent event) throws IOException {
         App.setRoot("Menu");
