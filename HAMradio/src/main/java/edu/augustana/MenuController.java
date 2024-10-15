@@ -2,9 +2,9 @@ package edu.augustana;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Slider;
 
 public class MenuController {
-
     @FXML
     private void switchToPrimary() throws IOException {
         App.setRoot("Home");
@@ -19,4 +19,7 @@ public class MenuController {
     private void switchToHamRadio() throws IOException{
         App.setRoot("LiveHamRadio");
     }
-}
+
+
+
+    }

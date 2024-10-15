@@ -16,8 +16,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    public static int sound = 100;
-
+    public static int volume = 50; // Static volume variable
     public static int minPlayTimeSound = 100;
     @Override
     public void start(Stage stage) throws IOException {
