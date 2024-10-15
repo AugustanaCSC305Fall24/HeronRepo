@@ -30,6 +30,7 @@ public class LiveHamController {
     @FXML private Slider frequencySlider;
     @FXML private Slider filterSlider;
     @FXML private Button returnMenuButton;
+    @FXML private Slider volumeSlider;
 
     private StringBuilder userInput = new StringBuilder();
     private StringBuilder userInputLettersString = new StringBuilder();
@@ -81,6 +82,11 @@ public class LiveHamController {
         }
 
         userMessageMorse.requestFocus();
+
+        volumeSlider.adjustValue((double) App.volume);
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            App.volume = newValue.intValue();  // Update the volume variable
+        });
 
     }
 

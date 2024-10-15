@@ -75,8 +75,14 @@ public class LevelController {
         // Start with the appropriate level (default: Easy)
         generateRandomText();
 
+        volumeSlider.adjustValue((double) App.volume);
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            App.volume = newValue.intValue();  // Update the volume variable
+        });
+
 
     }
+
 
     // Adjust the difficulty level and update the display text accordingly
     private void changeDifficultyLevel(String level) {
