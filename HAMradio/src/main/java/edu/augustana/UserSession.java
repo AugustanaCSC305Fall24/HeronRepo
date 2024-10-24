@@ -23,7 +23,6 @@ public class UserSession {
     public String getUsername() {
         return username;
     }
-
     // Clear session (if needed)
     public void clearSession() {
         username = null;
