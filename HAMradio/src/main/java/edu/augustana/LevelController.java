@@ -88,8 +88,10 @@ public class LevelController {
             @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
+                String incorrectInput = morseHandler.getUserInputLetters().toString();
+                userInputLettersLabel.setText(incorrectInput + ": Try Again");
+
                 morseHandler.clearUserInputLetters();
-                userInputLettersLabel.setText("Try Again");
                 morseHandler.clearUserInput();
                 morseCodeLabel.setText("");
 
