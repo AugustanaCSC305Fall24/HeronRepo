@@ -1,6 +1,5 @@
 package edu.augustana;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,17 +8,9 @@ import javafx.event.ActionEvent; // Correct import
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.InputMismatchException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 public class LiveHamController {
@@ -41,6 +32,8 @@ public class LiveHamController {
     private BorderPane borderPane;
     @FXML
     private Slider volumeSlider;
+
+
 
 
     // things to put in new Class MorseHandler
@@ -182,7 +175,7 @@ public class LiveHamController {
     }
 
     // Method to receive and display the message and frequency from the new screen
-    public void receiveMessage(String message, double frequency) {
+    public void receiveMessage(String message, double frequency, int WPM, int toneValue, int effectiveSpeedValue) {
         transmittedFrequency = frequency;  // Store the frequency
         userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
         MorseTranslator translator = new MorseTranslator();
@@ -191,6 +184,12 @@ public class LiveHamController {
             morseMessage += translator.getMorseCode(String.valueOf(message.charAt(i)))+" ";
         }
         System.out.print(morseMessage);
+        try{
+            System.out.println(WPM);
+            MorseSoundGenerator.playMorseCode(morseMessage, WPM, effectiveSpeedValue, toneValue);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
 
     }
 
