@@ -44,8 +44,8 @@ public class LevelController {
     private String currentText;       // The current random letter/word/phrase
     private String currentLevel = "Easy";  // Store the current level
     private MorseHandler morseHandler;
-    private String[] words = {"HELLO", "WORLD", "JAVA", "MORSE", "CODE"}; // Example words
-    private String[] phrases = {"HELLO WORLD", "JAVA MORSE CODE", "LEARNING JAVA"}; // Example phrases
+    private String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
+    private String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
 
     public void initialize() {
         // Initialize the MorseCodeTranslator
@@ -71,7 +71,7 @@ public class LevelController {
                 String userInputLetters = morseHandler.getUserInputLetters().toString();
                 userInputLettersLabel.setText(userInputLetters.toString());
                 // Check if the lengths match
-                if (userInputLetters.length() >= currentText.length()) {
+                if (userInputLetters.length() != currentText.length()) {
                     throw new InputMismatchException("Morse code input length does not match the expected text length.");
                 }
                 for (int i = 0; i < userInputLetters.length(); i++) {
@@ -84,19 +84,18 @@ public class LevelController {
                 morseHandler.clearUserInput();
 
             }
+
             @Override
             public void onTimerWordComplete() {
-                StringBuilder userInputLetters = morseHandler.getUserInputLetters();
-                userInputLettersLabel.setText(userInputLetters.toString());
+
             }
+
             @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
-                StringBuilder userInputLetters = morseHandler.getUserInputLetters();
-                if (userInputLetters.length() > 0){
-                    userInputLetters.deleteCharAt(userInputLetters.length() - 1);
-                }
-                userInputLettersLabel.setText("Try Again");
+                String incorrectAnswer = morseHandler.getUserInputLetters().toString();
+                userInputLettersLabel.setText("Try again (incorrect input: " + incorrectAnswer + ")");
+                morseHandler.clearUserInputLetters();
                 morseHandler.clearUserInput();
                 morseCodeLabel.setText("");
 

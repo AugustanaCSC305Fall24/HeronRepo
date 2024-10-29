@@ -85,10 +85,13 @@ public class MorseHandler {
                         String letter = checkMorseCode();
                         userInputLettersString.append(letter);
                         keyreleaseCallback.onTimerComplete(letter);
+
                         this.clearUserInput();
                     } catch (InputMismatchException e) {
                         keyreleaseCallback.onTimerCatch(e);
                     }
+                        //add timer for space between words
+
                 });
 
             };
