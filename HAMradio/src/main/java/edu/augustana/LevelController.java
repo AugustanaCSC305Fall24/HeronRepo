@@ -86,10 +86,16 @@ public class LevelController {
             }
 
             @Override
+            public void onTimerWordComplete() {
+
+            }
+
+            @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
+                String incorrectAnswer = morseHandler.getUserInputLetters().toString();
+                userInputLettersLabel.setText("Try again (incorrect input: " + incorrectAnswer + ")");
                 morseHandler.clearUserInputLetters();
-                userInputLettersLabel.setText("Try Again");
                 morseHandler.clearUserInput();
                 morseCodeLabel.setText("");
 
