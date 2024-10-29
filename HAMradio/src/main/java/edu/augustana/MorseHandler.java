@@ -16,8 +16,10 @@ import java.util.concurrent.TimeUnit;
 public class MorseHandler {
 
     private final TonePlayer tonePlayer = new TonePlayer(App.minPlayTimeSound);
-    private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    private Runnable timerTask;
+    private ScheduledExecutorService schedulerLetter = Executors.newSingleThreadScheduledExecutor();
+    private ScheduledExecutorService schedulerWord = Executors.newSingleThreadScheduledExecutor();
+    private Runnable timerLetterTask;
+    private Runnable timerWordTask;
     private static final MorseTranslator morseCodeTranslator = new MorseTranslator();  // Instance of MorseCodeTranslator
 
     private Instant keyPressTime;          // To store the time the space bar is pressed
@@ -43,6 +45,15 @@ public class MorseHandler {
             }
             keyPressTime = Instant.now();
 
+            if (timerLetterTask != null) {
+                schedulerLetter.shutdownNow(); // Cancel any previously running timer
+                schedulerLetter = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
+            }
+            if (timerWordTask != null) {
+                schedulerWord.shutdownNow(); // Cancel any previously running timer
+                schedulerWord = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
+            }
+
         }
     }
 
@@ -64,14 +75,9 @@ public class MorseHandler {
             }
             keyreleaseCallback.onComplete();
 
-            // Cancel and reschedule the timer
-            if (timerTask != null) {
-                scheduler.shutdownNow(); // Cancel any previously running timer
-                scheduler = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
-            }
 
             // Create a new timer task that will run after the TIMER_DELAY
-            timerTask = () -> {
+            timerLetterTask = () -> {
                 Platform.runLater(() -> {
 
                     // Try to check the Morse code after the timer finishes
@@ -89,9 +95,19 @@ public class MorseHandler {
                 });
 
             };
+            timerWordTask = () -> {
+                Platform.runLater(() -> {
+
+                    // Try to check the Morse code after the timer finishes
+                    userInputLettersString.append(" ");
+                    keyreleaseCallback.onTimerWordComplete();
+                });
+
+            };
 
             // Schedule the task after the specified delay
-            scheduler.schedule(timerTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
+            schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
+            schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
 
 
         }

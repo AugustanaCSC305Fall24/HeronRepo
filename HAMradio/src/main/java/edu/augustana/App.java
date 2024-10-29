@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class App extends Application {
 
-    public static long TIMER_DELAY = 1000;
+    public static long TIMER_DELAY = 400;
     public static long DOT_THRESHOLD = 150;
     private static Scene scene;
     public static int volume = 50; // Static volume variable

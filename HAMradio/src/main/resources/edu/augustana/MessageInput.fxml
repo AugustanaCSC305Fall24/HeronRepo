@@ -5,12 +5,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.MessageInputController">
+<VBox alignment="CENTER" prefHeight="382.0" prefWidth="377.0" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.MessageInputController">
     <children>
         <Label text="Enter your message:" />
         <TextField fx:id="messageInput" promptText="Type a word or phrase" />
-        <Label text="Set frequency (in Mhz):" />
+        <Label text="Save message at Set frequency (in Mhz):" />
         <TextField fx:id="frequencyInput" promptText="Frequency" />
-        <Button text="Save Message" onAction="#saveMessage" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="187.0" text="Enter Character Speed (in WPM):" />
+      <TextField fx:id="speedInput" promptText="Character Speed" />
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="199.0" text="Enter Frequency (in Hz):" textAlignment="CENTER" />
+      <TextField fx:id="toneInput" promptText="Tone Frequency" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="245.0" text="Enter effective Speed (in WPM):" />
+      <TextField fx:id="effectiveSpeedInput" promptText="Effective speed" />
+        <Button onAction="#saveMessage" text="Save Message" />
     </children>
 </VBox>

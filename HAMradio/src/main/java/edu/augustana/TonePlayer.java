@@ -30,7 +30,8 @@ public class TonePlayer {
             line.start();
             toneStartTime = Instant.now();  // Record the start time
 
-            byte[] toneData = Note.A4.data(App.volume);  // Volume controlled by App.sound
+            byte[] toneData = Note.TONE.data(App.volume);
+            // Volume controlled by App.sound
             new Thread(() -> {
                 while (isPlaying.get()) {
                     line.write(toneData, 0, toneData.length);
@@ -77,22 +78,28 @@ public class TonePlayer {
 
 }
 
-
-
-
 enum Note {
-    A4; // Single tone for testing
+    TONE; // Generic tone for Morse code
 
     public static final int SAMPLE_RATE = 16 * 1024; // ~16KHz
-    private static final double FREQUENCY = 440.0; // A4 frequency (440 Hz)
+    private double frequency; // Frequency in Hz
 
-    // Generate a sine wave for the tone with adjustable volume
+    // Constructor to set frequency
+    Note() {
+        this.frequency = 440.0; // Default to 440 Hz (A4)
+    }
+
+    public void setFrequency(double frequency) {
+        this.frequency = frequency;
+    }
+
+    // Generate a sine wave based on the frequency and volume
     public byte[] data(int volume) {
         byte[] sin = new byte[SAMPLE_RATE];
-        double maxAmplitude = 127.0 * (volume * 30.0 / 100.0 / 100.0); // Adjust amplitude based on volume (0 to 100)
+        double maxAmplitude = 127.0 * (volume * 80.0 / 100.0 / 100.0);
 
         for (int i = 0; i < sin.length; i++) {
-            double period = (double) SAMPLE_RATE / FREQUENCY;
+            double period = (double) SAMPLE_RATE / frequency;
             double angle = 2.0 * Math.PI * i / period;
             sin[i] = (byte) (Math.sin(angle) * maxAmplitude);
         }
