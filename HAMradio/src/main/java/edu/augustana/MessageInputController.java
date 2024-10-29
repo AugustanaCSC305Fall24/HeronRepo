@@ -51,8 +51,8 @@ public class MessageInputController {
             // Save the message and frequency to the main controller
             liveHamController.receiveMessage(message, frequencyValue, wpmValue ,toneValue, effectiveSpeedValue);
             // Close the input window
-            Stage stage = (Stage) messageInput.getScene().getWindow();
-            stage.close();
+            // Stage stage = (Stage) messageInput.getScene().getWindow();
+            // stage.close();
         } catch (NumberFormatException e) {
             System.out.println("Invalid frequency format!");
         }

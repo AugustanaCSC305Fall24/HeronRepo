@@ -179,14 +179,21 @@ public class LiveHamController {
         transmittedFrequency = frequency;  // Store the frequency
         userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
         MorseTranslator translator = new MorseTranslator();
-        String morseMessage = "";
+        StringBuilder morseMessage = new StringBuilder();
         for(int i =0; i < message.length(); i++){
-            morseMessage += translator.getMorseCode(String.valueOf(message.charAt(i)))+" ";
+            if(i != 0 && message.charAt(i) == ' ' && morseMessage.charAt(i-1) == ' '){
+                morseMessage.deleteCharAt(morseMessage.toString().length() - 1);
+                morseMessage.append("%");
+            }else{
+                morseMessage.append(translator.getMorseCode(String.valueOf(message.charAt(i))));
+                morseMessage.append(" ");
+            }
+
         }
         System.out.print(morseMessage);
         try{
             System.out.println(WPM);
-            MorseSoundGenerator.playMorseCode(morseMessage, WPM, effectiveSpeedValue, toneValue);
+            MorseSoundGenerator.playMorseCode(morseMessage.toString(), WPM, effectiveSpeedValue, toneValue);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
