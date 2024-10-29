@@ -44,8 +44,8 @@ public class LevelController {
     private String currentText;       // The current random letter/word/phrase
     private String currentLevel = "Easy";  // Store the current level
     private MorseHandler morseHandler;
-    private String[] words = {"HELLO", "WORLD", "JAVA", "MORSE", "CODE"}; // Example words
-    private String[] phrases = {"HELLO WORLD", "JAVA MORSE CODE", "LEARNING JAVA"}; // Example phrases
+    private String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
+    private String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
 
     public void initialize() {
         // Initialize the MorseCodeTranslator
