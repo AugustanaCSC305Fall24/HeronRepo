@@ -38,9 +38,9 @@ public class LiveHamController {
 
     // things to put in new Class MorseHandler
     private String frequencyUnit = " Mhz";
-    private final int minFrequency = 200;
-    private final int maxFrequency = 500;
-    private final int initialFrequency = 350;
+    private final double minFrequency = 7.000;
+    private final double maxFrequency = 7.067;
+    private final double initialFrequency = 7.035;
 
 
     private MorseHandler morseHandler;
