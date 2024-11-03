@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import edu.augustana.Scenarios.ScenarioBot;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -44,6 +45,6 @@ public class MenuController {
     }
     @FXML
     private void switchToScenario() throws IOException {
-
+        App.setRoot("ScenarioMenu");
     }
 }
