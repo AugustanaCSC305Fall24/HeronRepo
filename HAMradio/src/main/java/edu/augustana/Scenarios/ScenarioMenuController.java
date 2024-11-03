@@ -1,10 +1,15 @@
 package edu.augustana.Scenarios;
 
+import edu.augustana.App;
+import edu.augustana.StaticNoisePlayer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 
 import javafx.scene.image.ImageView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +43,11 @@ public class ScenarioMenuController {
     void initialize() {
         listOfBots.add(new ScriptedBot());
 
+    }
+
+    @FXML
+    private void pressBackButton(ActionEvent event) throws IOException {
+        App.setRoot("Menu");
     }
 
 }
