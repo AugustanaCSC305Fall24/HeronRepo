@@ -42,4 +42,8 @@ public class MenuController {
     private void switchToHamRadio() throws IOException {
         App.setRoot("LiveHamRadio");
     }
+    @FXML
+    private void switchToScenario() throws IOException {
+
+    }
 }
