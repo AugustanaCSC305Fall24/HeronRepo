@@ -58,7 +58,7 @@
          <children>
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pressBackButton" text="Back" />
             <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Label" />
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="53.0" spacing="5.0">
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="53.0" spacing="5.0">
                <children>
                   <ImageView fx:id="saveScenario" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="openScenario" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
