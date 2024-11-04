@@ -36,7 +36,19 @@ public class ScenarioMenuController {
 
     private List<ScenarioBot> listOfBots = new ArrayList<>();
 
+    // Method to save scenario as JSON
+    @FXML
+    private void saveScenarioAsJson() {
+        int duration = scenarioDuration.getValue();
+        String selectedSynopsis = synopsis.getValue();
+        String selectedBotType = botType.getValue();
+        double speed = transmissionSpeed.getValue();
 
+        ScenarioData scenarioData = new ScenarioData(duration, selectedSynopsis, selectedBotType, speed);
+        scenarioData.exportToJson("scenarioData.json");
+
+        System.out.println("Scenario data saved to JSON.");
+    }
 
 
     @FXML

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -60,7 +61,10 @@
             <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Label" />
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="53.0" spacing="5.0">
                <children>
-                  <ImageView fx:id="saveScenario" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="saveScenario" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#saveScenarioAsJson" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@diskette.png" />
+                     </image></ImageView>
                   <ImageView fx:id="openScenario" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
