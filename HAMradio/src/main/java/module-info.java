@@ -7,6 +7,8 @@ module edu.augustana {
     exports edu.augustana;
     exports edu.augustana.Scenarios;
     opens edu.augustana.Scenarios to javafx.fxml, com.google.gson;
+    exports edu.augustana.Scenarios.ScenarioBots;
+    opens edu.augustana.Scenarios.ScenarioBots to com.google.gson, javafx.fxml;
 
     requires com.google.gson;
 

@@ -1,8 +1,11 @@
-package edu.augustana.Scenarios;
+package edu.augustana.Scenarios.ScenarioBots;
+
+import edu.augustana.Scenarios.ScenarioBot;
+import edu.augustana.Scenarios.ScriptedMessage;
 
 import java.util.List;
 
-public class ScriptedBot extends ScenarioBot{
+public class ScriptedBot extends ScenarioBot {
 
 
     private List<ScriptedMessage> scriptedMessages;

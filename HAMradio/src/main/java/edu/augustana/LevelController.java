@@ -12,8 +12,7 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.InputMismatchException;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -46,9 +45,23 @@ public class LevelController {
     private MorseHandler morseHandler;
     private String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
     private String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
+    private Map<String, String> definitionsMap = new HashMap<>();
 
     public void initialize() {
-        // Initialize the MorseCodeTranslator
+        // Populate the level choice box with levels
+        // ... existing code
+
+        // Populate definitions
+        definitionsMap.put("NAME", "");
+        definitionsMap.put("PWR", "transmission power");
+        definitionsMap.put("FB", "fine business");
+        definitionsMap.put("73", "best regards");
+        definitionsMap.put("QSY?", "A question asking if the other party would like to change frequency.");
+        definitionsMap.put("DE", "Abbreviation for 'from' in amateur radio communication.");
+        definitionsMap.put("BT HW COPY?", "Asking how well the receiver can copy the message.");
+        definitionsMap.put("TNX FER CALL", "Thanking the other operator for their call.");
+        definitionsMap.put("BT QTH IS", "Asking for the other operator's location.");
+
 
 
         // Populate the level choice box with levels
@@ -120,6 +133,7 @@ public class LevelController {
         });
 
 
+
     }
 
 
@@ -128,6 +142,8 @@ public class LevelController {
         currentLevel = level;
         generateRandomText();  // Generate the appropriate text based on the selected level
     }
+
+
 
 
     private void generateRandomText() {

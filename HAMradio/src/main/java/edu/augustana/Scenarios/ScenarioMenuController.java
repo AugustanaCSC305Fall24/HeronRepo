@@ -1,7 +1,7 @@
 package edu.augustana.Scenarios;
 
 import edu.augustana.App;
-import edu.augustana.StaticNoisePlayer;
+import edu.augustana.Scenarios.ScenarioBots.ScriptedBot;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -54,6 +54,8 @@ public class ScenarioMenuController {
     @FXML
     void initialize() {
         listOfBots.add(new ScriptedBot());
+
+
 
     }
 
