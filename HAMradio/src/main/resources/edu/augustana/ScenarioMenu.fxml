@@ -64,7 +64,10 @@
                      <image>
                         <Image url="@diskette.png" />
                      </image></ImageView>
-                  <ImageView fx:id="openScenario" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="openScenario" fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@folder.png" />
+                     </image></ImageView>
                </children>
             </HBox>
          </children>
