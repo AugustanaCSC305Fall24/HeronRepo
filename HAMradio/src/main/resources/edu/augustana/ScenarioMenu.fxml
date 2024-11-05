@@ -55,10 +55,9 @@
       </AnchorPane>
    </center>
    <top>
-      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="400.0" BorderPane.alignment="CENTER">
          <children>
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pressBackButton" text="Back" />
-            <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Label" />
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="53.0" spacing="5.0">
                <children>
                   <ImageView fx:id="saveScenario" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#saveScenarioAsJson" pickOnBounds="true" preserveRatio="true">

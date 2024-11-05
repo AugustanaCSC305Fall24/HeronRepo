@@ -53,7 +53,7 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToScenario" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Practive Scenario" textFill="#7590e6" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToScenario" prefHeight="63.0" prefWidth="244.0" style="-fx-background-color: #202324;" text="Practice Scenario" textFill="#7590e6" />
                </children>
             </VBox>
          </children></Pane>
