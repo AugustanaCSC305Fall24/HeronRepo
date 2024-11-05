@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ScenarioMenuController {
     @FXML
-    private ComboBox<Integer> scenarioDuration;
+    private Slider scenarioDuration;
 
     @FXML
     private ComboBox<String> synopsis;
@@ -34,12 +34,15 @@ public class ScenarioMenuController {
 
 
 
-    private List<ScenarioBot> listOfBots = new ArrayList<>();
+    private List<String> listOfBotTypes = new ArrayList<>();
+
+
+    private List<String> listOfScenarios = new ArrayList<>();
 
     // Method to save scenario as JSON
     @FXML
     private void saveScenarioAsJson() {
-        int duration = scenarioDuration.getValue();
+        double duration = scenarioDuration.getValue();
         String selectedSynopsis = synopsis.getValue();
         String selectedBotType = botType.getValue();
         double speed = transmissionSpeed.getValue();
@@ -53,7 +56,24 @@ public class ScenarioMenuController {
 
     @FXML
     void initialize() {
-        listOfBots.add(new ScriptedBot());
+
+        listOfScenarios.add("Rescue Operation");
+        listOfScenarios.add("Weather Report");
+        listOfScenarios.add("Mountain Expedition");
+
+
+        synopsis.getItems().addAll(listOfScenarios);
+        synopsis.setValue(listOfScenarios.get(0));
+
+        listOfBotTypes.add("Regular Bot");
+        listOfBotTypes.add("AI Bot");
+
+        botType.getItems().addAll(listOfBotTypes);
+        botType.setValue(listOfBotTypes.get(0));
+
+
+
+
 
 
 

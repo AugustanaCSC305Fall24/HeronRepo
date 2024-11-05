@@ -7,13 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ScenarioData {
-    private int scenarioDuration;
+    private double scenarioDuration;
     private String synopsis;
     private String botType;
     private double transmissionSpeed;
 
     // Constructor
-    public ScenarioData(int scenarioDuration, String synopsis, String botType, double transmissionSpeed) {
+    public ScenarioData(double scenarioDuration, String synopsis, String botType, double transmissionSpeed) {
         this.scenarioDuration = scenarioDuration;
         this.synopsis = synopsis;
         this.botType = botType;
@@ -31,7 +31,7 @@ public class ScenarioData {
     }
 
     // Getters and setters
-    public int getScenarioDuration() { return scenarioDuration; }
+    public double getScenarioDuration() { return scenarioDuration; }
     public String getSynopsis() { return synopsis; }
     public String getBotType() { return botType; }
     public double getTransmissionSpeed() { return transmissionSpeed; }
