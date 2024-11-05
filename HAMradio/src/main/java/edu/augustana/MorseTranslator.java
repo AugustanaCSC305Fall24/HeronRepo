@@ -57,6 +57,8 @@ public class MorseTranslator {
     public String getMorseCode(String letter) {
         return morseCodeMap.getOrDefault(letter.toUpperCase(), "");
     }
+
+
     public String getLetter(String morseCode){
         for(Map.Entry<String, String> set : morseCodeMap.entrySet()){
             if (set.getValue().equals(morseCode) ){

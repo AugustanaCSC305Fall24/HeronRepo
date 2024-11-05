@@ -46,6 +46,7 @@ public class LevelController {
     private String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
     private String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
     private Map<String, String> definitionsMap = new HashMap<>();
+    private MorseTranslator morseTranslator = new MorseTranslator(); // Instance of MorseTranslator
 
     public void initialize() {
         // Populate the level choice box with levels
@@ -81,17 +82,23 @@ public class LevelController {
 
             @Override
             public void onTimerComplete(String letter) {
-                String userInputLetters = morseHandler.getUserInputLetters().toString();
+                String userInputLetters = morseHandler.getUserInputLetters().toString().trim();
                 userInputLettersLabel.setText(userInputLetters.toString());
                 // Check if the lengths match
                 if (userInputLetters.length() != currentText.length()) {
                     throw new InputMismatchException("Morse code input length does not match the expected text length.");
                 }
-                for (int i = 0; i < userInputLetters.length(); i++) {
-                    if (userInputLetters.charAt(i) != currentText.charAt(i)) {
-                        throw new InputMismatchException("Morse code is different than the text");
-                    }
+
+                // Convert currentText to Morse code for comparison
+                String expectedMorse = morseTranslator.getMorseCode(currentText);
+                System.out.println(currentText);
+                System.out.println(userInputLetters);
+
+// Compare the expected Morse code with the user input
+                if (!userInputLetters.equals(currentText)) {
+                    throw new InputMismatchException("Morse code is different than the text");
                 }
+
                 generateRandomText();
                 morseHandler.clearUserInputLetters();
                 morseHandler.clearUserInput();
@@ -143,8 +150,19 @@ public class LevelController {
         generateRandomText();  // Generate the appropriate text based on the selected level
     }
 
+    private void playCorrectMorse(String text) {
+        String morse = morseTranslator.getMorseCode(text); // Translate text to Morse code
+        try {
+            int characterSpeed = 10; // Example character speed in WPM
+            int spaceSpeed = 5;     // Example space speed in WPM
+            double frequencyHz = 700; // Typical CW frequency for ham radio
 
-
+            // Play the Morse code sound
+            MorseSoundGenerator.playMorseCode(morse, characterSpeed, spaceSpeed, frequencyHz);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void generateRandomText() {
         // Generate text based on the selected difficulty level
@@ -160,6 +178,9 @@ public class LevelController {
                 generateRandomPhrase();
                 break;
         }
+        // Play correct morse code
+        playCorrectMorse(currentText);
+
         if (currentText.equals(beforeGenerate)) {
             generateRandomText();
         }
@@ -177,6 +198,7 @@ public class LevelController {
 
         // Reset user input and update the morse code label
         morseHandler.clearUserInput();
+
 
     }
 
