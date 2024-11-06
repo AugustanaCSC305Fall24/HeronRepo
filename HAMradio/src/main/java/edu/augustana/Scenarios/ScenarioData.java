@@ -1,28 +1,28 @@
 package edu.augustana.Scenarios;
 
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class ScenarioData {
-    private double scenarioDuration;
+    private double duration;
     private String synopsis;
     private String botType;
     private double transmissionSpeed;
 
     // Constructor
-    public ScenarioData(double scenarioDuration, String synopsis, String botType, double transmissionSpeed) {
-        this.scenarioDuration = scenarioDuration;
+    public ScenarioData(double duration, String synopsis, String botType, double transmissionSpeed) {
+        this.duration = duration;
         this.synopsis = synopsis;
         this.botType = botType;
         this.transmissionSpeed = transmissionSpeed;
     }
 
-    // Method to export to JSON using Gson
+    // Method to save scenario data to JSON
     public void exportToJson(String filePath) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new Gson();
         try (FileWriter writer = new FileWriter(filePath)) {
             gson.toJson(this, writer);
         } catch (IOException e) {
@@ -30,8 +30,19 @@ public class ScenarioData {
         }
     }
 
-    // Getters and setters
-    public double getScenarioDuration() { return scenarioDuration; }
+    // Method to load scenario data from JSON
+    public static ScenarioData importFromJson(String filePath) {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(filePath)) {
+            return gson.fromJson(reader, ScenarioData.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Getters
+    public double getDuration() { return duration; }
     public String getSynopsis() { return synopsis; }
     public String getBotType() { return botType; }
     public double getTransmissionSpeed() { return transmissionSpeed; }

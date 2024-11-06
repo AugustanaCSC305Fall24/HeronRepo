@@ -6,9 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
-
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,14 +54,34 @@ public class ScenarioMenuController {
         System.out.println("Scenario data saved to JSON.");
     }
 
+    // Method to load scenario from JSON
+    @FXML
+    private void openScenarioFromJson() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Scenario File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file != null) {
+            ScenarioData scenarioData = ScenarioData.importFromJson(file.getAbsolutePath());
+
+            if (scenarioData != null) {
+                // Apply loaded data to UI components
+                scenarioDuration.setValue(scenarioData.getDuration());
+                synopsis.setValue(scenarioData.getSynopsis());
+                botType.setValue(scenarioData.getBotType());
+                transmissionSpeed.setValue(scenarioData.getTransmissionSpeed());
+
+                System.out.println("Scenario data loaded from JSON.");
+            }
+        }
+    }
 
     @FXML
     void initialize() {
-
         listOfScenarios.add("Rescue Operation");
         listOfScenarios.add("Weather Report");
         listOfScenarios.add("Mountain Expedition");
-
 
         synopsis.getItems().addAll(listOfScenarios);
         synopsis.setValue(listOfScenarios.get(0));
@@ -70,13 +91,6 @@ public class ScenarioMenuController {
 
         botType.getItems().addAll(listOfBotTypes);
         botType.setValue(listOfBotTypes.get(0));
-
-
-
-
-
-
-
     }
 
     @FXML
