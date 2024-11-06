@@ -23,10 +23,10 @@ public class MessageInputController {
 
 
 
-    private LiveHamController liveHamController; // Reference to the main controller
+    private HamController HamController; // Reference to the main controller
 
-    public void setLiveHamController(LiveHamController liveHamController) {
-        this.liveHamController = liveHamController;
+    public void setHamController(HamController HamController) {
+        this.HamController = HamController;
     }
 
     @FXML
@@ -49,7 +49,7 @@ public class MessageInputController {
                 return;
             }
             // Save the message and frequency to the main controller
-            liveHamController.receiveMessage(message, frequencyValue, wpmValue ,toneValue, effectiveSpeedValue);
+            HamController.receiveMessage(message, frequencyValue, wpmValue ,toneValue, effectiveSpeedValue);
             // Close the input window
             // Stage stage = (Stage) messageInput.getScene().getWindow();
             // stage.close();
