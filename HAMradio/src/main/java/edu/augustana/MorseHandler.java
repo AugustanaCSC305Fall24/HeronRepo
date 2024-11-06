@@ -27,6 +27,33 @@ public class MorseHandler {
     private StringBuilder userInputLettersString = new StringBuilder();
     private final CallbackPress keypressCallback;
     private final CallbackRelease keyreleaseCallback;
+    private static final int LETTER_GAP_THRESHOLD = 300; // milliseconds
+    private static final int WORD_GAP_THRESHOLD = 700;   // milliseconds
+    private long lastReleaseTime = 0;
+    private StringBuilder morseCodeInput = new StringBuilder();
+
+    public void onKeyPress(String morseSymbol) {
+        // Append the Morse code for the pressed symbol (dot/dash)
+        morseCodeInput.append(morseSymbol);
+    }
+
+    public void onKeyRelease() {
+        long currentTime = System.currentTimeMillis();
+        long gap = currentTime - lastReleaseTime;
+
+        // Determine gap type based on timing
+        if (gap > WORD_GAP_THRESHOLD) {
+            morseCodeInput.append(" / ");  // Word separator
+        } else if (gap > LETTER_GAP_THRESHOLD) {
+            morseCodeInput.append(" ");    // Letter separator
+        }
+
+        lastReleaseTime = currentTime;
+    }
+
+    public String getMorseCodeInput() {
+        return morseCodeInput.toString();
+    }
     public MorseHandler(CallbackPress keypressCallback, CallbackRelease keyreleaseCallback, Node element){
         this.keypressCallback = keypressCallback;
         this.keyreleaseCallback = keyreleaseCallback;
@@ -113,7 +140,7 @@ public class MorseHandler {
         }
     }
     private String checkMorseCode() {
-        return morseCodeTranslator.getLetterForSingleMorseCode(userInput.toString());
+        return morseCodeTranslator.translateMorseCode(userInput.toString());
     }
     public void clearUserInput(){
         this.userInput = new StringBuilder();

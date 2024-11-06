@@ -49,7 +49,7 @@ public class MessageInputController {
                 return;
             }
             // Save the message and frequency to the main controller
-            HamController.receiveMessage(message, frequencyValue, wpmValue ,toneValue, effectiveSpeedValue);
+            HamController.receiveMessage(message, frequencyValue);
             // Close the input window
             // Stage stage = (Stage) messageInput.getScene().getWindow();
             // stage.close();

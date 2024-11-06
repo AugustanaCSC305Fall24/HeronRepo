@@ -204,7 +204,8 @@ public class HamController {
     }
 
     // Method to receive and display the message and frequency from the new screen
-    public void receiveMessage(String message, double frequency, int WPM, int toneValue, int effectiveSpeedValue) {
+    public void receiveMessage(String message, double frequency) {
+        int WPM = App.wpm;
         transmittedFrequency = frequency;  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
         userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
         MorseTranslator translator = new MorseTranslator();
@@ -222,7 +223,8 @@ public class HamController {
         System.out.print(morseMessage);
         try{
             System.out.println(WPM);
-            MorseSoundGenerator.playMorseCode(morseMessage.toString(), WPM, effectiveSpeedValue, toneValue);
+            App.wpm = WPM;
+            MorseSoundGenerator.playMorseCode(morseMessage.toString());
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }

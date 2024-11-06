@@ -76,5 +76,21 @@ public class MorseTranslator {
         throw new InputMismatchException(morseCode + " Invalid morse code");
     }
 
+    public String translateMorseCode(String morseCode) {
+        StringBuilder translatedText = new StringBuilder();
+
+        // Split Morse code input by spaces between letters and slashes between words
+        String[] words = morseCode.split(" / ");  // Assuming "/" separates words
+
+        for (String word : words) {
+            String[] letters = word.split(" ");
+            for (String letterCode : letters) {
+                translatedText.append(getLetterForSingleMorseCode(letterCode));
+            }
+            translatedText.append(" ");  // Add space after each word
+        }
+
+        return translatedText.toString().trim();  // Trim any trailing space
+    }
 
 }

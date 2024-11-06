@@ -19,6 +19,10 @@
 
                 <!-- Label to display the random letter/word/phrase -->
                 <Label fx:id="letterLabel" alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 48px; -fx-font-weight: bold;" text="Random Letter" />
+            <Label fx:id="definitionLabel" alignment="TOP_CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="178.0" text="Label">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></Label>
 
                 <!-- Instruction Label -->
                 <Label text="Long Press to Space bar is Dash, short Press is a Dot" textFill="#949292" />

@@ -4,14 +4,15 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class MorseSoundGenerator {
 
-    public static void playMorseCode(String morseCode, int characterSpeed, int spaceSpeed, double frequencyHz)
+    public static void playMorseCode(String morseCode)
             throws LineUnavailableException {
         // Calculate durations for dit and dash based on character WPM
         int speed1WPM = 1200;
-        int dotTime =  speed1WPM / characterSpeed; // Formula for dot duration in milliseconds
+        int wpm = App.wpm;
+        int dotTime =  Math.max(App.minPlayTimeSound,speed1WPM / wpm); // Formula for dot duration in milliseconds
 
         // Set frequency for the tone
-        Note.TONE.setFrequency(frequencyHz);
+        Note.TONE.setFrequency(App.ditFrequency);
 
         TonePlayer tonePlayer = new TonePlayer(dotTime);
 
@@ -31,10 +32,10 @@ public class MorseSoundGenerator {
                         Thread.sleep(dotTime); // Pause between symbols in a character
                         break;
                     case ' ':
-                        Thread.sleep(speed1WPM / spaceSpeed * 3L); // Pause for a space (between words)
+                        Thread.sleep(speed1WPM / wpm * 3L); // Pause for a space (between words)
                         break;
                     case '%':
-                        Thread.sleep(speed1WPM / spaceSpeed * 7L); // Pause for a space (between words)
+                        Thread.sleep(speed1WPM / wpm * 7L); // Pause for a space (between words)
                         break;
                     default:
                         System.out.println("Invalid character in Morse code input: " + symbol);

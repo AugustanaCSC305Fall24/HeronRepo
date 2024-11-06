@@ -21,6 +21,8 @@ public class LevelController {
     @FXML
     private Label letterLabel;    // Label to display the random letter/word/phrase
     @FXML
+    private Label definitionLabel; // Label to display the term definition
+    @FXML
     private Label morseCodeLabel; // Label to display the user's current morse code
     @FXML
     private Label userInputLettersLabel;
@@ -50,7 +52,7 @@ public class LevelController {
         definitionsMap.put("BT HW COPY?", "Asking how well the receiver can copy the message.");
         definitionsMap.put("TNX FER CALL", "Thanking the other operator for their call.");
         definitionsMap.put("BT QTH IS", "Asking for the other operator's location.");
-
+        definitionLabel.setText("");
         // Populate the level choice box with levels
         levelChoiceBox.getItems().addAll("Easy", "Medium", "Hard");
         levelChoiceBox.setValue("Easy");  // Default selection
@@ -67,22 +69,30 @@ public class LevelController {
 
             @Override
             public void onTimerComplete(String letter) {
-                String userInputLetters = morseHandler.getUserInputLetters().toString().trim();
-                userInputLettersLabel.setText(userInputLetters);
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastInputTime > 1000) {  // 1000ms = 1 second delay after the last input
-                    // Compare the expected Morse code with the user input
-                    if (!userInputLetters.equals(currentText)) {
-                        throw new InputMismatchException("Morse code is different than the text");
-                    }
+                StringBuilder userInputLetters = morseHandler.getUserInputLetters();
+                String userInputLettersString = userInputLetters.toString().trim();
+                userInputLettersLabel.setText(userInputLettersString);
+                if (!(currentText.indexOf(userInputLettersString) == 0)){
+                    throw new InputMismatchException("Try again (incorrect input: " + letter + ")");
                 }
-                generateRandomText();
-                morseHandler.clearUserInputLetters();
-                morseHandler.clearUserInput();
+
             }
 
             @Override
             public void onTimerWordComplete() {
+                StringBuilder userInputLetters = morseHandler.getUserInputLetters();
+                String userInputLettersString = userInputLetters.toString().trim();
+
+                if (!(currentText.indexOf(userInputLettersString) == 0)){
+                    char incorrectAnswer = userInputLettersString.charAt(userInputLettersString.length() - 1);
+
+                    throw new InputMismatchException("Try again (incorrect input: " + incorrectAnswer + ")");
+                }
+                if (currentText.equals(userInputLettersString)){
+                    generateRandomText();
+                    morseHandler.clearUserInputLetters();
+                    morseHandler.clearUserInput();
+                }
             }
 
             @Override
@@ -126,7 +136,7 @@ public class LevelController {
         String morse = morseTranslator.getMorseCodeForText(text); // Translate text to Morse code
         System.out.println(morse);
         try {
-            MorseSoundGenerator.playMorseCode(morse, App.wpm, 5, 700);
+            MorseSoundGenerator.playMorseCode(morse);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -152,6 +162,9 @@ public class LevelController {
         if (currentText.equals(beforeGenerate)) {
             generateRandomText();
         }
+        // Set the definition if it's a word or phrase, or clear it if it's a single letter
+        String definition = definitionsMap.getOrDefault(currentText, "");
+        definitionLabel.setText(definition);
     }
 
     private void generateRandomLetter() {
