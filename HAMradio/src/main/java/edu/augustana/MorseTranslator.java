@@ -75,6 +75,4 @@ public class MorseTranslator {
         }
         throw new InputMismatchException(morseCode + " Invalid morse code");
     }
-
-
 }
