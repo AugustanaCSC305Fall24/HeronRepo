@@ -12,9 +12,6 @@ import java.util.Random;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.BorderPane;
 import javax.sound.sampled.LineUnavailableException;
-
-import static edu.augustana.App.WPM;
-
 public class LevelController {
     @FXML
     private BorderPane borderPane;
@@ -28,8 +25,6 @@ public class LevelController {
     private ChoiceBox<String> levelChoiceBox; // ChoiceBox for selecting difficulty level
     @FXML
     private Slider volumeSlider;
-    @FXML
-    private Slider wpmSlider;
     private long lastInputTime = System.currentTimeMillis();
     private String currentText;       // The current random letter/word/phrase
     private String currentLevel = "Easy";  // Store the current level
@@ -99,14 +94,11 @@ public class LevelController {
             morseHandler.clearUserInputLetters();
             userInputLettersLabel.setText("Your input will appear here");
         });
+        // Start with the appropriate level (default: Easy)
         generateRandomText();
         volumeSlider.adjustValue((double) App.volume);
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             App.volume = newValue.intValue();  // Update the volume variable
-        });
-        wpmSlider.adjustValue((double) WPM);
-        wpmSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            WPM = newValue.intValue();
         });
     }
 
@@ -117,10 +109,13 @@ public class LevelController {
     }
 
     private void playCorrectMorse(String text) {
+        String morse = morseTranslator.getMorseCodeForText(text); // Translate text to Morse code
+        System.out.println(morse);
         try {
-            int characterSpeed = WPM;
-            int spaceSpeed = 10;
-            MorseSoundGenerator.playMorseCode(morseTranslator.getMorseCodeForText(text), characterSpeed, spaceSpeed, 700);
+            int characterSpeed = 10;
+            int spaceSpeed = 5;
+            double frequencyHz = 700;
+            MorseSoundGenerator.playMorseCode(morse, characterSpeed, spaceSpeed, frequencyHz);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
