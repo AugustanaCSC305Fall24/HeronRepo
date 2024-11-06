@@ -18,6 +18,7 @@ public class App extends Application {
     public static long DOT_THRESHOLD = 150;
     private static Scene scene;
     public static int volume = 50; // Static volume variable
+    public static int wpm = 10;
     public static int minPlayTimeSound = 100;
     @Override
     public void start(Stage stage) throws IOException {

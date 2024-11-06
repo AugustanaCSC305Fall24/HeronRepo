@@ -113,7 +113,7 @@ public class MorseHandler {
         }
     }
     private String checkMorseCode() {
-        return morseCodeTranslator.getLetter(userInput.toString());
+        return morseCodeTranslator.getLetterForSingleMorseCode(userInput.toString());
     }
     public void clearUserInput(){
         this.userInput = new StringBuilder();

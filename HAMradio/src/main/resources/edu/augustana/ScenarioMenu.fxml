@@ -40,8 +40,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Duration of Scenario" />
-                  <ComboBox fx:id="scenarioDuration" prefWidth="150.0" GridPane.columnIndex="1" />
+                  <Label text="Duration of Scenario (in min)" />
                   <Label text="Scenario  " GridPane.rowIndex="1" />
                   <Label text="Type of Bot" GridPane.rowIndex="2" />
                   <ComboBox fx:id="synopsis" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -49,6 +48,7 @@
                   <Label text="Speed of transmission (WPM)" GridPane.rowIndex="3" />
                   <Slider fx:id="transmissionSpeed" blockIncrement="5.0" max="30.0" min="5.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Button mnemonicParsing="false" text="Play" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Slider fx:id="scenarioDuration" blockIncrement="5.0" max="5.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>
@@ -64,7 +64,10 @@
                      <image>
                         <Image url="@diskette.png" />
                      </image></ImageView>
-                  <ImageView fx:id="openScenario" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="openScenario" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#openScenarioFromJson" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@folder.png" />
+                     </image></ImageView>
                </children>
             </HBox>
          </children>

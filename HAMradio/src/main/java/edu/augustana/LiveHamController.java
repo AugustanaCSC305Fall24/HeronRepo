@@ -56,6 +56,7 @@ public class LiveHamController implements HamControllerCallback {
         System.out.println("Frequency changed to: " + newFrequency);
         frequency = newFrequency;
         // Custom behavior after frequency change
+
     }
 
 }

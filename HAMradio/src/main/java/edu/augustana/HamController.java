@@ -214,7 +214,7 @@ public class HamController {
                 morseMessage.deleteCharAt(morseMessage.toString().length() - 1);
                 morseMessage.append("%");
             }else{
-                morseMessage.append(translator.getMorseCode(String.valueOf(message.charAt(i))));
+                morseMessage.append(translator.getMorseCodeForText(String.valueOf(message.charAt(i))));
                 morseMessage.append(" ");
             }
 

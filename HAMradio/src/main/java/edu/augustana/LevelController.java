@@ -1,21 +1,12 @@
 package edu.augustana;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Alert.AlertType;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.awt.event.KeyEvent;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.io.IOException;
 import java.util.Random;
 
@@ -25,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javax.sound.sampled.LineUnavailableException;
 
 public class LevelController {
-
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -38,20 +28,19 @@ public class LevelController {
     private ChoiceBox<String> levelChoiceBox; // ChoiceBox for selecting difficulty level
     @FXML
     private Slider volumeSlider;
-    private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    private Runnable timerTask;
+    @FXML
+    private Slider wpmSlider;
+    private long lastInputTime = System.currentTimeMillis();
     private String currentText;       // The current random letter/word/phrase
     private String currentLevel = "Easy";  // Store the current level
     private MorseHandler morseHandler;
-    private String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
-    private String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
-    private Map<String, String> definitionsMap = new HashMap<>();
+    private final String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
+    private final String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
+    public Map<String, String> definitionsMap = new HashMap<>();
+    private final MorseTranslator morseTranslator = new MorseTranslator(); // Instance of MorseTranslator
 
     public void initialize() {
-        // Populate the level choice box with levels
-        // ... existing code
-
-        // Populate definitions
+        /* Populate definitions */
         definitionsMap.put("NAME", "");
         definitionsMap.put("PWR", "transmission power");
         definitionsMap.put("FB", "fine business");
@@ -62,45 +51,38 @@ public class LevelController {
         definitionsMap.put("TNX FER CALL", "Thanking the other operator for their call.");
         definitionsMap.put("BT QTH IS", "Asking for the other operator's location.");
 
-
-
         // Populate the level choice box with levels
         levelChoiceBox.getItems().addAll("Easy", "Medium", "Hard");
         levelChoiceBox.setValue("Easy");  // Default selection
         morseHandler = new MorseHandler(new CallbackPress() {
             @Override
             public void onComplete() {
-
             }
         }, new CallbackRelease() {
+
             @Override
             public void onComplete() {
                 morseCodeLabel.setText(morseHandler.getUserInput().toString());
-
             }
 
             @Override
             public void onTimerComplete(String letter) {
-                String userInputLetters = morseHandler.getUserInputLetters().toString();
-                userInputLettersLabel.setText(userInputLetters.toString());
-                // Check if the lengths match
-                if (userInputLetters.length() != currentText.length()) {
-                    throw new InputMismatchException("Morse code input length does not match the expected text length.");
-                }
-                for (int i = 0; i < userInputLetters.length(); i++) {
-                    if (userInputLetters.charAt(i) != currentText.charAt(i)) {
+                String userInputLetters = morseHandler.getUserInputLetters().toString().trim();
+                userInputLettersLabel.setText(userInputLetters);
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastInputTime > 1000) {  // 1000ms = 1 second delay after the last input
+                    // Compare the expected Morse code with the user input
+                    if (!userInputLetters.equals(currentText)) {
                         throw new InputMismatchException("Morse code is different than the text");
                     }
                 }
                 generateRandomText();
                 morseHandler.clearUserInputLetters();
                 morseHandler.clearUserInput();
-
             }
 
             @Override
             public void onTimerWordComplete() {
-
             }
 
             @Override
@@ -111,31 +93,28 @@ public class LevelController {
                 morseHandler.clearUserInputLetters();
                 morseHandler.clearUserInput();
                 morseCodeLabel.setText("");
-
+                playCorrectMorse(currentText);
             }
         }, borderPane);
-
         // Add a listener for level changes
         levelChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             changeDifficultyLevel(newValue);
             letterLabel.requestFocus();
             morseHandler.clearUserInputLetters();
             userInputLettersLabel.setText("Your input will appear here");
-
         });
-
         // Start with the appropriate level (default: Easy)
         generateRandomText();
-
         volumeSlider.adjustValue((double) App.volume);
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             App.volume = newValue.intValue();  // Update the volume variable
         });
-
-
+        wpmSlider.adjustValue((double) App.wpm);
+        wpmSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            App.wpm = newValue.intValue();  // Update App wpm with slider value
+        });
 
     }
-
 
     // Adjust the difficulty level and update the display text accordingly
     private void changeDifficultyLevel(String level) {
@@ -143,8 +122,15 @@ public class LevelController {
         generateRandomText();  // Generate the appropriate text based on the selected level
     }
 
-
-
+    private void playCorrectMorse(String text) {
+        String morse = morseTranslator.getMorseCodeForText(text); // Translate text to Morse code
+        System.out.println(morse);
+        try {
+            MorseSoundGenerator.playMorseCode(morse, App.wpm, 5, 700);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void generateRandomText() {
         // Generate text based on the selected difficulty level
@@ -160,10 +146,12 @@ public class LevelController {
                 generateRandomPhrase();
                 break;
         }
+        // Play correct morse code
+        playCorrectMorse(currentText);
+
         if (currentText.equals(beforeGenerate)) {
             generateRandomText();
         }
-
     }
 
     private void generateRandomLetter() {
@@ -177,7 +165,6 @@ public class LevelController {
 
         // Reset user input and update the morse code label
         morseHandler.clearUserInput();
-
     }
 
     private void generateRandomWord() {
@@ -204,15 +191,6 @@ public class LevelController {
         // Reset user input and update the morse code label
         morseHandler.clearUserInput();
         morseCodeLabel.setText("");  // Clear the Morse code label for the new phrase
-    }
-
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML

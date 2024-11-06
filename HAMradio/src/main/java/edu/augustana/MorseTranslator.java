@@ -1,18 +1,16 @@
 package edu.augustana;
 
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
-import java.util.Set;
 
 public class MorseTranslator {
 
-    private Map<String, String> morseCodeMap = new HashMap<>();
+    private final Map<String, String> morseCodeMap = new HashMap<>();
 
     // Constructor that initializes the Morse code map for the alphabet
     public MorseTranslator() {
-
-        // Initialize the Morse code map for the alphabet
         morseCodeMap.put("A", ".-");
         morseCodeMap.put("B", "-...");
         morseCodeMap.put("C", "-.-.");
@@ -50,24 +48,33 @@ public class MorseTranslator {
         morseCodeMap.put("8", "---..");
         morseCodeMap.put("9", "----.");
         morseCodeMap.put("?", "..--..");
-
     }
 
-    // Method to get Morse code for a given letter
-    public String getMorseCode(String letter) {
-        return morseCodeMap.getOrDefault(letter.toUpperCase(), "");
+    // Translates from English to Morse Code
+    public String getMorseCodeForText(String text) {
+        StringBuilder morseCodeBuilder = new StringBuilder();
+        for (char c : text.toUpperCase().toCharArray()) {
+            if (c == ' ') {  // Double space to separate words
+                morseCodeBuilder.append("  ");
+            } else {
+                String morseCode = morseCodeMap.getOrDefault(String.valueOf(c).toUpperCase(), "");
+                if (!morseCode.isEmpty()) {
+                    morseCodeBuilder.append(morseCode).append(" ");
+                }
+            }
+        }
+        return morseCodeBuilder.toString().trim();
     }
-    public String getLetter(String morseCode){
-        for(Map.Entry<String, String> set : morseCodeMap.entrySet()){
-            if (set.getValue().equals(morseCode) ){
+
+    // Helper method to get a single letter for Morse code
+    public String getLetterForSingleMorseCode(String morseCode) {
+        for (Map.Entry<String, String> set : morseCodeMap.entrySet()) {
+            if (set.getValue().equals(morseCode)) {
                 return set.getKey();
             }
         }
         throw new InputMismatchException(morseCode + " Invalid morse code");
     }
-    // Method to check if the user's Morse code matches the correct code for a letter
-    public boolean validateMorseCode(String letter, String userInput) {
-        String correctMorseCode = getMorseCode(letter);
-        return correctMorseCode.equals(userInput);
-    }
+
+
 }
