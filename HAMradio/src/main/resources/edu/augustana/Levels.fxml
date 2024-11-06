@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane"  prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LevelController">
+<BorderPane fx:id="borderPane" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.LevelController">
     <center>
         <VBox alignment="CENTER" focusTraversable="true" prefHeight="487.0" prefWidth="454.0" spacing="70.0">
             <children>
@@ -36,6 +36,12 @@
                         <Insets top="-80.0" />
                     </VBox.margin>
                 </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="WPM" />
+                  <Slider fx:id="wpmSlider" blockIncrement="5.0" max="25.0" min="10.0" showTickLabels="true" showTickMarks="true" value="10.0" />
+               </children>
+            </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
 
