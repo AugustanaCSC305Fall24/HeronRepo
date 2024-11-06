@@ -97,5 +97,9 @@ public class ScenarioMenuController {
     private void pressBackButton(ActionEvent event) throws IOException {
         App.setRoot("Menu");
     }
+    @FXML
+    private void pressPlayButton(ActionEvent event) throws IOException {
+        App.setRoot("ScenarioHamRadio");
+    }
 
 }
