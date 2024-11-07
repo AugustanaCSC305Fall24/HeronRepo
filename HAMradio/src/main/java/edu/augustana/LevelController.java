@@ -136,7 +136,7 @@ public class LevelController {
         String morse = morseTranslator.getMorseCodeForText(text); // Translate text to Morse code
         System.out.println(morse);
         try {
-            MorseSoundGenerator.playMorseCode(morse);
+            MorseSoundGenerator.playMorseCode(morse, App.wpm);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
