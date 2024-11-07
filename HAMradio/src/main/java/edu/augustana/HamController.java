@@ -41,8 +41,8 @@ public class HamController {
 
     // things to put in new Class MorseHandler
     private String frequencyUnit = " Mhz";
-    private final double minFrequency = 7.000;
-    private final double maxFrequency = 7.067;
+    public final double minFrequency = 7.000;
+    public final double maxFrequency = 7.067;
     private final double initialFrequency = 7.035;
 
 
