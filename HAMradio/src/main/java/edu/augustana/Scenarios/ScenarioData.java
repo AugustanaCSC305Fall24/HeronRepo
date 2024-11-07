@@ -40,6 +40,16 @@ public class ScenarioData {
             return null;
         }
     }
+    @Override
+    public String toString() {
+        return "ScenarioData{" +
+                "duration=" + duration +
+                ", synopsis='" + synopsis + '\'' +
+                ", botType='" + botType + '\'' +
+                ", transmissionSpeed=" + transmissionSpeed +
+                '}';
+    }
+
 
     // Getters
     public double getDuration() { return duration; }
@@ -47,3 +57,4 @@ public class ScenarioData {
     public String getBotType() { return botType; }
     public double getTransmissionSpeed() { return transmissionSpeed; }
 }
+

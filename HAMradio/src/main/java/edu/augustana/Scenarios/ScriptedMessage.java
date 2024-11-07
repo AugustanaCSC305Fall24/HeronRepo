@@ -12,6 +12,10 @@ public class ScriptedMessage {
     }
 
     public int getTime(){
-        return  sendingTime;
+        return sendingTime;
+    }
+
+    public String getMessage() {
+        return text;
     }
 }

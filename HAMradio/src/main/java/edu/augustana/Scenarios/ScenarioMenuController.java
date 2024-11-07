@@ -1,12 +1,15 @@
 package edu.augustana.Scenarios;
 
 import edu.augustana.App;
+import edu.augustana.Scenarios.ScenarioBots.DataManager;
 import edu.augustana.Scenarios.ScenarioBots.ScriptedBot;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -99,7 +102,19 @@ public class ScenarioMenuController {
     }
     @FXML
     private void pressPlayButton(ActionEvent event) throws IOException {
+        ScenarioData scenarioData = new ScenarioData(
+                scenarioDuration.getValue(),
+                synopsis.getValue(),
+                botType.getValue(),
+                transmissionSpeed.getValue()
+        );
+
+        // Store the scenario data
+        DataManager.getInstance().setScenarioData(scenarioData);
+
+        // Switch to the ScenarioHamRadio scene
         App.setRoot("ScenarioHamRadio");
     }
+
 
 }
