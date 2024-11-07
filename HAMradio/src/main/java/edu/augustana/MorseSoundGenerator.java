@@ -4,11 +4,11 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class MorseSoundGenerator {
 
-    public static void playMorseCode(String morseCode)
+    public static void playMorseCode(String morseCode, int wpm)
             throws LineUnavailableException {
         // Calculate durations for dit and dash based on character WPM
         int speed1WPM = 1200;
-        int wpm = App.wpm;
+       
         int dotTime =  Math.max(App.minPlayTimeSound,speed1WPM / wpm); // Formula for dot duration in milliseconds
 
         // Set frequency for the tone

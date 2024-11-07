@@ -32,6 +32,8 @@ public class HamController {
     @FXML
     private Slider filterSlider;
     @FXML
+    private Slider speedSlider;
+    @FXML
     private Button returnMenuButton;
     @FXML
     private BorderPane borderPane;
@@ -57,6 +59,13 @@ public class HamController {
         frequencySlider.setMin(minFrequency);
         frequencySlider.setMax(maxFrequency);
         frequencySlider.setValue(initialFrequency);
+
+        speedSlider.setValue(App.wpm);
+        speedSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            App.wpm = newVal.intValue();  // Update app-wide WPM setting
+        });
+
+
         chosenFrequency.setText(Double.toString(frequencySlider.getValue()) + frequencyUnit);
         userMessageMorse.setText("Your message will be shown here");
 
@@ -175,7 +184,7 @@ public class HamController {
     // this should open new window where user can input sentence that will be received
     // and enter a double that will be frequency of sender
     @FXML
-    public void simulateReceiving() {
+    private void simulateReceiving() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageInput.fxml"));
             Stage stage = new Stage();
@@ -217,8 +226,7 @@ public class HamController {
 
     // Method to receive and display the message and frequency from the new screen
     public void receiveMessage(String message, double frequency) {
-
-        int WPM = App.wpm;
+        int WPM = (int) speedSlider.getValue();;
         transmittedFrequency = frequency;  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
         userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
         MorseTranslator translator = new MorseTranslator();
@@ -237,7 +245,7 @@ public class HamController {
         try{
             System.out.println(WPM);
             App.wpm = WPM;
-            MorseSoundGenerator.playMorseCode(morseMessage.toString());
+            MorseSoundGenerator.playMorseCode(morseMessage.toString(),WPM);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
