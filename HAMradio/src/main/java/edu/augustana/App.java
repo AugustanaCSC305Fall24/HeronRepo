@@ -23,7 +23,7 @@ public class App extends Application {
     public static int ditFrequency = 600;
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Home"), 800, 580);
+        scene = new Scene(loadFXML("Home"), 800, 800);
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(event -> {

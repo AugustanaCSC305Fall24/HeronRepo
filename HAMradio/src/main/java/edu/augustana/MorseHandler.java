@@ -37,23 +37,6 @@ public class MorseHandler {
         morseCodeInput.append(morseSymbol);
     }
 
-    public void onKeyRelease() {
-        long currentTime = System.currentTimeMillis();
-        long gap = currentTime - lastReleaseTime;
-
-        // Determine gap type based on timing
-        if (gap > WORD_GAP_THRESHOLD) {
-            morseCodeInput.append(" / ");  // Word separator
-        } else if (gap > LETTER_GAP_THRESHOLD) {
-            morseCodeInput.append(" ");    // Letter separator
-        }
-
-        lastReleaseTime = currentTime;
-    }
-
-    public String getMorseCodeInput() {
-        return morseCodeInput.toString();
-    }
     public MorseHandler(CallbackPress keypressCallback, CallbackRelease keyreleaseCallback, Node element){
         this.keypressCallback = keypressCallback;
         this.keyreleaseCallback = keyreleaseCallback;
@@ -84,7 +67,6 @@ public class MorseHandler {
         }
     }
 
-
     private void handleKeyRelease(KeyEvent event) {
         // Only respond to the space bar being released
         if (event.getCode() == KeyCode.SPACE && keyPressTime != null) {
@@ -101,8 +83,6 @@ public class MorseHandler {
                 userInput.append("-");
             }
             keyreleaseCallback.onComplete();
-
-
             // Create a new timer task that will run after the TIMER_DELAY
             timerLetterTask = () -> {
                 Platform.runLater(() -> {

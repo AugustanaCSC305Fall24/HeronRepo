@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -32,7 +33,6 @@ public class LevelController {
     private Slider volumeSlider;
     @FXML
     private Slider wpmSlider;
-    private long lastInputTime = System.currentTimeMillis();
     private String currentText;       // The current random letter/word/phrase
     private String currentLevel = "Easy";  // Store the current level
     private MorseHandler morseHandler;
@@ -85,11 +85,15 @@ public class LevelController {
 
                 if (!(currentText.indexOf(userInputLettersString) == 0)){
                     char incorrectAnswer = userInputLettersString.charAt(userInputLettersString.length() - 1);
-
+                    userInputLettersLabel.setStyle("-fx-text-fill: red; -fx-font-size: 24px;");
                     throw new InputMismatchException("Try again (incorrect input: " + incorrectAnswer + ")");
                 }
                 if (currentText.equals(userInputLettersString)){
-                    generateRandomText();
+                    userInputLettersLabel.setStyle("-fx-text-fill: green; -fx-font-size: 24px;");
+                    Platform.runLater(()->{
+                        generateRandomText();
+                    });
+
                     morseHandler.clearUserInputLetters();
                     morseHandler.clearUserInput();
                 }
@@ -99,12 +103,14 @@ public class LevelController {
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
                 String incorrectAnswer = morseHandler.getUserInputLetters().toString();
+                userInputLettersLabel.setStyle("-fx-text-fill: red; -fx-font-size: 24px;");
                 userInputLettersLabel.setText("Try again (incorrect input: " + incorrectAnswer + ")");
                 morseHandler.clearUserInputLetters();
                 morseHandler.clearUserInput();
                 morseCodeLabel.setText("");
                 playCorrectMorse(currentText);
             }
+
         }, borderPane);
         // Add a listener for level changes
         levelChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -144,6 +150,7 @@ public class LevelController {
 
     private void generateRandomText() {
         // Generate text based on the selected difficulty level
+        userInputLettersLabel.setStyle("-fx-text-fill: green; -fx-font-size: 24px;");
         String beforeGenerate = currentText;
         switch (currentLevel) {
             case "Easy":
