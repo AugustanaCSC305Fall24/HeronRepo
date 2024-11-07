@@ -18,35 +18,24 @@ public class ScriptedBot extends ScenarioBot {
 
     // Initialize radio-themed messages based on the scenario type
     private void initializeScenarioMessages() {
+        Scenario scenario;
+
         switch (scenarioType) {
             case "Rescue Operation":
-                scriptedMessages.add(new ScriptedMessage("Base, this is Rescue Team Alpha. We've deployed and are en route to target location. Do you confirm? Over.", 0));
-                scriptedMessages.add(new ScriptedMessage("Base, Rescue Team here. ETA to target is 10 minutes. Any further instructions before we proceed? Over.", 2));
-                scriptedMessages.add(new ScriptedMessage("We've reached the canyon entry point. Do you advise waiting for further backup, or should we proceed? Over.", 5));
-                scriptedMessages.add(new ScriptedMessage("Visual on target. Preparing extraction. Confirm target identity and proceed with recovery? Over.", 8));
-                scriptedMessages.add(new ScriptedMessage("Extraction complete. Should we return to base, or await further orders? Over.", 10));
+                scenario = new RescueOperation();
                 break;
-
             case "Weather Report":
-                scriptedMessages.add(new ScriptedMessage("This is Weather Station Delta. Beginning weather assessment for sector Bravo. Can you confirm data log status? Over.", 0));
-                scriptedMessages.add(new ScriptedMessage("Base, current temperature is 75°F with clear skies. Do you need more detailed measurements? Over.", 1));
-                scriptedMessages.add(new ScriptedMessage("Wind speeds steady at 5 mph. Shall we continue monitoring wind patterns? Over.", 2));
-                scriptedMessages.add(new ScriptedMessage("Humidity at 60%. Do you need a secondary location report? Over.", 3));
-                scriptedMessages.add(new ScriptedMessage("Weather report complete. Is there any other data needed from this station? Over and out.", 4));
+                scenario = new WeatherReport();
                 break;
-
             case "Mountain Expedition":
-                scriptedMessages.add(new ScriptedMessage("Expedition Base, this is Summit Team Bravo. We've established base camp at 5,000 feet. Confirm location data logged? Over.", 0));
-                scriptedMessages.add(new ScriptedMessage("Base, preparing to assess weather for ascent. Do we have clearance for the next phase? Over.", 2));
-                scriptedMessages.add(new ScriptedMessage("Beginning ascent now. Equipment checks complete. Do you need additional status updates on equipment? Over.", 4));
-                scriptedMessages.add(new ScriptedMessage("Reached halfway point. Conditions remain favorable. Do we proceed to the summit? Over.", 6));
-                scriptedMessages.add(new ScriptedMessage("Summit reached. Expedition complete. Shall we begin descent, or await further instruction? Over and out.", 10));
+                scenario = new MountainExpedition();
                 break;
-
             default:
-                scriptedMessages.add(new ScriptedMessage("This is Control. Unknown scenario selected. Standing by for instructions. Can you clarify the operation? Over.", 0));
+                scenario = new DefaultScenario();
                 break;
         }
+
+        scriptedMessages.addAll(scenario.getScriptedMessages());
     }
 
     @Override

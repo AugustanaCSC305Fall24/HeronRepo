@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class ScenarioHamController implements HamControllerCallback {
+public class ScenarioHamController extends HamController implements HamControllerCallback {
     @FXML
     private VBox rootVBox;  // This should match the fx:id for the root VBox in LiveHamController's FXML
 
@@ -38,7 +38,11 @@ public class ScenarioHamController implements HamControllerCallback {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void simulateReceiving() {
+        // Custom behavior for ScenarioHamController
 
+    }
     @Override
     public void onDitDahProcessed(char signalUnit) {
         System.out.println("Dit/Dah processed: " + signalUnit);

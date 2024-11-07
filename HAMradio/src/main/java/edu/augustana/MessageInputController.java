@@ -43,7 +43,7 @@ public class MessageInputController {
             int wpmValue = Integer.parseInt(WPM);
             int toneValue = Integer.parseInt(tone);
             int effectiveSpeedValue = Integer.parseInt(effectiveSpeed);
-            if (frequencyValue < 200 || frequencyValue > 500) {
+            if (frequencyValue < 7|| frequencyValue > 7.05) {
                 // Handle invalid frequency
                 System.out.println("Frequency out of range!");
                 return;

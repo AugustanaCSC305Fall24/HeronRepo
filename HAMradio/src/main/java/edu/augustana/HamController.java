@@ -121,6 +121,7 @@ public class HamController {
                 userMessageMorse.setText("");
 
             }
+
         }, borderPane);
 
 
