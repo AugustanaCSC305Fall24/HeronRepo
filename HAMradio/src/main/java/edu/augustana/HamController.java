@@ -28,7 +28,11 @@ public class HamController {
     @FXML
     private Slider frequencySlider;
     @FXML
+    public Button simulateReceivingBtn;
+    @FXML
     private Slider filterSlider;
+    @FXML
+    private Slider speedSlider;
     @FXML
     private Button returnMenuButton;
     @FXML
@@ -41,11 +45,11 @@ public class HamController {
 
     // things to put in new Class MorseHandler
     private String frequencyUnit = " Mhz";
-    private final double minFrequency = 7.000;
-    private final double maxFrequency = 7.067;
+    public final double minFrequency = 7.000;
+    public final double maxFrequency = 7.067;
     private final double initialFrequency = 7.035;
-
-
+    private boolean isInit = false;
+    private boolean isInitCallback = false;
     private MorseHandler morseHandler;
 
     private double transmittedFrequency;
@@ -55,6 +59,13 @@ public class HamController {
         frequencySlider.setMin(minFrequency);
         frequencySlider.setMax(maxFrequency);
         frequencySlider.setValue(initialFrequency);
+
+        speedSlider.setValue(App.wpm);
+        speedSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            App.wpm = newVal.intValue();  // Update app-wide WPM setting
+        });
+
+
         chosenFrequency.setText(Double.toString(frequencySlider.getValue()) + frequencyUnit);
         userMessageMorse.setText("Your message will be shown here");
 
@@ -121,6 +132,7 @@ public class HamController {
                 userMessageMorse.setText("");
 
             }
+
         }, borderPane);
 
 
@@ -147,10 +159,19 @@ public class HamController {
 
         });
         userMessageMorse.requestFocus();
-
+        if (callback != null && isInitCallback == false){
+            callback.onInitialize();
+            isInitCallback= true;
+        }
+        isInit = true;
     }
     public void setCallback(HamControllerCallback callback) {
         this.callback = callback;
+        if (isInit == true && isInitCallback == false){
+            callback.onInitialize();
+            isInitCallback = true;
+        }
+
     }
 
 
@@ -205,7 +226,7 @@ public class HamController {
 
     // Method to receive and display the message and frequency from the new screen
     public void receiveMessage(String message, double frequency) {
-        int WPM = App.wpm;
+        int WPM = (int) speedSlider.getValue();;
         transmittedFrequency = frequency;  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
         userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
         MorseTranslator translator = new MorseTranslator();
@@ -224,7 +245,7 @@ public class HamController {
         try{
             System.out.println(WPM);
             App.wpm = WPM;
-            MorseSoundGenerator.playMorseCode(morseMessage.toString());
+            MorseSoundGenerator.playMorseCode(morseMessage.toString(),WPM);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }

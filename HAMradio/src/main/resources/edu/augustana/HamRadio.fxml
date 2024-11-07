@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.HamController" >
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.HamController">
    <top>
       <Label alignment="CENTER" text="Live HAM Radio" BorderPane.alignment="CENTER">
          <font>
@@ -44,6 +44,8 @@
                   <Slider fx:id="frequencySlider" blockIncrement="0.01" majorTickUnit="0.01" max="7.067" min="7.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="7.0335" />
                   <Label text="Filter" />
                   <Slider fx:id="filterSlider" blockIncrement="0.01" layoutX="10.0" layoutY="10.0" majorTickUnit="0.01" max="0.067" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="0.0335" />
+                  <Label text="Receiving speed (WPM)" />
+                  <Slider fx:id="speedSlider" blockIncrement="1.0" max="40.0" min="5.0" showTickLabels="true" showTickMarks="true" value="20.0" />
                   <Label text="Volume" />
                   <Slider fx:id="volumeSlider" max="100.0" min="0.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="50.0" />
                </children>
@@ -57,7 +59,7 @@
                   </Label>
                </children>
             </TilePane>
-            <Button mnemonicParsing="false" onAction="#simulateReceiving" text="Simulate receiving message " GridPane.rowIndex="2" />
+            <Button fx:id="simulateReceivingBtn" mnemonicParsing="false" onAction="#simulateReceiving" text="Simulate receiving message " GridPane.rowIndex="2" />
          </children>
          <BorderPane.margin>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

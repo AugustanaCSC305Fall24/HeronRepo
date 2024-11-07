@@ -1,6 +1,9 @@
-package edu.augustana;
+package edu.augustana.Scenarios;
 
 
+import edu.augustana.HamController;
+import edu.augustana.HamControllerCallback;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
@@ -8,7 +11,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class LiveHamController implements HamControllerCallback {
+public class ScenarioHamController extends HamController implements HamControllerCallback {
     @FXML
     private VBox rootVBox;  // This should match the fx:id for the root VBox in LiveHamController's FXML
 
@@ -16,7 +19,7 @@ public class LiveHamController implements HamControllerCallback {
     private double frequency;
     public void initialize() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("HamRadio.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/augustana/HamRadio.fxml"));
 
             // Load HamRadio.fxml as a BorderPane
             BorderPane hamInterface = loader.load();
@@ -30,19 +33,28 @@ public class LiveHamController implements HamControllerCallback {
             // Add hamInterface to rootVBox
             rootVBox.getChildren().add(hamInterface);
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void startBtn(){
+        System.out.println("Hey I started");
+        hamController.receiveMessage("what up", 7.035);
+    }
+    @Override
+    public void onInitialize(){
+        hamController.simulateReceivingBtn.setText("Start");
+        hamController.simulateReceivingBtn.setOnAction((e)-> {
+            startBtn();
+        });
+    }
     @Override
     public void onDitDahProcessed(char signalUnit) {
         System.out.println("Dit/Dah processed: " + signalUnit);
     }
-    @Override
-    public void onInitialize(){
 
-    }
     @Override
     public void onCharacterProcessed(char character) {
         System.out.println("Character processed: " + character);

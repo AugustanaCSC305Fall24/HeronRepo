@@ -43,16 +43,18 @@ public class MessageInputController {
             int wpmValue = Integer.parseInt(WPM);
             int toneValue = Integer.parseInt(tone);
             int effectiveSpeedValue = Integer.parseInt(effectiveSpeed);
-            if (frequencyValue < 200 || frequencyValue > 500) {
+            if (frequencyValue < HamController.minFrequency|| frequencyValue > HamController.maxFrequency) {
                 // Handle invalid frequency
                 System.out.println("Frequency out of range!");
                 return;
             }
+
             // Save the message and frequency to the main controller
             HamController.receiveMessage(message, frequencyValue);
             // Close the input window
-            // Stage stage = (Stage) messageInput.getScene().getWindow();
-            // stage.close();
+            Stage stage = (Stage) messageInput.getScene().getWindow();
+            stage.close();
+
         } catch (NumberFormatException e) {
             System.out.println("Invalid frequency format!");
         }

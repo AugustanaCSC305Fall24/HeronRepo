@@ -27,7 +27,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <GridPane alignment="CENTER" layoutX="-7.0" layoutY="47.0" prefHeight="400.0" prefWidth="607.0">
+            <GridPane alignment="CENTER" layoutX="-21.0" layoutY="24.0" prefHeight="400.0" prefWidth="607.0">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,7 +47,7 @@
                   <ComboBox fx:id="botType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Speed of transmission (WPM)" GridPane.rowIndex="3" />
                   <Slider fx:id="transmissionSpeed" blockIncrement="5.0" max="30.0" min="5.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Button mnemonicParsing="false" text="Play" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button mnemonicParsing="false" onAction="#pressPlayButton" text="Play" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Slider fx:id="scenarioDuration" blockIncrement="5.0" max="5.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" />
                </children>
             </GridPane>
