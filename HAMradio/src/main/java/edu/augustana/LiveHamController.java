@@ -39,7 +39,10 @@ public class LiveHamController implements HamControllerCallback {
     public void onDitDahProcessed(char signalUnit) {
         System.out.println("Dit/Dah processed: " + signalUnit);
     }
+    @Override
+    public void onInitialize(){
 
+    }
     @Override
     public void onCharacterProcessed(char character) {
         System.out.println("Character processed: " + character);

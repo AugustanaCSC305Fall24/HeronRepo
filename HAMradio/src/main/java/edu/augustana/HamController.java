@@ -28,6 +28,8 @@ public class HamController {
     @FXML
     private Slider frequencySlider;
     @FXML
+    public Button simulateReceivingBtn;
+    @FXML
     private Slider filterSlider;
     @FXML
     private Button returnMenuButton;
@@ -44,8 +46,8 @@ public class HamController {
     public final double minFrequency = 7.000;
     public final double maxFrequency = 7.067;
     private final double initialFrequency = 7.035;
-
-
+    private boolean isInit = false;
+    private boolean isInitCallback = false;
     private MorseHandler morseHandler;
 
     private double transmittedFrequency;
@@ -148,10 +150,19 @@ public class HamController {
 
         });
         userMessageMorse.requestFocus();
-
+        if (callback != null && isInitCallback == false){
+            callback.onInitialize();
+            isInitCallback= true;
+        }
+        isInit = true;
     }
     public void setCallback(HamControllerCallback callback) {
         this.callback = callback;
+        if (isInit == true && isInitCallback == false){
+            callback.onInitialize();
+            isInitCallback = true;
+        }
+
     }
 
 
@@ -164,7 +175,7 @@ public class HamController {
     // this should open new window where user can input sentence that will be received
     // and enter a double that will be frequency of sender
     @FXML
-    private void simulateReceiving() {
+    public void simulateReceiving() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageInput.fxml"));
             Stage stage = new Stage();
@@ -206,6 +217,7 @@ public class HamController {
 
     // Method to receive and display the message and frequency from the new screen
     public void receiveMessage(String message, double frequency) {
+
         int WPM = App.wpm;
         transmittedFrequency = frequency;  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
         userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);

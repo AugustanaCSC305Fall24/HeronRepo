@@ -38,10 +38,17 @@ public class ScenarioHamController extends HamController implements HamControlle
             e.printStackTrace();
         }
     }
-    @FXML
-    private void simulateReceiving() {
-        // Custom behavior for ScenarioHamController
 
+    private void startBtn(){
+        System.out.println("Hey I started");
+        hamController.receiveMessage("what up", 7.035);
+    }
+    @Override
+    public void onInitialize(){
+        hamController.simulateReceivingBtn.setText("Start");
+        hamController.simulateReceivingBtn.setOnAction((e)-> {
+            startBtn();
+        });
     }
     @Override
     public void onDitDahProcessed(char signalUnit) {
