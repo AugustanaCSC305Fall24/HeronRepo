@@ -9,7 +9,7 @@ public class MorseSoundGenerator {
         // Calculate durations for dit and dash based on character WPM
         int speed1WPM = 1200;
        
-        int dotTime =  Math.max(App.minPlayTimeSound,speed1WPM / wpm); // Formula for dot duration in milliseconds
+        int dotTime =  App.minPlayTimeSound; // Formula for dot duration in milliseconds
 
         // Set frequency for the tone
         Note.TONE.setFrequency(App.ditFrequency);
