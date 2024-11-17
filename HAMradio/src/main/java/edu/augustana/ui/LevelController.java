@@ -1,6 +1,8 @@
 package edu.augustana.ui;
 
 import edu.augustana.*;
+import edu.augustana.helper.callbacks.CallbackPress;
+import edu.augustana.helper.callbacks.CallbackRelease;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

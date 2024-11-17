@@ -1,5 +1,7 @@
 package edu.augustana;
 
+import edu.augustana.helper.callbacks.CallbackPress;
+import edu.augustana.helper.callbacks.CallbackRelease;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;

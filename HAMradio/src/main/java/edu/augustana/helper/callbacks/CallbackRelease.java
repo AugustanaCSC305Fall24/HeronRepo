@@ -1,4 +1,4 @@
-package edu.augustana;
+package edu.augustana.helper.callbacks;
 
 import java.util.InputMismatchException;
 
