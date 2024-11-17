@@ -15,8 +15,6 @@
       <TextField fx:id="speedInput" promptText="Character Speed" />
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="199.0" text="Enter Frequency (in Hz):" textAlignment="CENTER" />
       <TextField fx:id="toneInput" promptText="Tone Frequency" />
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="245.0" text="Enter effective Speed (in WPM):" />
-      <TextField fx:id="effectiveSpeedInput" promptText="Effective speed" />
         <Button onAction="#saveMessage" text="Save Message" />
     </children>
 </VBox>

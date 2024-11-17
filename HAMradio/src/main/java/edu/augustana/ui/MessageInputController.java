@@ -6,8 +6,7 @@ import javafx.stage.Stage;
 
 public class MessageInputController {
 
-    @FXML
-    private TextField effectiveSpeedInput;
+
 
     @FXML
     private TextField frequencyInput;
@@ -35,14 +34,16 @@ public class MessageInputController {
         String frequency = frequencyInput.getText();
         String WPM = speedInput.getText();
         String tone = toneInput.getText();
-        String effectiveSpeed = effectiveSpeedInput.getText();
+
 
         // Validate frequency input
         try {
             double frequencyValue = Double.parseDouble(frequency);
             int wpmValue = Integer.parseInt(WPM);
+            App.wpm = wpmValue;
             int toneValue = Integer.parseInt(tone);
-            int effectiveSpeedValue = Integer.parseInt(effectiveSpeed);
+            App.ditFrequency = toneValue;
+
             if (frequencyValue < HamController.minFrequency|| frequencyValue > HamController.maxFrequency) {
                 // Handle invalid frequency
                 System.out.println("Frequency out of range!");

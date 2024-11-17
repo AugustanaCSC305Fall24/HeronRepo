@@ -138,7 +138,7 @@ public class HamController {
 
 
         frequencySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            chosenFrequency.setText(String.format("%.2f", newValue) + frequencyUnit);
+            chosenFrequency.setText(String.format("%.3f", newValue) + frequencyUnit);
             if (callback != null) {
                 callback.onFrequencyChanged(newValue.doubleValue());
             }
@@ -229,7 +229,7 @@ public class HamController {
     public void receiveMessage(String message, double frequency) {
         int WPM = (int) speedSlider.getValue();;
         transmittedFrequency = frequency;  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
-        userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%.2f", frequency) + frequencyUnit);
+        userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%s", frequency) + frequencyUnit);
         MorseTranslator translator = new MorseTranslator();
         StringBuilder morseMessage = new StringBuilder();
         for(int i =0; i < message.length(); i++){
