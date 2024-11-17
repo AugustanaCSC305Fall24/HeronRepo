@@ -1,7 +1,7 @@
-package edu.augustana.Scenarios.ScenarioBots;
+package edu.augustana.data.Scenarios.ScenarioBots;
 
-import edu.augustana.Scenarios.ScenarioBot;
-import edu.augustana.Scenarios.ScriptedMessage;
+import edu.augustana.data.Scenarios.ScenarioBot;
+import edu.augustana.data.Scenarios.ScriptedMessage;
 
 import java.util.ArrayList;
 import java.util.List;

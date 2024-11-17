@@ -1,7 +1,7 @@
-package edu.augustana.Scenarios;
+package edu.augustana.data.Scenarios;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;

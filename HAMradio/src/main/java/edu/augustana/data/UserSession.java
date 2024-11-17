@@ -1,4 +1,4 @@
-package edu.augustana;
+package edu.augustana.data;
 
 public class UserSession {
     private static UserSession instance;

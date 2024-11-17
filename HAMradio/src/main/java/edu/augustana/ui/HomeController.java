@@ -2,8 +2,7 @@ package edu.augustana.ui;
 
 import java.io.IOException;
 
-import edu.augustana.App;
-import edu.augustana.UserSession;
+import edu.augustana.data.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 

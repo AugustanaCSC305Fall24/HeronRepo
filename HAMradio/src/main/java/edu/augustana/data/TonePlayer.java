@@ -1,5 +1,7 @@
 
-package edu.augustana;
+package edu.augustana.data;
+
+import edu.augustana.ui.App;
 
 import javax.sound.sampled.*;
 import java.time.Duration;

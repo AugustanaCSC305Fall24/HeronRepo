@@ -1,10 +1,10 @@
 package edu.augustana.ui;
 
 
-import edu.augustana.Scenarios.ScenarioData;
-import edu.augustana.Scenarios.ScriptedMessage;
-import edu.augustana.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.Scenarios.ScenarioBots.ScriptedBot;
+import edu.augustana.data.Scenarios.ScenarioData;
+import edu.augustana.data.Scenarios.ScriptedMessage;
+import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
+import edu.augustana.data.Scenarios.ScenarioBots.ScriptedBot;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;

@@ -1,7 +1,6 @@
 package edu.augustana.ui;
 
-import edu.augustana.App;
-import edu.augustana.UserSession;
+import edu.augustana.data.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 

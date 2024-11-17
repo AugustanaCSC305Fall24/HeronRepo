@@ -1,6 +1,5 @@
-package edu.augustana;
+package edu.augustana.data;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
