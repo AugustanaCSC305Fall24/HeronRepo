@@ -1,4 +1,4 @@
-package edu.augustana;
+package edu.augustana.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -23,7 +23,7 @@ public class MessageInputController {
 
 
 
-    private HamController HamController; // Reference to the main controller
+    private edu.augustana.ui.HamController HamController; // Reference to the main controller
 
     public void setHamController(HamController HamController) {
         this.HamController = HamController;

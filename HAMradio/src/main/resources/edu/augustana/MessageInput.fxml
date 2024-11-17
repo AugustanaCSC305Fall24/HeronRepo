@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="382.0" prefWidth="377.0" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.MessageInputController">
+<VBox alignment="CENTER" prefHeight="382.0" prefWidth="377.0" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MessageInputController">
     <children>
         <Label text="Enter your message:" />
         <TextField fx:id="messageInput" promptText="Type a word or phrase" />

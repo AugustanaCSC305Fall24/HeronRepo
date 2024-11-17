@@ -1,8 +1,10 @@
-package edu.augustana;
+package edu.augustana.ui;
 
 import java.io.IOException;
+
+import edu.augustana.App;
+import edu.augustana.UserSession;
 import javafx.fxml.FXML;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
 public class HomeController {

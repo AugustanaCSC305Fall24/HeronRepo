@@ -1,11 +1,11 @@
-package edu.augustana;
+package edu.augustana.ui;
 
-import edu.augustana.Scenarios.ScenarioBot;
+import edu.augustana.App;
+import edu.augustana.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
-import javafx.scene.control.Slider;
 
 public class MenuController {
 

@@ -1,15 +1,13 @@
-package edu.augustana.Scenarios;
+package edu.augustana.ui;
 
 import edu.augustana.App;
 import edu.augustana.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.Scenarios.ScenarioBots.ScriptedBot;
+import edu.augustana.Scenarios.ScenarioData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;

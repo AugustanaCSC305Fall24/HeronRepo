@@ -3,5 +3,5 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox fx:id="rootVBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="edu.augustana.Scenarios.ScenarioHamController">
+<VBox fx:id="rootVBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="edu.augustana.ui.ScenarioHamController">
 </VBox>

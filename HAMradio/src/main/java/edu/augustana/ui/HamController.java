@@ -1,5 +1,6 @@
-package edu.augustana;
+package edu.augustana.ui;
 
+import edu.augustana.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

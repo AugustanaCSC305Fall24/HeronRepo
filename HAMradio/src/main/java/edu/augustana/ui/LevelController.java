@@ -1,12 +1,12 @@
-package edu.augustana;
+package edu.augustana.ui;
 
+import edu.augustana.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ChoiceBox;
 
-import java.awt.event.KeyEvent;
 import java.util.*;
 import java.io.IOException;
 import java.util.Random;

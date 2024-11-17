@@ -1,4 +1,4 @@
-package edu.augustana;
+package edu.augustana.ui;
 
 
 import javafx.fxml.FXML;
