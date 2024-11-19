@@ -54,12 +54,16 @@ public class MorseTranslator {
         StringBuilder morseCodeBuilder = new StringBuilder();
         for (char c : text.toUpperCase().toCharArray()) {
             if (c == ' ') {  // Double space to separate words
-                morseCodeBuilder.append("  ");
+                morseCodeBuilder.append("% ");
             } else {
-                String morseCode = morseCodeMap.getOrDefault(String.valueOf(c).toUpperCase(), "");
-                if (!morseCode.isEmpty()) {
-                    morseCodeBuilder.append(morseCode).append(" ");
-                }
+                    String morseCode = morseCodeMap.get(String.valueOf(c).toUpperCase());
+                    if (morseCode == null){
+                        throw new InputMismatchException(c + ": this character isn't supported");
+                    }
+                    if (!morseCode.isEmpty()) {
+                        morseCodeBuilder.append(morseCode).append(" ");
+                    }
+
             }
         }
         return morseCodeBuilder.toString().trim();
@@ -79,7 +83,7 @@ public class MorseTranslator {
         StringBuilder translatedText = new StringBuilder();
 
         // Split Morse code input by spaces between letters and slashes between words
-        String[] words = morseCode.split(" / ");  // Assuming "/" separates words
+        String[] words = morseCode.split(" % ");  // Assuming "/" separates words
 
         for (String word : words) {
             String[] letters = word.split(" ");
