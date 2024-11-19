@@ -1,8 +1,7 @@
 package edu.augustana.ui;
 
-import edu.augustana.App;
-import edu.augustana.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.Scenarios.ScenarioData;
+import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
+import edu.augustana.data.Scenarios.ScenarioData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;

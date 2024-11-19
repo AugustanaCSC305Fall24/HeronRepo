@@ -1,6 +1,8 @@
 package edu.augustana.ui;
 
-import edu.augustana.*;
+import edu.augustana.data.MorseHandler;
+import edu.augustana.data.MorseSoundGenerator;
+import edu.augustana.data.MorseTranslator;
 import edu.augustana.helper.callbacks.CallbackPress;
 import edu.augustana.helper.callbacks.CallbackRelease;
 import javafx.application.Platform;

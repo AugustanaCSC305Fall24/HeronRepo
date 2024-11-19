@@ -1,6 +1,5 @@
-package edu.augustana;
+package edu.augustana.data;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -55,12 +54,16 @@ public class MorseTranslator {
         StringBuilder morseCodeBuilder = new StringBuilder();
         for (char c : text.toUpperCase().toCharArray()) {
             if (c == ' ') {  // Double space to separate words
-                morseCodeBuilder.append("  ");
+                morseCodeBuilder.append("% ");
             } else {
-                String morseCode = morseCodeMap.getOrDefault(String.valueOf(c).toUpperCase(), "");
-                if (!morseCode.isEmpty()) {
-                    morseCodeBuilder.append(morseCode).append(" ");
-                }
+                    String morseCode = morseCodeMap.get(String.valueOf(c).toUpperCase());
+                    if (morseCode == null){
+                        throw new InputMismatchException(c + ": this character isn't supported");
+                    }
+                    if (!morseCode.isEmpty()) {
+                        morseCodeBuilder.append(morseCode).append(" ");
+                    }
+
             }
         }
         return morseCodeBuilder.toString().trim();
@@ -80,7 +83,7 @@ public class MorseTranslator {
         StringBuilder translatedText = new StringBuilder();
 
         // Split Morse code input by spaces between letters and slashes between words
-        String[] words = morseCode.split(" / ");  // Assuming "/" separates words
+        String[] words = morseCode.split(" % ");  // Assuming "/" separates words
 
         for (String word : words) {
             String[] letters = word.split(" ");
@@ -94,3 +97,4 @@ public class MorseTranslator {
     }
 
 }
+/// Please review https://github.com/AugustanaCSC305Fall24/HeronRepo/commit/fa3193d009c973c2a1ecc2bda59b3535beb335b2 I forgot to add Lizzy's name in the commit message.

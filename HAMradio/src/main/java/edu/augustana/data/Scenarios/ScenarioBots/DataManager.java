@@ -1,5 +1,6 @@
-package edu.augustana.Scenarios.ScenarioBots;
-import edu.augustana.Scenarios.ScenarioData;
+package edu.augustana.data.Scenarios.ScenarioBots;
+
+import edu.augustana.data.Scenarios.ScenarioData;
 
 public class DataManager {
     private static DataManager instance;

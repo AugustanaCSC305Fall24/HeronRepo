@@ -1,4 +1,4 @@
-package edu.augustana.Scenarios;
+package edu.augustana.data.Scenarios;
 
 public class ScriptedMessage {
 
