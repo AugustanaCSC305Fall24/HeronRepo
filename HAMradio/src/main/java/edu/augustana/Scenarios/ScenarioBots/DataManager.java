@@ -1,5 +1,4 @@
 package edu.augustana.Scenarios.ScenarioBots;
-
 import edu.augustana.Scenarios.ScenarioData;
 
 public class DataManager {
