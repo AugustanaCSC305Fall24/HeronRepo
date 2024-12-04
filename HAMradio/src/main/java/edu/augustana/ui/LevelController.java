@@ -1,5 +1,6 @@
 package edu.augustana.ui;
 
+import edu.augustana.data.HamRadio;
 import edu.augustana.data.MorseHandler;
 import edu.augustana.data.MorseSoundGenerator;
 import edu.augustana.data.MorseTranslator;
@@ -125,9 +126,9 @@ public class LevelController {
         });
         // Start with the appropriate level (default: Easy)
         generateRandomText();
-        volumeSlider.adjustValue((double) App.volume);
+        volumeSlider.adjustValue((double) HamRadio.theRadio.getVolume());
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            App.volume = newValue.intValue();  // Update the volume variable
+            HamRadio.theRadio.setVolume(newValue.intValue());  // Update the volume variable
         });
         wpmSlider.adjustValue((double) App.wpm);
         wpmSlider.valueProperty().addListener((observable, oldValue, newValue) -> {

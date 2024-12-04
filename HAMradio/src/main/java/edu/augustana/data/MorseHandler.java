@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MorseHandler {
 
-    private final TonePlayer tonePlayer = new TonePlayer(App.minPlayTimeSound);
+    private final TonePlayer tonePlayer = new TonePlayer(App.MIN_PLAY_TIME_SOUND);
     private ScheduledExecutorService schedulerLetter = Executors.newSingleThreadScheduledExecutor();
     private ScheduledExecutorService schedulerWord = Executors.newSingleThreadScheduledExecutor();
     private Runnable timerLetterTask;

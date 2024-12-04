@@ -1,6 +1,7 @@
 package edu.augustana.ui;
 
 
+import edu.augustana.data.CWMessage;
 import edu.augustana.data.Scenarios.ScenarioData;
 import edu.augustana.data.Scenarios.ScriptedMessage;
 import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
@@ -70,7 +71,7 @@ public class ScenarioHamController extends HamController implements HamControlle
 
                 if (scriptedMessage != null) {
                     String message = scriptedMessage.getMessage(); // Get the message content
-                    hamController.receiveMessage(message, frequency); // Simulate receiving the message with the current frequency
+                    hamController.receiveMessage(new CWMessage(message, frequency)); // Simulate receiving the message with the current frequency
                     System.out.println("Received message at minute " + time + ": " + message); // Log the message for debugging
                 }
             }

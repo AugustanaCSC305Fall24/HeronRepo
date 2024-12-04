@@ -1,10 +1,14 @@
 package edu.augustana.data;
 
+import java.util.Random;
+
 public class UserSession {
     private static UserSession instance;
     private String username;
 
-    private UserSession() { }
+    private UserSession() {
+        username = "user" + new Random().nextInt(10000);
+    }
 
     // Get the single instance of UserSession
     public static UserSession getInstance() {
