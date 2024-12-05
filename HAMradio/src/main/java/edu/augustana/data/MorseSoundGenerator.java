@@ -6,9 +6,13 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class MorseSoundGenerator {
 
-    public static void playMorseCode(String morseCode, int wpm)
-            throws LineUnavailableException{
-        playMorseCode(morseCode,wpm,App.ditFrequency);
+    public static void playMorseCode(String morseCode, int wpm){
+        try {
+            playMorseCode(morseCode,wpm,App.ditFrequency);
+
+        } catch (LineUnavailableException e) {
+            System.out.println(e);
+        }
     }
     public static void playMorseCode(String morseCode, int wpm, int ditPitch)
             throws LineUnavailableException {

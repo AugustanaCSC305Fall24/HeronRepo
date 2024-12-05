@@ -26,6 +26,7 @@ public class App extends Application {
 
     public static long TIMER_DELAY = 400;
     public static long DOT_THRESHOLD = 150;
+    public static long DASH_THRESHOLD = 300;
     private static Scene scene;
     private static Stage stage; // Add this line
     public static int wpm = 20;

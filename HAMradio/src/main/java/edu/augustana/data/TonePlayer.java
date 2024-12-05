@@ -23,22 +23,27 @@ public class TonePlayer {
     }
 
     // Start playing audio
-    public void startAudio() throws LineUnavailableException {
+    public void startAudio()  {
         if (!isPlaying.getAndSet(true)) {
-            if (line == null || !line.isOpen()) {
-                line = AudioSystem.getSourceDataLine(audioFormat);
-                line.open(audioFormat, Note.SAMPLE_RATE);
-            }
-            line.start();
-            toneStartTime = Instant.now();  // Record the start time
-
-            byte[] toneData = Note.TONE.data(HamRadio.theRadio.getVolume());
-            // Volume controlled by App.sound
-            new Thread(() -> {
-                while (isPlaying.get()) {
-                    line.write(toneData, 0, toneData.length);
+            try {
+                if (line == null || !line.isOpen()) {
+                    line = AudioSystem.getSourceDataLine(audioFormat);
+                    line.open(audioFormat, Note.SAMPLE_RATE);
                 }
-            }).start();
+                line.start();
+                toneStartTime = Instant.now();  // Record the start time
+
+                byte[] toneData = Note.TONE.data(HamRadio.theRadio.getVolume());
+                // Volume controlled by App.sound
+                new Thread(() -> {
+                    while (isPlaying.get()) {
+                        line.write(toneData, 0, toneData.length);
+                    }
+                }).start();
+            } catch (LineUnavailableException e) {
+                System.out.println(e);
+            }
+
         }
     }
 

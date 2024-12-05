@@ -8,6 +8,7 @@ import edu.augustana.helper.callbacks.CallbackPress;
 import edu.augustana.helper.callbacks.CallbackRelease;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ChoiceBox;
@@ -35,11 +36,14 @@ public class LevelController {
     @FXML
     private ChoiceBox<String> levelChoiceBox; // ChoiceBox for selecting difficulty level
     @FXML
+    private CheckBox playCorrectAudioCheckbox;
+    @FXML
     private Slider volumeSlider;
     @FXML
     private Slider wpmSlider;
     private String currentText;       // The current random letter/word/phrase
-    private String currentLevel = "Easy";  // Store the current level
+    private String currentLevel = "Easy"; // Store the current level
+    private boolean playCorrectAudio = true;
     private MorseHandler morseHandler;
     private final String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
     private final String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
@@ -61,6 +65,8 @@ public class LevelController {
         // Populate the level choice box with levels
         levelChoiceBox.getItems().addAll("Easy", "Medium", "Hard");
         levelChoiceBox.setValue("Easy");  // Default selection
+        playCorrectAudioCheckbox.setSelected(true);
+        playCorrectAudioCheckbox.setOnAction((event -> handlePlayCorrectAudioCheckBox()));
         morseHandler = new MorseHandler(new CallbackPress() {
             @Override
             public void onComplete() {
@@ -137,6 +143,13 @@ public class LevelController {
 
     }
 
+    private void handlePlayCorrectAudioCheckBox() {
+        playCorrectAudio = playCorrectAudioCheckbox.isSelected();
+    }
+    public boolean shouldPlayCorrectAudio() {
+        return playCorrectAudio;
+    }
+
     // Adjust the difficulty level and update the display text accordingly
     private void changeDifficultyLevel(String level) {
         currentLevel = level;
@@ -144,14 +157,16 @@ public class LevelController {
     }
 
     private void playCorrectMorse(String text) {
-        String morse = morseTranslator.getMorseCodeForText(text); // Translate text to Morse code
-        System.out.println(morse);
-        try {
-            MorseSoundGenerator.playMorseCode(morse, App.wpm);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
+        // Check if the checkbox is selected
+        if (playCorrectAudioCheckbox.isSelected()) {
+            String morse = morseTranslator.getMorseCodeForText(text); // Translate text to Morse code
+            System.out.println("Playing correct Morse: " + morse);
+                MorseSoundGenerator.playMorseCode(morse, App.wpm);
+        } else {
+            System.out.println("Skipped playing correct Morse audio as checkbox is not selected.");
         }
     }
+
 
     private void generateRandomText() {
         // Generate text based on the selected difficulty level

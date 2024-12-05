@@ -21,7 +21,9 @@ public class MorseHandler {
     private final TonePlayer tonePlayer = new TonePlayer(App.MIN_PLAY_TIME_SOUND);
     private ScheduledExecutorService schedulerLetter = Executors.newSingleThreadScheduledExecutor();
     private ScheduledExecutorService schedulerWord = Executors.newSingleThreadScheduledExecutor();
+    private ScheduledExecutorService schedulerTone = Executors.newSingleThreadScheduledExecutor();
     private Runnable timerLetterTask;
+    private Runnable timerToneTask;
     private Runnable timerWordTask;
     private static final MorseTranslator morseCodeTranslator = new MorseTranslator();  // Instance of MorseCodeTranslator
 
@@ -40,7 +42,7 @@ public class MorseHandler {
         morseCodeInput.append(morseSymbol);
     }
 
-    public MorseHandler(CallbackPress keypressCallback, CallbackRelease keyreleaseCallback, Node element){
+    public MorseHandler(CallbackPress keypressCallback, CallbackRelease keyreleaseCallback, Node element) {
         this.keypressCallback = keypressCallback;
         this.keyreleaseCallback = keyreleaseCallback;
         element.setOnKeyPressed(this::handleKeyPress);
@@ -49,13 +51,124 @@ public class MorseHandler {
 
     public void handleKeyPress(KeyEvent event) {
         // Only respond to the space bar being pressed
-        if (event.getCode() == KeyCode.SPACE && keyPressTime==null) {
-            try{
+        if (event.getCode() == KeyCode.SPACE && keyPressTime == null) {
                 tonePlayer.startAudio();
                 keypressCallback.onComplete();
-            } catch(LineUnavailableException e){
-                System.out.println(e);
+            keyPressTime = Instant.now();
+
+            if (timerLetterTask != null) {
+                schedulerLetter.shutdownNow(); // Cancel any previously running timer
+                schedulerLetter = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
             }
+            if (timerWordTask != null) {
+                schedulerWord.shutdownNow(); // Cancel any previously running timer
+                schedulerWord = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
+            }
+
+        } else if (event.getCode() == KeyCode.M && keyPressTime == null) {
+            tonePlayer.startAudio();
+            timerToneTask = () -> {
+                Platform.runLater(()->{
+                    tonePlayer.stopAudio();
+                    keyPressTime = null;
+                    // Determine if the input is a dot or dash and append it to the userInput
+                    userInput.append("-");
+                    keyreleaseCallback.onComplete();
+                    // Create a new timer task that will run after the TIMER_DELAY
+                    timerLetterTask = () -> {
+                        Platform.runLater(() -> {
+
+                            // Try to check the Morse code after the timer finishes
+                            try {
+                                String letter = checkMorseCode();
+                                userInputLettersString.append(letter);
+                                keyreleaseCallback.onTimerComplete(letter);
+
+                                this.clearUserInput();
+                            } catch (InputMismatchException e) {
+                                keyreleaseCallback.onTimerCatch(e);
+                            }
+                            //add timer for space between words
+
+                        });
+
+                    };
+                    timerWordTask = () -> {
+                        Platform.runLater(() -> {
+
+                            // Try to check the Morse code after the timer finishes
+                            userInputLettersString.append(" ");
+                            keyreleaseCallback.onTimerWordComplete();
+                        });
+
+                    };
+
+                    // Schedule the task after the specified delay
+                    schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
+                    schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
+
+                });
+            };
+            schedulerTone.schedule(timerToneTask, App.DOT_THRESHOLD * 2, TimeUnit.MILLISECONDS);
+            keypressCallback.onComplete();
+            keyPressTime = Instant.now();
+
+            if (timerLetterTask != null) {
+                schedulerLetter.shutdownNow(); // Cancel any previously running timer
+                schedulerLetter = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
+            }
+            if (timerWordTask != null) {
+                schedulerWord.shutdownNow(); // Cancel any previously running timer
+                schedulerWord = Executors.newSingleThreadScheduledExecutor(); // Reset scheduler
+            }
+
+        }else if (event.getCode() == KeyCode.N && keyPressTime == null) {
+            tonePlayer.startAudio();
+            timerToneTask = () -> {
+                Platform.runLater(()->{
+                    tonePlayer.stopAudio();
+                    keyPressTime = null;
+                    // Determine if the input is a dot or dash and append it to the userInput
+                    userInput.append(".");
+                    keyreleaseCallback.onComplete();
+                    // Create a new timer task that will run after the TIMER_DELAY
+                    timerLetterTask = () -> {
+                        Platform.runLater(() -> {
+
+                            // Try to check the Morse code after the timer finishes
+                            try {
+                                String letter = checkMorseCode();
+                                userInputLettersString.append(letter);
+                                keyreleaseCallback.onTimerComplete(letter);
+
+                                this.clearUserInput();
+                            } catch (InputMismatchException e) {
+                                keyreleaseCallback.onTimerCatch(e);
+                            }
+                            //add timer for space between words
+
+                        });
+
+                    };
+                    timerWordTask = () -> {
+                        Platform.runLater(() -> {
+
+                            // Try to check the Morse code after the timer finishes
+                            userInputLettersString.append(" ");
+                            keyreleaseCallback.onTimerWordComplete();
+                        });
+
+                    };
+
+                    // Schedule the task after the specified delay
+                    schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
+                    schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
+
+                });
+            };
+
+            schedulerTone.schedule(timerToneTask, App.DOT_THRESHOLD, TimeUnit.MILLISECONDS);
+            keypressCallback.onComplete();
             keyPressTime = Instant.now();
 
             if (timerLetterTask != null) {
@@ -100,7 +213,7 @@ public class MorseHandler {
                     } catch (InputMismatchException e) {
                         keyreleaseCallback.onTimerCatch(e);
                     }
-                        //add timer for space between words
+                    //add timer for space between words
 
                 });
 
@@ -122,20 +235,24 @@ public class MorseHandler {
 
         }
     }
+
     private String checkMorseCode() {
         return morseCodeTranslator.translateMorseCode(userInput.toString());
     }
-    public void clearUserInput(){
+
+    public void clearUserInput() {
         this.userInput = new StringBuilder();
     }
-    public void clearUserInputLetters(){
+
+    public void clearUserInputLetters() {
         this.userInputLettersString = new StringBuilder();
     }
 
-    public StringBuilder getUserInputLetters(){
+    public StringBuilder getUserInputLetters() {
         return this.userInputLettersString;
     }
-    public StringBuilder getUserInput(){
+
+    public StringBuilder getUserInput() {
         return this.userInput;
     }
 
