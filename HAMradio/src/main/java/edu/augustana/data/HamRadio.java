@@ -6,12 +6,18 @@ public class HamRadio {
     public static HamRadio theRadio = new HamRadio();
 
     private double frequency;
+    private int filter;
     private int volume = 50; // Static volume variable
     //TODO: filter information?  more?
 
     private NewMessageListener newMessageListener = null;
 
     private HamRadio() {
+    }
+    public int getFilter(){ return filter;}
+
+    public void setFilter(int filter) {
+        this.filter = filter;
     }
 
     public double getFrequency() {

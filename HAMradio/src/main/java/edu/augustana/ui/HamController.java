@@ -43,6 +43,7 @@ public class HamController {
     @FXML
     private Slider volumeSlider;
 
+    private final int oneMillion = 1000000;
     private HamControllerCallback callback;
 
 
@@ -64,8 +65,12 @@ public class HamController {
         frequencySlider.setMin(minFrequency);
         frequencySlider.setMax(maxFrequency);
         frequencySlider.setValue(initialFrequency);
-        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) ->HamRadio.theRadio.setFrequency(newVal.doubleValue()));;
+        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));
+        ;
+        filterSlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFilter(newVal.intValue()));
+        ;
         HamRadio.theRadio.setFrequency(frequencySlider.getValue());
+        HamRadio.theRadio.setFilter((int) filterSlider.getValue());
 
         speedSlider.setValue(App.wpm);
         speedSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
@@ -120,6 +125,7 @@ public class HamController {
                 }
 
             }
+
             @Override
             public void onTimerWordComplete() {
 
@@ -131,6 +137,7 @@ public class HamController {
                 }
                 morseHandler.clearUserInputLetters();
             }
+
             @Override
             public void onTimerCatch(InputMismatchException e) {
                 System.out.println(e.getMessage());
@@ -142,13 +149,11 @@ public class HamController {
 
         }, borderPane);
 
-
         frequencySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             chosenFrequency.setText(String.format("%.3f", newValue) + frequencyUnit);
             if (callback != null) {
                 callback.onFrequencyChanged(newValue.doubleValue());
             }
-
         });
 
         // this part is for simulating static noise
@@ -166,16 +171,17 @@ public class HamController {
 
         });
         userMessageMorse.requestFocus();
-        if (callback != null && isInitCallback == false){
+        if (callback != null && isInitCallback == false) {
             callback.onInitialize();
-            isInitCallback= true;
+            isInitCallback = true;
         }
         isInit = true;
 
     }
+
     public void setCallback(HamControllerCallback callback) {
         this.callback = callback;
-        if (isInit == true && isInitCallback == false){
+        if (isInit == true && isInitCallback == false) {
             callback.onInitialize();
             isInitCallback = true;
         }
@@ -208,6 +214,7 @@ public class HamController {
             e.printStackTrace();
         }
     }
+
     // Method to check if slider frequency matches transmitted frequency and play sound
     private void checkFrequencyAndPlaySound(double currentFrequency) {
         if (currentFrequency == transmittedFrequency) {
@@ -232,33 +239,56 @@ public class HamController {
         System.out.println("Stopping CW sound since frequency does not match.");
     }
 
+
+
+    private boolean isFrequencyWithinFilterRange(double messageFrequencyMHz, double radioFrequencyMHz, int filterHz) {
+        // Convert MHz to Hz
+        double messageFrequencyHz = messageFrequencyMHz * 1_000_000;
+        double radioFrequencyHz = radioFrequencyMHz * 1_000_000;
+
+        // Calculate the filter range
+        double lowerBound = radioFrequencyHz - (filterHz / 2.0);
+        double upperBound = radioFrequencyHz + (filterHz / 2.0);
+
+        // Check if the message frequency is within the range
+        if (messageFrequencyHz >= lowerBound && messageFrequencyHz <= upperBound) {
+            return true; // Frequency is within range
+        } else {
+            return false; // Frequency is out of range
+        }
+    }
+
     // Method to receive and display the message and frequency from the new screen
     public void receiveMessage(CWMessage cwMessage) {
         int WPM = (int) speedSlider.getValue();
         String message = cwMessage.getCwText();
         transmittedFrequency = cwMessage.getFrequency();  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
-        userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%s", cwMessage.getFrequency()) + frequencyUnit);
-        MorseTranslator translator = new MorseTranslator();
-        StringBuilder morseMessage = new StringBuilder();
-        for(int i =0; i < message.length(); i++){
-            if(i != 0 && message.charAt(i) == ' ' && morseMessage.charAt(i-1) == ' '){
-                morseMessage.deleteCharAt(morseMessage.toString().length() - 1);
-                morseMessage.append("%");
-            }else{
-                morseMessage.append(translator.getMorseCodeForText(String.valueOf(message.charAt(i))));
-                morseMessage.append(" ");
+        int filter = HamRadio.theRadio.getFilter();
+        double radioFrequency = HamRadio.theRadio.getFrequency();
+        if (isFrequencyWithinFilterRange(transmittedFrequency, radioFrequency, filter)) {
+
+            userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%s", cwMessage.getFrequency()) + frequencyUnit);
+            MorseTranslator translator = new MorseTranslator();
+            StringBuilder morseMessage = new StringBuilder();
+            for (int i = 0; i < message.length(); i++) {
+                if (i != 0 && message.charAt(i) == ' ' && morseMessage.charAt(i - 1) == ' ') {
+                    morseMessage.deleteCharAt(morseMessage.toString().length() - 1);
+                    morseMessage.append("%");
+                } else {
+                    morseMessage.append(translator.getMorseCodeForText(String.valueOf(message.charAt(i))));
+                    morseMessage.append(" ");
+                }
+
             }
-
+            System.out.print(morseMessage);
+            try {
+                System.out.println(WPM);
+                App.wpm = WPM;
+                MorseSoundGenerator.playMorseCode(morseMessage.toString(), WPM, (int) (App.ditFrequency - (HamRadio.theRadio.getFrequency() * oneMillion - transmittedFrequency * oneMillion)));
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.print(morseMessage);
-        try{
-            System.out.println(WPM);
-            App.wpm = WPM;
-            MorseSoundGenerator.playMorseCode(morseMessage.toString(),WPM);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-
     }
 
 

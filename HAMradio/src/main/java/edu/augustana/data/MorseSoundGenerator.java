@@ -7,6 +7,10 @@ import javax.sound.sampled.LineUnavailableException;
 public class MorseSoundGenerator {
 
     public static void playMorseCode(String morseCode, int wpm)
+            throws LineUnavailableException{
+        playMorseCode(morseCode,wpm,App.ditFrequency);
+    }
+    public static void playMorseCode(String morseCode, int wpm, int ditPitch)
             throws LineUnavailableException {
         // Calculate durations for dit and dash based on character WPM
         int speed1WPM = 1200;
@@ -14,7 +18,7 @@ public class MorseSoundGenerator {
         int dotTime =  App.MIN_PLAY_TIME_SOUND; // Formula for dot duration in milliseconds
 
         // Set frequency for the tone
-        Note.TONE.setFrequency(App.ditFrequency);
+        Note.TONE.setFrequency(ditPitch);
 
         TonePlayer tonePlayer = new TonePlayer(dotTime);
 
