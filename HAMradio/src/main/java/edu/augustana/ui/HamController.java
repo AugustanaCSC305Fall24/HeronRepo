@@ -1,9 +1,6 @@
 package edu.augustana.ui;
 
-import edu.augustana.data.MorseHandler;
-import edu.augustana.data.MorseSoundGenerator;
-import edu.augustana.data.MorseTranslator;
-import edu.augustana.data.StaticNoisePlayer;
+import edu.augustana.data.*;
 import edu.augustana.helper.callbacks.CallbackPress;
 import edu.augustana.helper.callbacks.CallbackRelease;
 import javafx.event.ActionEvent;
@@ -62,9 +59,13 @@ public class HamController {
 
     public void initialize() {
 
+        HamRadio.theRadio.setNewMessageListener(msg -> receiveMessage(msg));
+
         frequencySlider.setMin(minFrequency);
         frequencySlider.setMax(maxFrequency);
         frequencySlider.setValue(initialFrequency);
+        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) ->HamRadio.theRadio.setFrequency(newVal.doubleValue()));;
+        HamRadio.theRadio.setFrequency(frequencySlider.getValue());
 
         speedSlider.setValue(App.wpm);
         speedSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
@@ -159,9 +160,9 @@ public class HamController {
         }
 
 
-        volumeSlider.adjustValue((double) App.volume);
+        volumeSlider.adjustValue((double) HamRadio.theRadio.getVolume());
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            App.volume = newValue.intValue();  // Update the volume variable
+            HamRadio.theRadio.setVolume(newValue.intValue());  // Update the volume variable
 
         });
         userMessageMorse.requestFocus();
@@ -170,6 +171,7 @@ public class HamController {
             isInitCallback= true;
         }
         isInit = true;
+
     }
     public void setCallback(HamControllerCallback callback) {
         this.callback = callback;
@@ -192,7 +194,7 @@ public class HamController {
     @FXML
     private void simulateReceiving() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageInput.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/augustana/MessageInput.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load(), 580, 800));
 
@@ -231,10 +233,11 @@ public class HamController {
     }
 
     // Method to receive and display the message and frequency from the new screen
-    public void receiveMessage(String message, double frequency) {
-        int WPM = (int) speedSlider.getValue();;
-        transmittedFrequency = frequency;  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
-        userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%s", frequency) + frequencyUnit);
+    public void receiveMessage(CWMessage cwMessage) {
+        int WPM = (int) speedSlider.getValue();
+        String message = cwMessage.getCwText();
+        transmittedFrequency = cwMessage.getFrequency();  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
+        userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%s", cwMessage.getFrequency()) + frequencyUnit);
         MorseTranslator translator = new MorseTranslator();
         StringBuilder morseMessage = new StringBuilder();
         for(int i =0; i < message.length(); i++){

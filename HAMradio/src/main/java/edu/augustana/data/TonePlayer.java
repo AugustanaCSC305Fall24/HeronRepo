@@ -32,7 +32,7 @@ public class TonePlayer {
             line.start();
             toneStartTime = Instant.now();  // Record the start time
 
-            byte[] toneData = Note.TONE.data(App.volume);
+            byte[] toneData = Note.TONE.data(HamRadio.theRadio.getVolume());
             // Volume controlled by App.sound
             new Thread(() -> {
                 while (isPlaying.get()) {

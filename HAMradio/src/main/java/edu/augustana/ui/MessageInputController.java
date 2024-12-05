@@ -1,5 +1,6 @@
 package edu.augustana.ui;
 
+import edu.augustana.data.CWMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -51,7 +52,7 @@ public class MessageInputController {
             }
 
             // Save the message and frequency to the main controller
-            HamController.receiveMessage(message, frequencyValue);
+            HamController.receiveMessage(new CWMessage(message, frequencyValue));
             // Close the input window
             Stage stage = (Stage) messageInput.getScene().getWindow();
             stage.close();
