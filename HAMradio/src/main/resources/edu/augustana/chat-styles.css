@@ -1,0 +1,46 @@
+/* chat-styles.css */
+.chat-header {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-background-color: #7590e6;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+.chat-scroll-pane {
+    -fx-background: #F0F0F0;
+}
+.chat-vbox {
+    -fx-padding: 10;
+}
+.intro-text {
+    -fx-fill: #4f4e83;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+}
+
+.chat-input-area {
+    -fx-padding: 10;
+    -fx-background-color: #E9E9E9;
+}
+
+.send-button {
+    -fx-background-color: #7590e6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.user-message {
+    -fx-background-color: #E3F2FD;
+    -fx-text-fill: #000;
+    -fx-padding: 10;
+    -fx-background-radius: 15;
+}
+
+.ai-message {
+    -fx-background-color: #324eb7;
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-margin-left: 100;
+    -fx-background-radius: 15;
+}

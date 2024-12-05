@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@chat-styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.ScenarioAiChatController">
+
+    <!-- Main Layout -->
+    <BorderPane prefHeight="800.0" prefWidth="800.0">
+        <!-- Header -->
+        <top>
+            <Label alignment="CENTER" styleClass="chat-header" text="Scenario AI Chat" />
+        </top>
+
+        <!-- Chat Display Area -->
+        <center>
+            <ScrollPane fx:id="chatScrollPane" fitToWidth="true" styleClass="chat-scroll-pane" stylesheets="@chat-styles.css">
+                <VBox fx:id="chatVBox" spacing="10" styleClass="chat-vbox">
+                    <children>
+                        <Text styleClass="intro-text" text="Talk to our AI to help you configure your desired scenario!" />
+                    </children>
+                </VBox>
+            </ScrollPane>
+        </center>
+
+        <!-- Input Area -->
+        <bottom>
+            <HBox spacing="10" styleClass="chat-input-area">
+                <TextField fx:id="inputField" promptText="Type your message..." HBox.hgrow="ALWAYS" />
+                <Button fx:id="sendButton" styleClass="send-button" text="Send" />
+            </HBox>
+        </bottom>
+    </BorderPane>
+</AnchorPane>
