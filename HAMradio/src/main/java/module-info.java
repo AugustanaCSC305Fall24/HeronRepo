@@ -2,6 +2,9 @@ module edu.augustana {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires java.net.http;
+    requires swiss.ameri.gemini.api;
+    requires swiss.ameri.gemini.gson;
 
     requires tyrus.standalone.client;
 
