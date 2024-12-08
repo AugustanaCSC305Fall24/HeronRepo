@@ -36,6 +36,8 @@ public class LevelController {
     @FXML
     private ChoiceBox<String> levelChoiceBox; // ChoiceBox for selecting difficulty level
     @FXML
+    private CheckBox showEnglishCheckbox; // Checkbox to toggle visibility
+    @FXML
     private CheckBox playCorrectAudioCheckbox;
     @FXML
     private Slider volumeSlider;
@@ -67,6 +69,7 @@ public class LevelController {
         levelChoiceBox.setValue("Easy");  // Default selection
         playCorrectAudioCheckbox.setSelected(true);
         playCorrectAudioCheckbox.setOnAction((event -> handlePlayCorrectAudioCheckBox()));
+        userInputLettersLabel.visibleProperty().bind(showEnglishCheckbox.selectedProperty());
         morseHandler = new MorseHandler(new CallbackPress() {
             @Override
             public void onComplete() {
