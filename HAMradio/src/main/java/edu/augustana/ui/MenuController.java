@@ -48,6 +48,6 @@ public class MenuController {
     }
     @FXML
     private void switchToAiScenario() throws IOException {
-        App.setRoot("ScenarioAiChat");
+        App.setRoot("ScenarioAiBuilder");
     }
 }
