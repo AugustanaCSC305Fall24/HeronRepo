@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+// container to serialize/deserialize all scenario-related data.
 public class ScenarioData {
     private double duration;
     private String synopsis;
