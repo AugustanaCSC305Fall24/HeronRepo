@@ -132,7 +132,6 @@ public class ScenarioAiBuilderController {
     }
     @FXML
     private void pressPlayButton(ActionEvent event) throws IOException {
-
         // Switch to the AiScenarioHamRadio scene
         App.setRoot("AiScenarioHamRadio");
     }

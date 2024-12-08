@@ -92,7 +92,7 @@
         <HBox spacing="20" styleClass="button-bar">
             <Button fx:id="saveJsonButton" text="Save to JSON" />
          <Button fx:id="openJsonButton" mnemonicParsing="false" text="Open JSON" />
-            <Button fx:id="playButton" text="Play" />
+            <Button fx:id="playButton" onAction="#pressPlayButton" text="Play" />
             <Button fx:id="backButton" onAction="#pressBackButton" text="Back" />
         </HBox>
     </VBox>
