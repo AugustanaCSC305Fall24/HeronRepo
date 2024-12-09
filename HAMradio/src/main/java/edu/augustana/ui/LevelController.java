@@ -12,15 +12,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ChoiceBox;
-
 import java.util.*;
 import java.io.IOException;
 import java.util.Random;
-
 import javafx.event.ActionEvent;
 import javafx.scene.layout.BorderPane;
-
-import javax.sound.sampled.LineUnavailableException;
 
 public class LevelController {
     @FXML
@@ -69,11 +65,10 @@ public class LevelController {
         levelChoiceBox.setValue("Easy");  // Default selection
         playCorrectAudioCheckbox.setSelected(true);
         playCorrectAudioCheckbox.setOnAction((event -> handlePlayCorrectAudioCheckBox()));
+        playCorrectAudioCheckbox.setFocusTraversable(false);
         userInputLettersLabel.visibleProperty().bind(showEnglishCheckbox.selectedProperty());
-        morseHandler = new MorseHandler(new CallbackPress() {
-            @Override
-            public void onComplete() {
-            }
+        showEnglishCheckbox.setFocusTraversable(false);
+        morseHandler = new MorseHandler(() -> {
         }, new CallbackRelease() {
 
             @Override
@@ -97,33 +92,39 @@ public class LevelController {
                 StringBuilder userInputLetters = morseHandler.getUserInputLetters();
                 String userInputLettersString = userInputLetters.toString().trim();
 
-                if (!(currentText.indexOf(userInputLettersString) == 0)){
-                    char incorrectAnswer = userInputLettersString.charAt(userInputLettersString.length() - 1);
+                if (!currentText.startsWith(userInputLettersString)) {
+                    // Incorrect input
                     userInputLettersLabel.setStyle("-fx-text-fill: red; -fx-font-size: 24px;");
-                    throw new InputMismatchException("Try again (incorrect input: " + incorrectAnswer + ")");
-                }
-                if (currentText.equals(userInputLettersString)){
-                    userInputLettersLabel.setStyle("-fx-text-fill: green; -fx-font-size: 24px;");
-                    Platform.runLater(()->{
-                        generateRandomText();
-                    });
+                } else {
+                    // Update the label with the user's input
+                    userInputLettersLabel.setText(userInputLettersString);
 
-                    morseHandler.clearUserInputLetters();
-                    morseHandler.clearUserInput();
+                    if (currentText.equals(userInputLettersString)) {
+                        // Correct and complete input
+                        userInputLettersLabel.setStyle("-fx-text-fill: green; -fx-font-size: 24px;");
+                        Platform.runLater(() -> generateRandomText());
+                        morseHandler.clearUserInputLetters();
+                        morseHandler.clearUserInput();
+                    } else {
+                        // Partially correct input (still green)
+                        userInputLettersLabel.setStyle("-fx-text-fill: green; -fx-font-size: 24px;");
+                    }
                 }
             }
-
             @Override
             public void onTimerCatch(InputMismatchException e) {
-                System.out.println(e.getMessage());
+                // Display the error message with the incorrect answer
                 String incorrectAnswer = morseHandler.getUserInputLetters().toString();
                 userInputLettersLabel.setStyle("-fx-text-fill: red; -fx-font-size: 24px;");
                 userInputLettersLabel.setText("Try again (incorrect input: " + incorrectAnswer + ")");
-                morseHandler.clearUserInputLetters();
-                morseHandler.clearUserInput();
+
+                // Clear the Morse code display
                 morseCodeLabel.setText("");
+
+                // Play the correct Morse code to help the user retry
                 playCorrectMorse(currentText);
             }
+
 
         }, borderPane);
         // Add a listener for level changes
@@ -148,9 +149,6 @@ public class LevelController {
 
     private void handlePlayCorrectAudioCheckBox() {
         playCorrectAudio = playCorrectAudioCheckbox.isSelected();
-    }
-    public boolean shouldPlayCorrectAudio() {
-        return playCorrectAudio;
     }
 
     // Adjust the difficulty level and update the display text accordingly

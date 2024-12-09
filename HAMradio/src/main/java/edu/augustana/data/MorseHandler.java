@@ -7,8 +7,6 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import javax.sound.sampled.LineUnavailableException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.InputMismatchException;
@@ -32,15 +30,7 @@ public class MorseHandler {
     private StringBuilder userInputLettersString = new StringBuilder();
     private final CallbackPress keypressCallback;
     private final CallbackRelease keyreleaseCallback;
-    private static final int LETTER_GAP_THRESHOLD = 300; // milliseconds
-    private static final int WORD_GAP_THRESHOLD = 700;   // milliseconds
-    private long lastReleaseTime = 0;
-    private StringBuilder morseCodeInput = new StringBuilder();
 
-    public void onKeyPress(String morseSymbol) {
-        // Append the Morse code for the pressed symbol (dot/dash)
-        morseCodeInput.append(morseSymbol);
-    }
 
     public MorseHandler(CallbackPress keypressCallback, CallbackRelease keyreleaseCallback, Node element) {
         this.keypressCallback = keypressCallback;
@@ -67,48 +57,40 @@ public class MorseHandler {
 
         } else if (event.getCode() == KeyCode.M && keyPressTime == null) {
             tonePlayer.startAudio();
-            timerToneTask = () -> {
-                Platform.runLater(()->{
-                    tonePlayer.stopAudio();
-                    keyPressTime = null;
-                    // Determine if the input is a dot or dash and append it to the userInput
-                    userInput.append("-");
-                    keyreleaseCallback.onComplete();
-                    // Create a new timer task that will run after the TIMER_DELAY
-                    timerLetterTask = () -> {
-                        Platform.runLater(() -> {
+            timerToneTask = () -> Platform.runLater(()->{
+                tonePlayer.stopAudio();
+                keyPressTime = null;
+                // Determine if the input is a dot or dash and append it to the userInput
+                userInput.append("-");
+                keyreleaseCallback.onComplete();
+                // Create a new timer task that will run after the TIMER_DELAY
+                timerLetterTask = () -> Platform.runLater(() -> {
 
-                            // Try to check the Morse code after the timer finishes
-                            try {
-                                String letter = checkMorseCode();
-                                userInputLettersString.append(letter);
-                                keyreleaseCallback.onTimerComplete(letter);
+                    // Try to check the Morse code after the timer finishes
+                    try {
+                        String letter = checkMorseCode();
+                        userInputLettersString.append(letter);
+                        keyreleaseCallback.onTimerComplete(letter);
 
-                                this.clearUserInput();
-                            } catch (InputMismatchException e) {
-                                keyreleaseCallback.onTimerCatch(e);
-                            }
-                            //add timer for space between words
-
-                        });
-
-                    };
-                    timerWordTask = () -> {
-                        Platform.runLater(() -> {
-
-                            // Try to check the Morse code after the timer finishes
-                            userInputLettersString.append(" ");
-                            keyreleaseCallback.onTimerWordComplete();
-                        });
-
-                    };
-
-                    // Schedule the task after the specified delay
-                    schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
-                    schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
+                        this.clearUserInput();
+                    } catch (InputMismatchException e) {
+                        keyreleaseCallback.onTimerCatch(e);
+                    }
+                    //add timer for space between words
 
                 });
-            };
+                timerWordTask = () -> Platform.runLater(() -> {
+
+                    // Try to check the Morse code after the timer finishes
+                    userInputLettersString.append(" ");
+                    keyreleaseCallback.onTimerWordComplete();
+                });
+
+                // Schedule the task after the specified delay
+                schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
+                schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
+
+            });
             schedulerTone.schedule(timerToneTask, App.DOT_THRESHOLD * 2, TimeUnit.MILLISECONDS);
             keypressCallback.onComplete();
             keyPressTime = Instant.now();
@@ -124,48 +106,40 @@ public class MorseHandler {
 
         }else if (event.getCode() == KeyCode.N && keyPressTime == null) {
             tonePlayer.startAudio();
-            timerToneTask = () -> {
-                Platform.runLater(()->{
-                    tonePlayer.stopAudio();
-                    keyPressTime = null;
-                    // Determine if the input is a dot or dash and append it to the userInput
-                    userInput.append(".");
-                    keyreleaseCallback.onComplete();
-                    // Create a new timer task that will run after the TIMER_DELAY
-                    timerLetterTask = () -> {
-                        Platform.runLater(() -> {
+            timerToneTask = () -> Platform.runLater(()->{
+                tonePlayer.stopAudio();
+                keyPressTime = null;
+                // Determine if the input is a dot or dash and append it to the userInput
+                userInput.append(".");
+                keyreleaseCallback.onComplete();
+                // Create a new timer task that will run after the TIMER_DELAY
+                timerLetterTask = () -> Platform.runLater(() -> {
 
-                            // Try to check the Morse code after the timer finishes
-                            try {
-                                String letter = checkMorseCode();
-                                userInputLettersString.append(letter);
-                                keyreleaseCallback.onTimerComplete(letter);
+                    // Try to check the Morse code after the timer finishes
+                    try {
+                        String letter = checkMorseCode();
+                        userInputLettersString.append(letter);
+                        keyreleaseCallback.onTimerComplete(letter);
 
-                                this.clearUserInput();
-                            } catch (InputMismatchException e) {
-                                keyreleaseCallback.onTimerCatch(e);
-                            }
-                            //add timer for space between words
-
-                        });
-
-                    };
-                    timerWordTask = () -> {
-                        Platform.runLater(() -> {
-
-                            // Try to check the Morse code after the timer finishes
-                            userInputLettersString.append(" ");
-                            keyreleaseCallback.onTimerWordComplete();
-                        });
-
-                    };
-
-                    // Schedule the task after the specified delay
-                    schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
-                    schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
+                        this.clearUserInput();
+                    } catch (InputMismatchException e) {
+                        keyreleaseCallback.onTimerCatch(e);
+                    }
+                    //add timer for space between words
 
                 });
-            };
+                timerWordTask = () -> Platform.runLater(() -> {
+
+                    // Try to check the Morse code after the timer finishes
+                    userInputLettersString.append(" ");
+                    keyreleaseCallback.onTimerWordComplete();
+                });
+
+                // Schedule the task after the specified delay
+                schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
+                schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
+
+            });
 
             schedulerTone.schedule(timerToneTask, App.DOT_THRESHOLD, TimeUnit.MILLISECONDS);
             keypressCallback.onComplete();
@@ -200,33 +174,27 @@ public class MorseHandler {
             }
             keyreleaseCallback.onComplete();
             // Create a new timer task that will run after the TIMER_DELAY
-            timerLetterTask = () -> {
-                Platform.runLater(() -> {
+            timerLetterTask = () -> Platform.runLater(() -> {
 
-                    // Try to check the Morse code after the timer finishes
-                    try {
-                        String letter = checkMorseCode();
-                        userInputLettersString.append(letter);
-                        keyreleaseCallback.onTimerComplete(letter);
+                // Try to check the Morse code after the timer finishes
+                try {
+                    String letter = checkMorseCode();
+                    userInputLettersString.append(letter);
+                    keyreleaseCallback.onTimerComplete(letter);
 
-                        this.clearUserInput();
-                    } catch (InputMismatchException e) {
-                        keyreleaseCallback.onTimerCatch(e);
-                    }
-                    //add timer for space between words
+                    this.clearUserInput();
+                } catch (InputMismatchException e) {
+                    keyreleaseCallback.onTimerCatch(e);
+                }
+                //add timer for space between words
 
-                });
+            });
+            timerWordTask = () -> Platform.runLater(() -> {
 
-            };
-            timerWordTask = () -> {
-                Platform.runLater(() -> {
-
-                    // Try to check the Morse code after the timer finishes
-                    userInputLettersString.append(" ");
-                    keyreleaseCallback.onTimerWordComplete();
-                });
-
-            };
+                // Try to check the Morse code after the timer finishes
+                userInputLettersString.append(" ");
+                keyreleaseCallback.onTimerWordComplete();
+            });
 
             // Schedule the task after the specified delay
             schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
