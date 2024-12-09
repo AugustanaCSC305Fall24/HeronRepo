@@ -9,7 +9,7 @@ public class StaticNoisePlayer {
     private static SourceDataLine line;
     private static Thread noiseThread;
     private static volatile boolean playing;
-    private static float volume = 0.05f; // Volume factor (0.0 to 1.0)
+    private static float volume =(HamRadio.theRadio.getVolume() / 100.0f)  / 5.0f; // Volume factor (0.0 to 1.0)
 
     public static void setVolume(float newVolume) {
         volume = Math.max(0.0f, Math.min(1.0f, newVolume)); // Clamp between 0.0 and 1.0

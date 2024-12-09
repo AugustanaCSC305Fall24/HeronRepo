@@ -167,7 +167,12 @@ public class HamController {
 
         volumeSlider.adjustValue((double) HamRadio.theRadio.getVolume());
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            HamRadio.theRadio.setVolume(newValue.intValue());  // Update the volume variable
+            int newVolume = newValue.intValue();
+            HamRadio.theRadio.setVolume(newVolume);  // Update the volume variable
+
+            // Scaling the slider value to the right range for StaticNoise
+            float scaledVolume = (newVolume / 100.0f)  / 5.0f;;
+            StaticNoisePlayer.setVolume(scaledVolume); // Update static noise volume
 
         });
         userMessageMorse.requestFocus();
