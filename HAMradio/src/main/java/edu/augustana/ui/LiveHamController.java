@@ -1,9 +1,9 @@
 package edu.augustana.ui;
 
 
-import edu.augustana.data.CWMessage;
 import edu.augustana.data.HamRadio;
 import edu.augustana.data.UserSession;
+import edu.augustana.interfaces.HamControllerCallback;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
@@ -19,7 +19,7 @@ public class LiveHamController implements HamControllerCallback {
     private double frequency;
     public void initialize() {
         try {
-            App.connectToServer("34.56.49.240", UserSession.getInstance().getUsername());
+            App.connectToServer("34.56.49.240", UserSession.instance.getUsername());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/augustana/HamRadio.fxml"));
 
             // Load HamRadio.fxml as a BorderPane
@@ -45,6 +45,8 @@ public class LiveHamController implements HamControllerCallback {
     }
     @Override
     public void onInitialize(){
+        hamController.gridPane.getChildren().remove(hamController.simulateReceivingBtn);
+
 
     }
     @Override

@@ -1,11 +1,10 @@
 package edu.augustana.ui;
 
 import edu.augustana.data.HamRadio;
-import edu.augustana.data.MorseHandler;
-import edu.augustana.data.MorseSoundGenerator;
-import edu.augustana.data.MorseTranslator;
-import edu.augustana.helper.callbacks.CallbackPress;
-import edu.augustana.helper.callbacks.CallbackRelease;
+import edu.augustana.helper.handlers.MorseHandler;
+import edu.augustana.helper.handlers.MorseSoundGenerator;
+import edu.augustana.helper.handlers.MorseTranslator;
+import edu.augustana.interfaces.callbacks.CallbackRelease;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

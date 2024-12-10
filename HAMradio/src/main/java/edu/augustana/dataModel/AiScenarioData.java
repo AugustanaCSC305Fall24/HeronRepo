@@ -1,18 +1,19 @@
-package edu.augustana.data.Scenarios;
+package edu.augustana.dataModel;
 
-import java.util.Map;
+import java.util.ArrayList;
+
 // container to serialize/deserialize all scenario-related data.
 public class AiScenarioData {
     private final String name;
     private final String description;
     private final String notes;
-    private final Map<String, AiBotDetails> botDetails;
+    private final ArrayList<AiBotDetails> botsDetails;
 
-    public AiScenarioData(String name, String description, String notes, Map<String, AiBotDetails> botDetails) {
+    public AiScenarioData(String name, String description, String notes,ArrayList<AiBotDetails> botsDetails) {
         this.name = name;
         this.description = description;
         this.notes = notes;
-        this.botDetails = botDetails;
+        this.botsDetails = botsDetails;
     }
 
     public String getName() {
@@ -27,8 +28,8 @@ public class AiScenarioData {
         return notes;
     }
 
-    public Map<String, AiBotDetails> getBotDetails() {
-        return botDetails;
+    public ArrayList<AiBotDetails> getBotsDetails() {
+        return botsDetails;
     }
 }
 

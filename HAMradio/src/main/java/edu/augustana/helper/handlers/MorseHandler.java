@@ -1,7 +1,7 @@
-package edu.augustana.data;
+package edu.augustana.helper.handlers;
 
-import edu.augustana.helper.callbacks.CallbackPress;
-import edu.augustana.helper.callbacks.CallbackRelease;
+import edu.augustana.interfaces.callbacks.CallbackPress;
+import edu.augustana.interfaces.callbacks.CallbackRelease;
 import edu.augustana.ui.App;
 import javafx.application.Platform;
 import javafx.scene.Node;

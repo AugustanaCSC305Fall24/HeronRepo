@@ -2,6 +2,7 @@ package edu.augustana.data;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.augustana.helper.handlers.MorseTranslator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

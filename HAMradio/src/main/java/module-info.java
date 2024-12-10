@@ -8,17 +8,23 @@ module edu.augustana {
 
     requires tyrus.standalone.client;
 
-    exports edu.augustana.data.Scenarios;
-    opens edu.augustana.data.Scenarios to javafx.fxml, com.google.gson;
     exports edu.augustana.data.Scenarios.ScenarioBots;
     opens edu.augustana.data.Scenarios.ScenarioBots to com.google.gson, javafx.fxml;
     exports edu.augustana.ui;
     opens edu.augustana.ui to com.google.gson, javafx.fxml;
-    exports edu.augustana.helper.callbacks;
-    opens edu.augustana.helper.callbacks to javafx.fxml;
+    exports edu.augustana.interfaces.callbacks;
+    opens edu.augustana.interfaces.callbacks to javafx.fxml;
     exports edu.augustana.data;
     opens edu.augustana.data to javafx.fxml, com.google.gson;
     opens edu.augustana to com.google.gson, javafx.fxml;
+    exports edu.augustana.helper.handlers;
+    opens edu.augustana.helper.handlers to com.google.gson, javafx.fxml;
+    exports edu.augustana.dataModel;
+    opens edu.augustana.dataModel to com.google.gson, javafx.fxml;
+    exports edu.augustana.interfaces;
+    opens edu.augustana.interfaces to com.google.gson, javafx.fxml;
+    exports edu.augustana.interfaces.listeners;
+    opens edu.augustana.interfaces.listeners to com.google.gson, javafx.fxml;
 
     requires com.google.gson;
 

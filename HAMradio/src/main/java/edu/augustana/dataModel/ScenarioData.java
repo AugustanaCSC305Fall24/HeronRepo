@@ -1,10 +1,5 @@
-package edu.augustana.data.Scenarios;
+package edu.augustana.dataModel;
 
-import com.google.gson.Gson;
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 // container to serialize/deserialize all scenario-related data.
 public class ScenarioData {
     private double duration;
@@ -21,25 +16,7 @@ public class ScenarioData {
     }
 
     // Method to save scenario data to JSON
-    public void exportToJson(String filePath) {
-        Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(filePath)) {
-            gson.toJson(this, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    // Method to load scenario data from JSON
-    public static ScenarioData importFromJson(String filePath) {
-        Gson gson = new Gson();
-        try (FileReader reader = new FileReader(filePath)) {
-            return gson.fromJson(reader, ScenarioData.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
     @Override
     public String toString() {
         return "ScenarioData{" +

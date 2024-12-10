@@ -1,9 +1,9 @@
 package edu.augustana.ui;
 
-import edu.augustana.data.Scenarios.AiBotDetails;
-import edu.augustana.data.Scenarios.AiScenarioFileHandler;
-import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.data.Scenarios.ScenarioData;
+import edu.augustana.dataModel.AiBotDetails;
+import edu.augustana.dataModel.AiScenarioData;
+import edu.augustana.helper.handlers.AiScenarioFileHandler;
+import edu.augustana.data.AiScenarioPlayed;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,8 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class ScenarioAiBuilderController {
 
@@ -34,8 +33,6 @@ public class ScenarioAiBuilderController {
     @FXML
     private VBox botDetailsMenu;
     @FXML
-    private TextField botTypeField;
-    @FXML
     private TextField botNameField;
     @FXML
     private TextField botObjectiveField;
@@ -53,27 +50,33 @@ public class ScenarioAiBuilderController {
     @FXML
     private Button backButton;
 
-    private final ObservableList<String> bots = FXCollections.observableArrayList();
-    private final Map<String, AiBotDetails> botDetailsMap = new HashMap<>();
-    private String currentlyEditingBot = null;
+    private final ArrayList<AiBotDetails> botDetailsList = new ArrayList<>();
+    private int currentlyEditingBot = -1;
 
     private AiScenarioFileHandler fileHandler;
 
     @FXML
     public void initialize() {
         fileHandler = new AiScenarioFileHandler();
-
-        botListView.setItems(bots);
+        AiScenarioPlayed.instance.clearData();
 
         // Handle bot selection
-        botListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                loadBotDetails(newSelection);
+        botListView.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection.intValue() != -1) {
+                loadBotDetails(newSelection.intValue());
             }
         });
 
         // Add bot button action
-        addBotButton.setOnAction(event -> showBotDetailsMenu(null));
+        addBotButton.setOnAction(event -> {
+            if (botDetailsList.size() >= 5){
+                // Display limit message
+                showAlert("Limit reached","The limit for now is 5 bots per scenario.");
+                botDetailsMenu.setVisible(false);
+                return;
+            }
+            showBotDetailsMenu(-1);
+        });
 
         // Kick bot button action
         kickBotButton.setOnAction(event -> removeSelectedBot());
@@ -86,28 +89,46 @@ public class ScenarioAiBuilderController {
         botDetailsMenu.setVisible(false);
 
         // Save to JSON button action
-        saveJsonButton.setOnAction(event -> fileHandler.exportToJson(botDetailsMap, scenarioNameField, scenarioDescriptionArea, scenarioNotesArea));
+        saveJsonButton.setOnAction(event -> {
+            AiScenarioData scenarioData = new AiScenarioData(
+                    scenarioNameField.getText(),
+                    scenarioDescriptionArea.getText(),
+                    scenarioNotesArea.getText(),
+                    new ArrayList<>(botDetailsList)
+            );
+            AiScenarioFileHandler.exportToJson(scenarioData);
+        });
 
         // Open JSON button action
-        openJsonButton.setOnAction(event -> fileHandler.importFromJson(botDetailsMap, bots, scenarioNameField, scenarioDescriptionArea, scenarioNotesArea));
+        openJsonButton.setOnAction(event -> {
+            AiScenarioData scenarioData = AiScenarioFileHandler.importFromJson();
+            if (scenarioData != null) {
+                scenarioNameField.setText(scenarioData.getName());
+                scenarioDescriptionArea.setText(scenarioData.getDescription());
+                scenarioNotesArea.setText(scenarioData.getNotes());
+                botDetailsList.clear();
+                botDetailsList.addAll(scenarioData.getBotsDetails());
+            }
+            updateBotListNames();
+
+
+        });
     }
 
-    private void showBotDetailsMenu(String botName) {
+    private void showBotDetailsMenu(int botIndex) {
         botDetailsMenu.setVisible(true);
 
-        if (botName == null) {
+        if (botIndex == -1) {
             // Adding a new bot
-            currentlyEditingBot = null;
-            botTypeField.clear();
+            currentlyEditingBot = botIndex;
             botNameField.clear();
             botObjectiveField.clear();
             isStartingBotCheckBox.setSelected(false);
         } else {
             // Editing an existing bot
-            currentlyEditingBot = botName;
-            AiBotDetails details = botDetailsMap.get(botName);
+            currentlyEditingBot = botIndex;
+            AiBotDetails details = botDetailsList.get(botIndex);
             if (details != null) {
-                botTypeField.setText(details.getType());
                 botNameField.setText(details.getName());
                 botObjectiveField.setText(details.getObjective());
                 isStartingBotCheckBox.setSelected(details.isStartingBot());
@@ -115,16 +136,16 @@ public class ScenarioAiBuilderController {
         }
     }
 
-    private void loadBotDetails(String botName) {
-        showBotDetailsMenu(botName);
+    private void loadBotDetails(int botIndex) {
+        showBotDetailsMenu(botIndex);
     }
 
     private void removeSelectedBot() {
-        String selectedBot = botListView.getSelectionModel().getSelectedItem();
-        if (selectedBot != null) {
-            bots.remove(selectedBot);
-            botDetailsMap.remove(selectedBot);
+        int selectedBot = botListView.getSelectionModel().getSelectedIndex();
+        if (selectedBot != -1) {
+            botDetailsList.remove(selectedBot);
         }
+        updateBotListNames();
     }
     @FXML
     private void pressBackButton() throws IOException {
@@ -133,11 +154,11 @@ public class ScenarioAiBuilderController {
     @FXML
     private void pressPlayButton(ActionEvent event) throws IOException {
         // Switch to the AiScenarioHamRadio scene
+        AiScenarioPlayed.instance.setData(new AiScenarioData(scenarioNameField.getText(),scenarioDescriptionArea.getText(),scenarioNotesArea.getText(),botDetailsList));
         App.setRoot("AiScenarioHamRadio");
     }
     private void saveBotDetails() {
         // Collect data from bot details fields
-        String botType = botTypeField.getText();
         String botName = botNameField.getText();
         String botObjective = botObjectiveField.getText();
         boolean isStartingBot = isStartingBotCheckBox.isSelected();
@@ -149,8 +170,9 @@ public class ScenarioAiBuilderController {
 
         // Ensure only one starting bot
         if (isStartingBot) {
-            for (Map.Entry<String, AiBotDetails> entry : botDetailsMap.entrySet()) {
-                if (entry.getValue().isStartingBot() && !entry.getKey().equals(currentlyEditingBot)) {
+            for (int i = 0; i < botDetailsList.size(); i++) {
+                AiBotDetails botDetail = botDetailsList.get(i);
+                if (botDetail.isStartingBot() && i != currentlyEditingBot) {
                     showAlert("Validation Error", "Only one bot can be the starting bot.");
                     return;
                 }
@@ -158,25 +180,40 @@ public class ScenarioAiBuilderController {
         }
 
         // Update or add the bot
-        AiBotDetails details = new AiBotDetails(botType, botName, botObjective, isStartingBot);
+        AiBotDetails details = new AiBotDetails(botName, botObjective, isStartingBot);
 
-        if (currentlyEditingBot != null && !currentlyEditingBot.equals(botName)) {
-            bots.remove(currentlyEditingBot);
-            botDetailsMap.remove(currentlyEditingBot);
+        if (currentlyEditingBot != -1) {
+            botDetailsList.set(currentlyEditingBot,details);
+        }else{
+            botDetailsList.add(details);
         }
 
-        if (!bots.contains(botName)) {
-            bots.add(botName);
-        }
-        botDetailsMap.put(botName, details);
+
 
         // Hide the bot details menu
         botDetailsMenu.setVisible(false);
 
         // Update the ListView selection
-        botListView.getSelectionModel().select(botName);
+        updateBotListNames();
+        if (currentlyEditingBot == -1 ){
+            botListView.getSelectionModel().select(botDetailsList.size()-1);
+        }
     }
+    private void updateBotListNames(){
+        // Clear all existing items from the ListView
+        botListView.getItems().clear();
 
+        // Create a new ObservableList to hold the bot names
+        ObservableList<String> botNames = FXCollections.observableArrayList();
+
+        // Loop through the botList and add each name to the ObservableList
+        for (AiBotDetails bot : botDetailsList) {
+            botNames.add(bot.getName());
+        }
+
+        // Set the new list of names to the ListView
+        botListView.setItems(botNames);
+    }
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

@@ -1,5 +1,5 @@
-package edu.augustana.data.Scenarios.ScenarioBots;
-import edu.augustana.data.Scenarios.ScriptedMessage;
+package edu.augustana.interfaces;
+import edu.augustana.dataModel.ScriptedMessage;
 
 import java.util.List;
 

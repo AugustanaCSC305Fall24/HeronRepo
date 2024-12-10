@@ -1,4 +1,6 @@
-package edu.augustana.data;
+package edu.augustana.interfaces.listeners;
+
+import edu.augustana.dataModel.CWMessage;
 
 public interface NewMessageListener {
 

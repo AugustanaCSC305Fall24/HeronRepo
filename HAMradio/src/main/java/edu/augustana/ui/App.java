@@ -1,8 +1,8 @@
 package edu.augustana.ui;
 import com.google.gson.Gson;
-import edu.augustana.data.CWMessage;
+import edu.augustana.dataModel.CWMessage;
 import edu.augustana.data.HamRadio;
-import edu.augustana.data.StaticNoisePlayer;
+import edu.augustana.helper.handlers.StaticNoisePlayer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,6 @@ import jakarta.websocket.*;
 
 import java.io.IOException;
 import java.net.URI;
-
 
 /**
  * JavaFX App

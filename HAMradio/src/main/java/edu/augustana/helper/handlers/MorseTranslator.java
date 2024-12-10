@@ -1,4 +1,4 @@
-package edu.augustana.data;
+package edu.augustana.helper.handlers;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;

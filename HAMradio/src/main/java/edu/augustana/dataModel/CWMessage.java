@@ -1,4 +1,4 @@
-package edu.augustana.data;
+package edu.augustana.dataModel;
 
 public class CWMessage {
     private final String cwText;

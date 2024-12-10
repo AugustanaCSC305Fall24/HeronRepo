@@ -10,14 +10,14 @@ public class HomeController {
 
     @FXML
     private TextField usernameField; // fx:id for the TextField where the user types the username
-
+    private UserSession user = UserSession.instance;
     @FXML
     private void switchToSecondary() throws IOException {
         // Capture the entered username from the TextField
         String username = usernameField.getText();
 
         // Save the username to the session before switching screens
-        UserSession.getInstance().setUsername(username);
+        user.setUsername(username);
 
         // Pass the username to the next screen (Menu)
         App.setRoot("Menu");
@@ -26,7 +26,7 @@ public class HomeController {
     @FXML
     public void initialize() {
         // Retrieve the saved username from the session
-        String savedUsername = UserSession.getInstance().getUsername();
+        String savedUsername = user.getUsername();
 
         // If a username was saved, set it in the TextField
         if (savedUsername != null) {

@@ -26,7 +26,7 @@
       </Label>
    </top>
    <center>
-      <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="329.0" prefWidth="706.0" BorderPane.alignment="CENTER">
+      <GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="329.0" prefWidth="706.0" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,7 +43,7 @@
                   <Label text="Frequency" />
                   <Slider fx:id="frequencySlider" blockIncrement="0.01" majorTickUnit="0.01" max="7.067" min="7.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="7.0335" />
                   <Label text="Filter" />
-                  <Slider fx:id="filterSlider" blockIncrement="0.01" layoutX="10.0" layoutY="10.0" majorTickUnit="0.01" max="0.067" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="0.0335" />
+                  <Slider fx:id="filterSlider" blockIncrement="1.0" layoutX="10.0" layoutY="10.0" majorTickUnit="50.0" max="1000.0" min="100.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="500.0" />
                   <Label text="Receiving speed (WPM)" />
                   <Slider fx:id="speedSlider" blockIncrement="1.0" max="40.0" min="5.0" showTickLabels="true" showTickMarks="true" value="20.0" />
                   <Label text="Volume" />
@@ -69,22 +69,6 @@
          </padding>
       </GridPane>
    </center>
-   <bottom>
-      <VBox alignment="CENTER" prefHeight="61.0" prefWidth="706.0" spacing="29.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="userMessageMorse" text="Your Message">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label fx:id="userMessageInEnglish" layoutX="291.0" layoutY="26.0" text="Your Message English ">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-   </bottom>
    <top>
       <HBox prefHeight="40.0" prefWidth="706.0" BorderPane.alignment="CENTER">
          <children>
@@ -104,4 +88,30 @@
          </children>
       </HBox>
    </top>
+   <bottom>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="userMessageMorse" text="Your Message">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userMessageInEnglish" text="Your Message English ">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </center>
+         <left>
+            <VBox fx:id="leftBottomSection" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="180.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <VBox fx:id="rightBottomSection" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="180.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </bottom>
 </BorderPane>

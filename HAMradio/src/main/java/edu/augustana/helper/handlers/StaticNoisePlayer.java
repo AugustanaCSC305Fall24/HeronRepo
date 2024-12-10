@@ -1,5 +1,7 @@
-package edu.augustana.data;
+package edu.augustana.helper.handlers;
 
+
+import edu.augustana.data.HamRadio;
 
 import javax.sound.sampled.*;
 import java.util.Random;

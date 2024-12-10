@@ -1,4 +1,4 @@
-package edu.augustana.data.Scenarios;
+package edu.augustana.helper.handlers;
 import swiss.ameri.gemini.api.*;
 import swiss.ameri.gemini.gson.GsonJsonParser;
 import swiss.ameri.gemini.spi.JsonParser;
@@ -6,7 +6,7 @@ import swiss.ameri.gemini.spi.JsonParser;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.List;
+
 /**
  * Handles interactions with Gemini AI to generate content based on scenarios.
  */
@@ -38,7 +38,7 @@ public class GeminiAiHandler {
     private String createPrompt(String title, String details) {
         return String.format(
                 "Scenario Title: %s\nDetails: %s\n" +
-                        "Please generate a response to simulate this scenario realistically.",
+                        "Please generate a response to simulate this scenario realistically, making sure that you only generate very short answers that are morse code freindly ready to get translated.",
                 title, details
         );
     }

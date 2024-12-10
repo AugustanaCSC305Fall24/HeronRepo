@@ -1,5 +1,8 @@
 package edu.augustana.data;
 
+import edu.augustana.dataModel.CWMessage;
+import edu.augustana.interfaces.listeners.FrequencyChangeListener;
+import edu.augustana.interfaces.listeners.NewMessageListener;
 import edu.augustana.ui.App;
 
 public class HamRadio {
@@ -11,7 +14,7 @@ public class HamRadio {
     //TODO: filter information?  more?
 
     private NewMessageListener newMessageListener = null;
-
+    private FrequencyChangeListener frequencyListener = null;
     private HamRadio() {
     }
     public int getFilter(){ return filter;}
@@ -26,6 +29,7 @@ public class HamRadio {
 
     public void setFrequency(double frequency) {
         this.frequency = frequency;
+        frequencyListener.onFrequencyChange(frequency);
     }
 
     public int getVolume() {
@@ -38,6 +42,9 @@ public class HamRadio {
 
     public void setNewMessageListener(NewMessageListener listener) {
         this.newMessageListener = listener;
+    }
+    public void setFrequencyListener(FrequencyChangeListener listener) {
+        this.frequencyListener = listener;
     }
 
     public void receiveMessage(CWMessage msg) {

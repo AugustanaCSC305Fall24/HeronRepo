@@ -22,7 +22,7 @@ public class MenuController {
     @FXML
     public void initialize() {
         // Retrieve the username from the session and set it when the scene is loaded
-        String sessionUsername = UserSession.getInstance().getUsername();
+        String sessionUsername = UserSession.instance.getUsername();
         if (sessionUsername != null && welcomeLabel != null) {
             welcomeLabel.setText("Welcome, " + sessionUsername + "!");
         }

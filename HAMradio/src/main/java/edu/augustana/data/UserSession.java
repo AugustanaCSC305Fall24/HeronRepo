@@ -3,7 +3,7 @@ package edu.augustana.data;
 import java.util.Random;
 
 public class UserSession {
-    private static UserSession instance;
+    public static final UserSession instance = new UserSession();
     private String username;
 
     private UserSession() {
@@ -11,10 +11,7 @@ public class UserSession {
     }
 
     // Get the single instance of UserSession
-    public static UserSession getInstance() {
-        if (instance == null) {
-            instance = new UserSession();
-        }
+    public UserSession getInstance() {
         return instance;
     }
 

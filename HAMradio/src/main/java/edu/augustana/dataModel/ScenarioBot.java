@@ -1,4 +1,4 @@
-package edu.augustana.data.Scenarios;
+package edu.augustana.dataModel;
 
 public abstract class ScenarioBot {
     public String name;

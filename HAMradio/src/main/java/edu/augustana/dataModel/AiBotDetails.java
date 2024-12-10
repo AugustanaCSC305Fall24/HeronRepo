@@ -1,31 +1,22 @@
-package edu.augustana.data.Scenarios;
+package edu.augustana.dataModel;
 
 
 /**
  * Represents the details of an AI bot in the Scenario AI Builder.
  */
 public class AiBotDetails {
-    private String type;
     private String name;
     private String objective;
     private boolean isStartingBot;
 
     // Constructor
-    public AiBotDetails(String type, String name, String objective, boolean isStartingBot) {
-        this.type = type;
+    public AiBotDetails(String name, String objective, boolean isStartingBot) {
         this.name = name;
         this.objective = objective;
         this.isStartingBot = isStartingBot;
     }
 
-    // Getters and Setters
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getName() {
         return name;

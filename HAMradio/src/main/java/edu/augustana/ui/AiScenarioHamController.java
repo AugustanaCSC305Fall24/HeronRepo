@@ -1,24 +1,31 @@
 package edu.augustana.ui;
 
-import edu.augustana.data.CWMessage;
-import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.data.Scenarios.ScenarioBots.ScriptedBot;
-import edu.augustana.data.Scenarios.ScenarioData;
-import edu.augustana.data.Scenarios.ScriptedMessage;
+import edu.augustana.data.HamRadio;
+import edu.augustana.dataModel.AiBotDetails;
+import edu.augustana.dataModel.AiScenarioData;
+import edu.augustana.helper.handlers.GeminiAiHandler;
+import edu.augustana.data.AiScenarioPlayed;
+import edu.augustana.interfaces.HamControllerCallback;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class AiScenarioHamController extends HamController implements HamControllerCallback {
     @FXML
     private VBox rootVBox;  // Matches the fx:id for the root VBox in LiveHamController's FXML
     private HamController hamController;
-    private static ScenarioData scenarioData;
     private double frequency;
-
+    private AiScenarioData scenarioData = AiScenarioPlayed.instance.getData();
+    private GeminiAiHandler geminiAiHandler = new GeminiAiHandler();
+    private ArrayList<String> botFrequencies = new ArrayList<>();
+    private static Random randGen = new Random();
     public void initialize() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/augustana/HamRadio.fxml"));
@@ -35,8 +42,6 @@ public class AiScenarioHamController extends HamController implements HamControl
             // Add hamInterface to rootVBox
             rootVBox.getChildren().add(hamInterface);
 
-            // Retrieve scenario data but do NOT call startBtn() here
-            scenarioData = DataManager.getInstance().getScenarioData();
 
             if (scenarioData != null) {
                 System.out.println("Received scenario data: " + scenarioData);
@@ -49,45 +54,50 @@ public class AiScenarioHamController extends HamController implements HamControl
         }
     }
 
-    public static void setScenarioData(ScenarioData data) {
-        scenarioData = data;
-        System.out.println("Received scenario data: " + scenarioData);
-    }
 
-    public static ScenarioData getScenarioData() {
-        return scenarioData;
-    }
 
-    private void startBtn() {
-        if (scenarioData != null) {
-            String scenario = scenarioData.getSynopsis();
-            int duration = (int) scenarioData.getDuration(); // Duration in minutes
-            ScriptedBot scriptedBot = new ScriptedBot(scenario); // Create a ScriptedBot for the scenario
-
-            // Iterate over the duration of the scenario and receive messages each minute
-            for (int time = 0; time < duration; time++) {
-                ScriptedMessage scriptedMessage = scriptedBot.getNewMessage(time); // Get the message at the current time (minute)
-
-                if (scriptedMessage != null) {
-                    String message = scriptedMessage.getMessage(); // Get the message content
-                    hamController.receiveMessage(new CWMessage(message, frequency)); // Simulate receiving the message with the current frequency
-                    System.out.println("Received message at minute " + time + ": " + message); // Log the message for debugging
-                }
-            }
-        } else {
-            System.out.println("No scenario data provided!");
+    private String generateFrequency(){
+        int frequencyDecimal = AiScenarioHamController.randGen.nextInt(68);
+        if (botFrequencies.contains("7.0"+frequencyDecimal)){
+            return generateFrequency();
         }
+        return "7.0"+frequencyDecimal;
     }
-
-
-
     @Override
     public void onInitialize() {
         // Configure "Start" button functionality here
-        hamController.simulateReceivingBtn.setText("Start");
-        hamController.simulateReceivingBtn.setOnAction((e) -> startBtn());
-    }
+        hamController.gridPane.getChildren().remove(hamController.simulateReceivingBtn);
+        ArrayList<AiBotDetails> botsDetails = scenarioData.getBotsDetails();
+        for (int i = 0; i < botsDetails.size(); i++) {
+            AiBotDetails botDetails = botsDetails.get(i);
+            boolean isStartingFirst = botDetails.isStartingBot();
+            HBox hbox = new HBox();
+            hbox.setSpacing(10);
+            // Create UI components for bot details
+            Text botNameTextEl = new Text();
+            Text botFrequencyTextEl = new Text();
+            botNameTextEl.setText(botDetails.getName());
+            String botFrequency = generateFrequency();
 
+            botFrequencies.add(botFrequency);
+            botFrequencyTextEl.setText(botFrequency);
+
+            // Use Gemini AI to generate a scenario response
+//            String scenarioResponse = geminiAiHandler.generateScenarioResponse(
+//                    botDetails.getName(),
+//                    botDetails.getObjective()
+//            );
+//            System.out.println(scenarioResponse);
+
+            hbox.getChildren().add(botNameTextEl);
+            hbox.getChildren().add(botFrequencyTextEl);
+            if (isStartingFirst){
+                HamRadio.theRadio.setFrequency(Double.parseDouble(botFrequency));
+            }
+            hamController.leftBottomSection.getChildren().add(hbox);
+
+        }
+    }
     @Override
     public void onDitDahProcessed(char signalUnit) {
         System.out.println("Dit/Dah processed: " + signalUnit);

@@ -1,7 +1,10 @@
-package edu.augustana.data.Scenarios.ScenarioBots;
+package edu.augustana.dataModel;
 
-import edu.augustana.data.Scenarios.ScenarioBot;
-import edu.augustana.data.Scenarios.ScriptedMessage;
+import edu.augustana.data.Scenarios.ScenarioBots.DefaultScenario;
+import edu.augustana.data.Scenarios.ScenarioBots.MountainExpedition;
+import edu.augustana.data.Scenarios.ScenarioBots.RescueOperation;
+import edu.augustana.data.Scenarios.ScenarioBots.WeatherReport;
+import edu.augustana.interfaces.Scenario;
 
 import java.util.ArrayList;
 import java.util.List;

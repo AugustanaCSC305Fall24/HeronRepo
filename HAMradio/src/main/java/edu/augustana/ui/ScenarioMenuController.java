@@ -1,7 +1,8 @@
 package edu.augustana.ui;
 
 import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.data.Scenarios.ScenarioData;
+import edu.augustana.dataModel.ScenarioData;
+import edu.augustana.helper.handlers.ScenarioFileHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -49,7 +50,7 @@ public class ScenarioMenuController {
         double speed = transmissionSpeed.getValue();
 
         ScenarioData scenarioData = new ScenarioData(duration, selectedSynopsis, selectedBotType, speed);
-        scenarioData.exportToJson("scenarioData.json");
+        ScenarioFileHandler.exportToJson(scenarioData);
 
         System.out.println("Scenario data saved to JSON.");
     }
@@ -57,13 +58,10 @@ public class ScenarioMenuController {
     // Method to load scenario from JSON
     @FXML
     private void openScenarioFromJson() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Scenario File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
-        File file = fileChooser.showOpenDialog(null);
 
-        if (file != null) {
-            ScenarioData scenarioData = ScenarioData.importFromJson(file.getAbsolutePath());
+
+
+            ScenarioData scenarioData = ScenarioFileHandler.importFromJson();
 
             if (scenarioData != null) {
                 // Apply loaded data to UI components
@@ -74,7 +72,7 @@ public class ScenarioMenuController {
 
                 System.out.println("Scenario data loaded from JSON.");
             }
-        }
+
     }
 
     @FXML

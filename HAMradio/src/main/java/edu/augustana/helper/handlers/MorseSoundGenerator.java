@@ -1,5 +1,6 @@
-package edu.augustana.data;
+package edu.augustana.helper.handlers;
 
+import edu.augustana.data.Note;
 import edu.augustana.ui.App;
 
 import javax.sound.sampled.LineUnavailableException;

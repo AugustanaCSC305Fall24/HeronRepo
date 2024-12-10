@@ -1,11 +1,12 @@
 package edu.augustana.ui;
 
 
-import edu.augustana.data.CWMessage;
-import edu.augustana.data.Scenarios.ScenarioData;
-import edu.augustana.data.Scenarios.ScriptedMessage;
+import edu.augustana.dataModel.CWMessage;
+import edu.augustana.dataModel.ScenarioData;
+import edu.augustana.dataModel.ScriptedMessage;
 import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.data.Scenarios.ScenarioBots.ScriptedBot;
+import edu.augustana.dataModel.ScriptedBot;
+import edu.augustana.interfaces.HamControllerCallback;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;

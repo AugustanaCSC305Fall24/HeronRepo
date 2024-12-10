@@ -1,8 +1,15 @@
 package edu.augustana.ui;
 
-import edu.augustana.data.*;
-import edu.augustana.helper.callbacks.CallbackPress;
-import edu.augustana.helper.callbacks.CallbackRelease;
+import edu.augustana.dataModel.CWMessage;
+import edu.augustana.interfaces.HamControllerCallback;
+import edu.augustana.interfaces.callbacks.CallbackPress;
+import edu.augustana.interfaces.callbacks.CallbackRelease;
+import edu.augustana.data.HamRadio;
+import edu.augustana.helper.handlers.MorseHandler;
+import edu.augustana.helper.handlers.MorseSoundGenerator;
+import edu.augustana.helper.handlers.MorseTranslator;
+import edu.augustana.helper.handlers.StaticNoisePlayer;
+import edu.augustana.interfaces.listeners.FrequencyChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +19,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -29,6 +38,8 @@ public class HamController {
     @FXML
     private CheckBox showEnglishText;
     @FXML
+    public GridPane gridPane;
+    @FXML
     private Slider frequencySlider;
     @FXML
     public Button simulateReceivingBtn;
@@ -42,6 +53,8 @@ public class HamController {
     private BorderPane borderPane;
     @FXML
     private Slider volumeSlider;
+    @FXML
+    public VBox leftBottomSection;
 
     private final int oneMillion = 1000000;
     private HamControllerCallback callback;
@@ -60,15 +73,14 @@ public class HamController {
 
     public void initialize() {
 
-        HamRadio.theRadio.setNewMessageListener(msg -> receiveMessage(msg));
+        HamRadio.theRadio.setNewMessageListener(this::receiveMessage);
+        HamRadio.theRadio.setFrequencyListener(frequency -> frequencySlider.setValue(frequency));
 
         frequencySlider.setMin(minFrequency);
         frequencySlider.setMax(maxFrequency);
         frequencySlider.setValue(initialFrequency);
-        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));
-        ;
-        filterSlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFilter(newVal.intValue()));
-        ;
+        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));;
+        filterSlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFilter(newVal.intValue()));;
         HamRadio.theRadio.setFrequency(frequencySlider.getValue());
         HamRadio.theRadio.setFilter((int) filterSlider.getValue());
 

@@ -1,4 +1,4 @@
-package edu.augustana.ui;
+package edu.augustana.interfaces;
 
 public interface HamControllerCallback {
     void onDitDahProcessed(char signalUnit);  // Callback for each dit or dah
