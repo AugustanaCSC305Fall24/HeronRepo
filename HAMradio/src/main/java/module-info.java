@@ -27,5 +27,6 @@ module edu.augustana {
     opens edu.augustana.interfaces.listeners to com.google.gson, javafx.fxml;
 
     requires com.google.gson;
+    requires io.github.cdimascio.dotenv.java;
 
 }

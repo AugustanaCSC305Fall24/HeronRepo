@@ -46,7 +46,7 @@ public class LevelController {
     private final String[] words = {"NAME", "PWR", "FB", "73", "QSY?", "DE"}; // Example words
     private final String[] phrases = {"BT HW COPY?", "TNX FER CALL", "BT QTH IS"}; // Example phrases
     public Map<String, String> definitionsMap = new HashMap<>();
-    private final MorseTranslator morseTranslator = new MorseTranslator(); // Instance of MorseTranslator
+    private final MorseTranslator morseTranslator = MorseTranslator.instance; // Instance of MorseTranslator
 
     public void initialize() {
         /* Populate definitions */

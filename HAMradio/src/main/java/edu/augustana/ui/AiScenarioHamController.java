@@ -3,8 +3,10 @@ package edu.augustana.ui;
 import edu.augustana.data.HamRadio;
 import edu.augustana.dataModel.AiBotDetails;
 import edu.augustana.dataModel.AiScenarioData;
+import edu.augustana.dataModel.CWMessage;
 import edu.augustana.helper.handlers.GeminiAiHandler;
 import edu.augustana.data.AiScenarioPlayed;
+import edu.augustana.helper.handlers.MorseTranslator;
 import edu.augustana.interfaces.HamControllerCallback;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -82,16 +84,17 @@ public class AiScenarioHamController extends HamController implements HamControl
             botFrequencies.add(botFrequency);
             botFrequencyTextEl.setText(botFrequency);
 
-            // Use Gemini AI to generate a scenario response
-//            String scenarioResponse = geminiAiHandler.generateScenarioResponse(
-//                    botDetails.getName(),
-//                    botDetails.getObjective()
-//            );
-//            System.out.println(scenarioResponse);
 
             hbox.getChildren().add(botNameTextEl);
             hbox.getChildren().add(botFrequencyTextEl);
             if (isStartingFirst){
+//                Use Gemini AI to generate a scenario response
+            String scenarioResponse = geminiAiHandler.generateScenarioResponse(
+                    botDetails.getName(),
+                    botDetails.getObjective()
+            );
+//            hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(scenarioResponse),Double.parseDouble(botFrequency) ));
+            System.out.println(scenarioResponse);
                 HamRadio.theRadio.setFrequency(Double.parseDouble(botFrequency));
             }
             hamController.leftBottomSection.getChildren().add(hbox);
@@ -111,6 +114,12 @@ public class AiScenarioHamController extends HamController implements HamControl
     @Override
     public void onMessageCompleted(String message) {
         System.out.println("Complete message received: " + message);
+
+        // Process sending msg to AI
+        // Label self as sentMessage
+        // Get a response from AI
+        // If: user sends another message after this one, stop processing sending msg to AI and combine the two messages
+
     }
 
     @Override

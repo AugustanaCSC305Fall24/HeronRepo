@@ -23,7 +23,7 @@ public class MorseHandler {
     private Runnable timerLetterTask;
     private Runnable timerToneTask;
     private Runnable timerWordTask;
-    private static final MorseTranslator morseCodeTranslator = new MorseTranslator();  // Instance of MorseCodeTranslator
+    private static final MorseTranslator morseCodeTranslator = MorseTranslator.instance;  // Instance of MorseCodeTranslator
 
     private Instant keyPressTime;          // To store the time the space bar is pressed
     private StringBuilder userInput = new StringBuilder();

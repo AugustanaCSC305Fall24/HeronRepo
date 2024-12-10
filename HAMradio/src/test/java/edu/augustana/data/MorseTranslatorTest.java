@@ -9,12 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.InputMismatchException;
 
 class MorseTranslatorTest {
-    MorseTranslator translator;
-    @BeforeEach
-    void setup(){
-        translator = new MorseTranslator();
+    MorseTranslator translator = MorseTranslator.instance;
 
-    }
     @Test
     void getMorseCodeForTextCorrect() {
         assertEquals(translator.getLetterForSingleMorseCode("-..."),"B");

@@ -5,11 +5,11 @@ import java.util.InputMismatchException;
 import java.util.Map;
 
 public class MorseTranslator {
-
+    public static MorseTranslator instance = new MorseTranslator();
     private final Map<String, String> morseCodeMap = new HashMap<>();
 
     // Constructor that initializes the Morse code map for the alphabet
-    public MorseTranslator() {
+    private MorseTranslator() {
         morseCodeMap.put("A", ".-");
         morseCodeMap.put("B", "-...");
         morseCodeMap.put("C", "-.-.");

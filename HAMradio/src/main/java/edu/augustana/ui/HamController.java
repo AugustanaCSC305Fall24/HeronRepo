@@ -285,7 +285,7 @@ public class HamController {
         if (isFrequencyWithinFilterRange(transmittedFrequency, radioFrequency, filter)) {
 
             userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%s", cwMessage.getFrequency()) + frequencyUnit);
-            MorseTranslator translator = new MorseTranslator();
+            MorseTranslator translator = MorseTranslator.instance;
             StringBuilder morseMessage = new StringBuilder();
             for (int i = 0; i < message.length(); i++) {
                 if (i != 0 && message.charAt(i) == ' ' && morseMessage.charAt(i - 1) == ' ') {
