@@ -88,7 +88,7 @@ public class MorseHandler {
 
                 // Schedule the task after the specified delay
                 schedulerLetter.schedule(timerLetterTask, App.TIMER_DELAY, TimeUnit.MILLISECONDS);
-                schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 3, TimeUnit.MILLISECONDS);
+                schedulerWord.schedule(timerWordTask, App.TIMER_DELAY * 6, TimeUnit.MILLISECONDS);
 
             });
             schedulerTone.schedule(timerToneTask, App.DOT_THRESHOLD * 2, TimeUnit.MILLISECONDS);

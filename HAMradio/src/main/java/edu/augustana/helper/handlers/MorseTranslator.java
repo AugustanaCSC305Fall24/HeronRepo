@@ -47,6 +47,8 @@ public class MorseTranslator {
         morseCodeMap.put("8", "---..");
         morseCodeMap.put("9", "----.");
         morseCodeMap.put("?", "..--..");
+        morseCodeMap.put(".", ".-.-.-");
+        morseCodeMap.put(",", "---");
     }
 
     // Translates from English to Morse Code
