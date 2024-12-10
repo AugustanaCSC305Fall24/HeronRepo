@@ -140,9 +140,12 @@ public class HamController {
 
             @Override
             public void onTimerWordComplete() {
-
                 StringBuilder userInputLetters = morseHandler.getUserInputLetters();
-                userMessageInEnglish.setText(userInputLetters.toString());
+                if (showEnglishText.isSelected()) {
+                    userMessageInEnglish.setText(userInputLetters.toString());
+                } else {
+                    userMessageInEnglish.setText(""); // Clear text when checkbox is unchecked
+                }
                 String message = userInputLetters.toString();
                 if (callback != null) {
                     callback.onMessageCompleted(message);
