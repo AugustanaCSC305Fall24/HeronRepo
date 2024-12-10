@@ -39,6 +39,7 @@ public class LevelController {
     private Slider volumeSlider;
     @FXML
     private Slider wpmSlider;
+    private boolean isErrorState = false;
     private String currentText;       // The current random letter/word/phrase
     private String currentLevel = "Easy"; // Store the current level
     private boolean playCorrectAudio = true;
@@ -54,6 +55,8 @@ public class LevelController {
         definitionsMap.put("PWR", "transmission power");
         definitionsMap.put("FB", "fine business");
         definitionsMap.put("73", "best regards");
+        definitionsMap.put("QRL?", "Are you busy?");
+        definitionsMap.put("WX", "weather");
         definitionsMap.put("QSY?", "A question asking if the other party would like to change frequency.");
         definitionsMap.put("DE", "Abbreviation for 'from' in amateur radio communication.");
         definitionsMap.put("BT HW COPY?", "Asking how well the receiver can copy the message.");
@@ -80,6 +83,10 @@ public class LevelController {
             public void onTimerComplete(String letter) {
                 StringBuilder userInputLetters = morseHandler.getUserInputLetters();
                 String userInputLettersString = userInputLetters.toString().trim();
+                if (isErrorState) {
+                    isErrorState = false; // Reset error state
+                    userInputLettersLabel.setStyle("-fx-text-fill: green; -fx-font-size: 24px;"); // Restore default style
+                }
                 userInputLettersLabel.setText(userInputLettersString);
                 if (!(currentText.indexOf(userInputLettersString) == 0)){
                     throw new InputMismatchException("Try again (incorrect input: " + letter + ")");
@@ -113,6 +120,8 @@ public class LevelController {
             }
             @Override
             public void onTimerCatch(InputMismatchException e) {
+                isErrorState = true; // Enter error state
+
                 // Display the error message with the incorrect answer
                 String incorrectAnswer = morseHandler.getUserInputLetters().toString();
                 userInputLettersLabel.setStyle("-fx-text-fill: red; -fx-font-size: 24px;");
@@ -120,7 +129,8 @@ public class LevelController {
 
                 // Clear the Morse code display
                 morseCodeLabel.setText("");
-
+                morseHandler.clearUserInput();
+                morseHandler.clearUserInputLetters();
                 // Play the correct Morse code to help the user retry
                 playCorrectMorse(currentText);
             }
