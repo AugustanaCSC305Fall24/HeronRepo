@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.HamController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.HamController">
    <top>
       <Label alignment="CENTER" text="Live HAM Radio" BorderPane.alignment="CENTER">
          <font>
@@ -93,12 +93,12 @@
          <center>
             <VBox alignment="CENTER" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="userMessageMorse" text="Your Message">
+                  <Label fx:id="userMessageMorse" alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="445.0" text="Your Message">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="userMessageInEnglish" text="Your Message English ">
+                  <Label fx:id="userMessageInEnglish" alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="440.0" text="Your Message English " textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
