@@ -17,8 +17,8 @@ module edu.augustana {
     exports edu.augustana.data;
     opens edu.augustana.data to javafx.fxml, com.google.gson;
     opens edu.augustana to com.google.gson, javafx.fxml;
-    exports edu.augustana.helper.handlers;
-    opens edu.augustana.helper.handlers to com.google.gson, javafx.fxml;
+    exports edu.augustana.helper.handler;
+    opens edu.augustana.helper.handler to com.google.gson, javafx.fxml;
     exports edu.augustana.dataModel;
     opens edu.augustana.dataModel to com.google.gson, javafx.fxml;
     exports edu.augustana.interfaces;

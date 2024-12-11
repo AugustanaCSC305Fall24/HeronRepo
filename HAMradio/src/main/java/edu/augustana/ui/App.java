@@ -2,7 +2,7 @@ package edu.augustana.ui;
 import com.google.gson.Gson;
 import edu.augustana.dataModel.CWMessage;
 import edu.augustana.data.HamRadio;
-import edu.augustana.helper.handlers.StaticNoisePlayer;
+import edu.augustana.helper.handler.StaticNoisePlayer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

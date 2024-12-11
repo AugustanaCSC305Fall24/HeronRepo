@@ -1,5 +1,5 @@
 
-package edu.augustana.helper.handlers;
+package edu.augustana.helper.handler;
 
 import edu.augustana.data.HamRadio;
 import edu.augustana.data.Note;

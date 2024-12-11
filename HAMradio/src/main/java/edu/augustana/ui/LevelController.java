@@ -1,9 +1,9 @@
 package edu.augustana.ui;
 
 import edu.augustana.data.HamRadio;
-import edu.augustana.helper.handlers.MorseHandler;
-import edu.augustana.helper.handlers.MorseSoundGenerator;
-import edu.augustana.helper.handlers.MorseTranslator;
+import edu.augustana.helper.handler.MorseHandler;
+import edu.augustana.helper.handler.MorseSoundGenerator;
+import edu.augustana.helper.handler.MorseTranslator;
 import edu.augustana.interfaces.callbacks.CallbackRelease;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

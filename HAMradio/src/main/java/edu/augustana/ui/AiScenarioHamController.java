@@ -1,12 +1,13 @@
 package edu.augustana.ui;
 
 import edu.augustana.data.HamRadio;
+import edu.augustana.dataModel.AIResponse;
 import edu.augustana.dataModel.AiBotDetails;
 import edu.augustana.dataModel.AiScenarioData;
 import edu.augustana.dataModel.CWMessage;
-import edu.augustana.helper.handlers.GeminiAiHandler;
+import edu.augustana.helper.handler.GeminiAiHandler;
 import edu.augustana.data.AiScenarioPlayed;
-import edu.augustana.helper.handlers.MorseTranslator;
+import edu.augustana.helper.handler.MorseTranslator;
 import edu.augustana.interfaces.HamControllerCallback;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -89,12 +90,10 @@ public class AiScenarioHamController extends HamController implements HamControl
             hbox.getChildren().add(botFrequencyTextEl);
             if (isStartingFirst){
 //                Use Gemini AI to generate a scenario response
-            String scenarioResponse = geminiAiHandler.generateScenarioResponse(
-                    botDetails.getName(),
-                    botDetails.getObjective()
-            );
-//            hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(scenarioResponse),Double.parseDouble(botFrequency) ));
-            System.out.println(scenarioResponse);
+                AiScenarioPlayed.instance.AIHandler.createSession(botFrequency,botDetails.getName(),botDetails.getObjective());
+                AIResponse response = AiScenarioPlayed.instance.AIHandler.generateAIResponse(botFrequency,"start");
+            hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(response.getMessage()),Double.parseDouble(botFrequency) ));
+//            System.out.println(scenarioResponse);
                 HamRadio.theRadio.setFrequency(Double.parseDouble(botFrequency));
             }
             hamController.leftBottomSection.getChildren().add(hbox);

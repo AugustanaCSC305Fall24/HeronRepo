@@ -1,4 +1,4 @@
-package edu.augustana.helper.handlers;
+package edu.augustana.helper.handler;
 
 import edu.augustana.interfaces.callbacks.CallbackPress;
 import edu.augustana.interfaces.callbacks.CallbackRelease;

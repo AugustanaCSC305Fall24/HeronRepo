@@ -2,15 +2,13 @@ package edu.augustana.ui;
 
 import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
 import edu.augustana.dataModel.ScenarioData;
-import edu.augustana.helper.handlers.ScenarioFileHandler;
+import edu.augustana.helper.handler.ScenarioFileHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

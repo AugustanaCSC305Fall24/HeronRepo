@@ -2,7 +2,7 @@ package edu.augustana.ui;
 
 import edu.augustana.dataModel.AiBotDetails;
 import edu.augustana.dataModel.AiScenarioData;
-import edu.augustana.helper.handlers.AiScenarioFileHandler;
+import edu.augustana.helper.handler.AiScenarioFileHandler;
 import edu.augustana.data.AiScenarioPlayed;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

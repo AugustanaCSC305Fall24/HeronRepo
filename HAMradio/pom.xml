@@ -19,6 +19,13 @@
             <groupId>swiss.ameri</groupId>
             <artifactId>gemini-gson</artifactId>
             <version>1beta.0.2.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>swiss.ameri</groupId>
+                    <artifactId>gemini-api</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
