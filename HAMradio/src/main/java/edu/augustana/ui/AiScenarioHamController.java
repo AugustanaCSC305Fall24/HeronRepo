@@ -93,7 +93,7 @@ public class AiScenarioHamController extends HamController implements HamControl
                     botDetails.getName(),
                     botDetails.getObjective()
             );
-//            hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(scenarioResponse),Double.parseDouble(botFrequency) ));
+//            hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(scenarioResponse,true),Double.parseDouble(botFrequency) ));
             System.out.println(scenarioResponse);
                 HamRadio.theRadio.setFrequency(Double.parseDouble(botFrequency));
             }
