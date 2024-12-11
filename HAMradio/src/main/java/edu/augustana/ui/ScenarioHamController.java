@@ -1,11 +1,9 @@
 package edu.augustana.ui;
 
 
-import edu.augustana.dataModel.CWMessage;
-import edu.augustana.dataModel.ScenarioData;
-import edu.augustana.dataModel.ScriptedMessage;
+import edu.augustana.data.HamRadio;
+import edu.augustana.dataModel.*;
 import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
-import edu.augustana.dataModel.ScriptedBot;
 import edu.augustana.helper.handler.MorseTranslator;
 import edu.augustana.interfaces.HamControllerCallback;
 import javafx.fxml.FXML;
@@ -21,7 +19,7 @@ public class ScenarioHamController extends HamController implements HamControlle
     private HamController hamController;
     private static ScenarioData scenarioData;
     private double frequency;
-
+    private ScriptedBot currentBot;
     public void initialize() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/augustana/HamRadio.fxml"));
@@ -68,20 +66,19 @@ public class ScenarioHamController extends HamController implements HamControlle
             ScriptedBot scriptedBot = new ScriptedBot(scenario); // Create a ScriptedBot for the scenario
 
             // Iterate over the duration of the scenario and receive messages each minute
-            for (int time = 0; time < duration; time++) {
-                ScriptedMessage scriptedMessage = scriptedBot.getNewMessage(time); // Get the message at the current time (minute)
-
+            this.currentBot = scriptedBot;
+                ScriptedMessage scriptedMessage = scriptedBot.getNewMessage(); // Get the message at the current time (minute)
+                frequency = HamRadio.theRadio.getFrequency();
                 if (scriptedMessage != null) {
                     String message = scriptedMessage.getMessage(); // Get the message content
-                    hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(message),message, frequency)); // Simulate receiving the message with the current frequency
-                    System.out.println("Received message at minute " + time + ": " + message); // Log the message for debugging
+                    hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(message), message, frequency)); // Simulate receiving the message with the current frequency
+                    System.out.println("Received message: " + message); // Log the message for debugging
                 }
-            }
+
         } else {
             System.out.println("No scenario data provided!");
         }
     }
-
 
 
     @Override
@@ -104,8 +101,32 @@ public class ScenarioHamController extends HamController implements HamControlle
     @Override
     public void onMessageCompleted(String message) {
         System.out.println("Complete message received: " + message);
-    }
+        if (isFrequencyWithinFilterRange(frequency,HamRadio.theRadio.getFrequency(),HamRadio.theRadio.getFilter())){
+            ScriptedMessage scriptedMessage = currentBot.getNewMessage(); // Get the message at the current time (minute)
+            if (scriptedMessage != null) {
+                String messageBot = scriptedMessage.getMessage(); // Get the message content
+                hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(messageBot), messageBot, frequency)); // Simulate receiving the message with the current frequency
+                System.out.println("Received message: " + messageBot); // Log the message for debugging
+            }
+        }
 
+    }
+    private boolean isFrequencyWithinFilterRange(double messageFrequencyMHz, double radioFrequencyMHz, int filterHz) {
+        // Convert MHz to Hz
+        double messageFrequencyHz = messageFrequencyMHz * 1_000_000;
+        double radioFrequencyHz = radioFrequencyMHz * 1_000_000;
+
+        // Calculate the filter range
+        double lowerBound = radioFrequencyHz - (filterHz / 2.0);
+        double upperBound = radioFrequencyHz + (filterHz / 2.0);
+
+        // Check if the message frequency is within the range
+        if (messageFrequencyHz >= lowerBound && messageFrequencyHz <= upperBound) {
+            return true; // Frequency is within range
+        } else {
+            return false; // Frequency is out of range
+        }
+    }
     @Override
     public void onFrequencyChanged(double newFrequency) {
         System.out.println("Frequency changed to: " + newFrequency);

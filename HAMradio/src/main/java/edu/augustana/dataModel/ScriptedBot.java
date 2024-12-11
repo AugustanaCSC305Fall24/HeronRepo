@@ -42,14 +42,15 @@ public class ScriptedBot extends ScenarioBot {
     }
 
     @Override
-    public ScriptedMessage getNewMessage(int time) {
+    public ScriptedMessage getNewMessage() {
         // Return a message that corresponds to the given time, if available
-        for (ScriptedMessage message : scriptedMessages) {
-            if (message.getTime() == time) {
-                return message;
-            }
+        if (scriptedMessages.size() > msgIndex) {
+            msgIndex++;
+            return scriptedMessages.get(msgIndex);
+        } else {
+
+            return null; // No new message if no message is scheduled for this time
         }
-        return null; // No new message if no message is scheduled for this time
     }
 
     @Override
