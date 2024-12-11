@@ -287,9 +287,7 @@ public class HamController {
         int filter = HamRadio.theRadio.getFilter();
         double radioFrequency = HamRadio.theRadio.getFrequency();
         if (isFrequencyWithinFilterRange(transmittedFrequency, radioFrequency, filter)) {
-            MorseTranslator translator = MorseTranslator.instance;
-
-            userMessageMorse.setText("Received: " +  cwMessage.getOriginalMessage() + " on frequency " + String.format("%s", cwMessage.getFrequency()) + frequencyUnit);
+            userMessageMorse.setText("Received: " +  cwMessage.getOriginalMessage());
             try {
                 System.out.println(WPM);
                 App.wpm = WPM;
