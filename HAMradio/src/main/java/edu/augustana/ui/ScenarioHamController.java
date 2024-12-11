@@ -6,6 +6,7 @@ import edu.augustana.dataModel.ScenarioData;
 import edu.augustana.dataModel.ScriptedMessage;
 import edu.augustana.data.Scenarios.ScenarioBots.DataManager;
 import edu.augustana.dataModel.ScriptedBot;
+import edu.augustana.helper.handler.MorseTranslator;
 import edu.augustana.interfaces.HamControllerCallback;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,7 +73,7 @@ public class ScenarioHamController extends HamController implements HamControlle
 
                 if (scriptedMessage != null) {
                     String message = scriptedMessage.getMessage(); // Get the message content
-                    hamController.receiveMessage(new CWMessage(message, frequency)); // Simulate receiving the message with the current frequency
+                    hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(message),message, frequency)); // Simulate receiving the message with the current frequency
                     System.out.println("Received message at minute " + time + ": " + message); // Log the message for debugging
                 }
             }

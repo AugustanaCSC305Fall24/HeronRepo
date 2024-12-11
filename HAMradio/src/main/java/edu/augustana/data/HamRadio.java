@@ -57,6 +57,6 @@ public class HamRadio {
     }
 
     public void sendMessage(String msgText) {
-        App.sendMessageToServer(new CWMessage(msgText, frequency));
+        App.sendMessageToServer(new CWMessage(msgText,null, frequency));
     }
 }

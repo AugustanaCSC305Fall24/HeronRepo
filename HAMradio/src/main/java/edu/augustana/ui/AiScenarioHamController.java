@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AiScenarioHamController extends HamController implements HamControllerCallback {
     @FXML
@@ -29,6 +31,8 @@ public class AiScenarioHamController extends HamController implements HamControl
     private GeminiAiHandler geminiAiHandler = new GeminiAiHandler();
     private ArrayList<String> botFrequencies = new ArrayList<>();
     private static Random randGen = new Random();
+    private final ConcurrentHashMap<String, CompletableFuture<Void>> botTasks = new ConcurrentHashMap<>();
+
     public void initialize() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/augustana/HamRadio.fxml"));
@@ -58,13 +62,19 @@ public class AiScenarioHamController extends HamController implements HamControl
     }
 
 
-
-    private String generateFrequency(){
+    private String generateFrequency() {
+        // Generate a random integer from 0 to 67 (inclusive)
         int frequencyDecimal = AiScenarioHamController.randGen.nextInt(68);
-        if (botFrequencies.contains("7.0"+frequencyDecimal)){
-            return generateFrequency();
+
+        // Construct the full frequency string with exactly 4 digits
+        String frequency = "7.0" + (frequencyDecimal < 10 ? "0" + frequencyDecimal : frequencyDecimal);
+
+        // Ensure the generated frequency is not already in use
+        if (botFrequencies.contains(frequency)) {
+            return generateFrequency(); // Recursively generate a new frequency
         }
-        return "7.0"+frequencyDecimal;
+
+        return frequency;
     }
     @Override
     public void onInitialize() {
@@ -88,18 +98,22 @@ public class AiScenarioHamController extends HamController implements HamControl
 
             hbox.getChildren().add(botNameTextEl);
             hbox.getChildren().add(botFrequencyTextEl);
-            if (isStartingFirst){
-//                Use Gemini AI to generate a scenario response
-                AiScenarioPlayed.instance.AIHandler.createSession(botFrequency,botDetails.getName(),botDetails.getObjective());
-                AIResponse response = AiScenarioPlayed.instance.AIHandler.generateAIResponse(botFrequency,"start");
-            hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(response.getMessage()),Double.parseDouble(botFrequency) ));
-//            System.out.println(scenarioResponse);
+            AiScenarioPlayed.instance.AIHandler.createSession(botFrequency, botDetails.getName(), botDetails.getObjective());
+
+            if (isStartingFirst) {
                 HamRadio.theRadio.setFrequency(Double.parseDouble(botFrequency));
+//                Use Gemini AI to generate a scenario response
+                AIResponse response = AiScenarioPlayed.instance.AIHandler.generateAIResponse(botFrequency, "start");
+
+                hamController.receiveMessage(new CWMessage(MorseTranslator.instance.getMorseCodeForText(response.getMessage(), true), response.getMessage(), Double.parseDouble(botFrequency)));
+
+                System.out.println(response.getMessage());
             }
             hamController.leftBottomSection.getChildren().add(hbox);
 
         }
     }
+
     @Override
     public void onDitDahProcessed(char signalUnit) {
         System.out.println("Dit/Dah processed: " + signalUnit);
@@ -114,11 +128,38 @@ public class AiScenarioHamController extends HamController implements HamControl
     public void onMessageCompleted(String message) {
         System.out.println("Complete message received: " + message);
 
-        // Process sending msg to AI
-        // Label self as sentMessage
-        // Get a response from AI
-        // If: user sends another message after this one, stop processing sending msg to AI and combine the two messages
+        // Get the current frequency and filter settings
+        double currentFrequency = HamRadio.theRadio.getFrequency();
+        double filterRangeHz = HamRadio.theRadio.getFilter();
 
+        // Iterate through bot frequencies
+        for (String botFrequencyStr : botFrequencies) {
+            double botFrequency = Double.parseDouble(botFrequencyStr);
+            double filterRangeMHz = filterRangeHz / 1_000_000.0;
+
+            // Check if the bot's frequency is within the filter range
+            if (Math.abs(botFrequency - currentFrequency) <= filterRangeMHz / 2) {
+                // Use CompletableFuture to process asynchronously
+                try {
+                    // Generate a response from AI for the bot
+                    AIResponse response = AiScenarioPlayed.instance.AIHandler.generateAIResponse(botFrequencyStr, message);
+
+                    // Send the message to the bot and play the response
+                    hamController.receiveMessage(new CWMessage(
+                            MorseTranslator.instance.getMorseCodeForText(response.getMessage(), true),
+                            response.getMessage(),
+                            botFrequency
+                    ));
+
+                    System.out.println("Message sent to bot at frequency: " + botFrequencyStr);
+                } catch (Exception e) {
+                    System.err.println("Error processing message for bot at frequency: " + botFrequencyStr);
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Bot at frequency " + botFrequencyStr + " is outside the filter range.");
+            }
+        }
     }
 
     @Override

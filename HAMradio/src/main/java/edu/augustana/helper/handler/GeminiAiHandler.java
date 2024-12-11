@@ -85,8 +85,8 @@ public class GeminiAiHandler {
             throw new JsonSyntaxException("Missing required data: 'message' or 'isObjectiveComplete'");
         }
 
-        String message = response.split("%SEPERATOR")[0];
-        boolean isObjectiveComplete = Boolean.parseBoolean(response.split("%SEPERATOR")[1]);
+        String message = response.split("%SEPERATOR")[0].trim();
+        boolean isObjectiveComplete = Boolean.parseBoolean(response.split("%SEPERATOR")[1].trim());
 
         // Return the AIResponse object
         return new AIResponse(message, isObjectiveComplete);
@@ -94,7 +94,7 @@ public class GeminiAiHandler {
 
     private String createSessionPrompt(Session session) {
         StringBuilder prompt = new StringBuilder();
-        prompt.append("Answer in this form: `Write CW-friendly text. Use only comma, dot, and question mark. Be very brief and use word shortcuts. Use common CW wordings if possible. %SEPERATOR% false if the objective is not 100% complete, true only if the objective is 100% complete.`");
+        prompt.append("Answer in this form: `Write CW-friendly text. Use only comma, dot, and question mark. Be very brief and use word shortcuts. Use common CW wordings if possible, dont send \"User\" or \"You\" I can tell. %SEPERATOR% false if the objective is not 100% complete, true only if the objective is 100% complete.`");
         prompt.append("You are a bot part of a HAM Radio Scenario, I will provide the user's objective while talking to you in this scenario and your name or your position. Do not send messages that will make the user wait, the user must always be expected to respond to your response or leave. Your response must be CW friendly, do not use other special character other than comma, period, and question mark. Before marking the objective as complete, try to engage the user.\n");
         prompt.append("Your objective: ").append(session.getBotObjective());
         prompt.append("Your name: ").append(session.getBotName());

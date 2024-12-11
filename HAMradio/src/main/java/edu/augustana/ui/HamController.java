@@ -67,7 +67,7 @@ public class HamController {
     private boolean isInit = false;
     private boolean isInitCallback = false;
     private MorseHandler morseHandler;
-
+    double truncatedFrequency;
     private double transmittedFrequency;
 
     public void initialize() {
@@ -89,7 +89,8 @@ public class HamController {
         });
 
 
-        chosenFrequency.setText(Double.toString(frequencySlider.getValue()) + frequencyUnit);
+        truncatedFrequency = Math.floor(frequencySlider.getValue() * 10000) / 10000;
+        chosenFrequency.setText(String.format("%.3f", truncatedFrequency) + frequencyUnit);
         userMessageMorse.setText("Your message will be shown here");
 
         showEnglishText.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -164,7 +165,8 @@ public class HamController {
         }, borderPane);
 
         frequencySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            chosenFrequency.setText(String.format("%.3f", newValue) + frequencyUnit);
+            truncatedFrequency = Math.floor(frequencySlider.getValue() * 10000) / 10000;
+            chosenFrequency.setText(String.format("%.3f", truncatedFrequency) + frequencyUnit);
             if (callback != null) {
                 callback.onFrequencyChanged(newValue.doubleValue());
             }
@@ -280,30 +282,18 @@ public class HamController {
     // Method to receive and display the message and frequency from the new screen
     public void receiveMessage(CWMessage cwMessage) {
         int WPM = (int) speedSlider.getValue();
-        String message = cwMessage.getCwText();
+        String morseMessage = cwMessage.getCwText();
         transmittedFrequency = cwMessage.getFrequency();  /// Later note: Check the frequency and filter, instead of setting it to the current frequency.
         int filter = HamRadio.theRadio.getFilter();
         double radioFrequency = HamRadio.theRadio.getFrequency();
         if (isFrequencyWithinFilterRange(transmittedFrequency, radioFrequency, filter)) {
-
-            userMessageMorse.setText("Received: " + message + " on frequency " + String.format("%s", cwMessage.getFrequency()) + frequencyUnit);
             MorseTranslator translator = MorseTranslator.instance;
-            StringBuilder morseMessage = new StringBuilder();
-            for (int i = 0; i < message.length(); i++) {
-                if (i != 0 && message.charAt(i) == ' ' && morseMessage.charAt(i - 1) == ' ') {
-                    morseMessage.deleteCharAt(morseMessage.toString().length() - 1);
-                    morseMessage.append("%");
-                } else {
-                    morseMessage.append(translator.getMorseCodeForText(String.valueOf(message.charAt(i))));
-                    morseMessage.append(" ");
-                }
 
-            }
-            System.out.print(morseMessage);
+            userMessageMorse.setText("Received: " +  cwMessage.getOriginalMessage() + " on frequency " + String.format("%s", cwMessage.getFrequency()) + frequencyUnit);
             try {
                 System.out.println(WPM);
                 App.wpm = WPM;
-                MorseSoundGenerator.playMorseCode(morseMessage.toString(), WPM, (int) (App.ditFrequency - (HamRadio.theRadio.getFrequency() * oneMillion - transmittedFrequency * oneMillion)));
+                MorseSoundGenerator.playMorseCode(morseMessage, WPM, (int) (App.ditFrequency - (HamRadio.theRadio.getFrequency() * oneMillion - transmittedFrequency * oneMillion)));
             } catch (LineUnavailableException e) {
                 e.printStackTrace();
             }

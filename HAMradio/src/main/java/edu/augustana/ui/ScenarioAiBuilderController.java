@@ -153,9 +153,14 @@ public class ScenarioAiBuilderController {
     }
     @FXML
     private void pressPlayButton(ActionEvent event) throws IOException {
-        // Switch to the AiScenarioHamRadio scene
-        AiScenarioPlayed.instance.setData(new AiScenarioData(scenarioNameField.getText(),scenarioDescriptionArea.getText(),scenarioNotesArea.getText(),botDetailsList));
-        App.setRoot("AiScenarioHamRadio");
+        if (botDetailsList.size() > 0){
+
+            // Switch to the AiScenarioHamRadio scene
+            AiScenarioPlayed.instance.setData(new AiScenarioData(scenarioNameField.getText(),scenarioDescriptionArea.getText(),scenarioNotesArea.getText(),botDetailsList));
+            App.setRoot("AiScenarioHamRadio");
+        }else{
+            showAlert("Add bots","You need to have at least 1 bot to play the scenario.");
+        }
     }
     private void saveBotDetails() {
         // Collect data from bot details fields

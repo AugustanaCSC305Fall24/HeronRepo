@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.HamController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.HamController">
    <top>
       <Label alignment="CENTER" text="Live HAM Radio" BorderPane.alignment="CENTER">
          <font>
@@ -43,7 +43,7 @@
                   <Label text="Frequency" />
                   <Slider fx:id="frequencySlider" blockIncrement="0.01" majorTickUnit="0.01" max="7.067" min="7.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="7.0335" />
                   <Label text="Filter" />
-                  <Slider fx:id="filterSlider" blockIncrement="1.0" layoutX="10.0" layoutY="10.0" majorTickUnit="50.0" max="1000.0" min="100.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="500.0" />
+                  <Slider fx:id="filterSlider" blockIncrement="1.0" layoutX="10.0" layoutY="10.0" majorTickUnit="100.0" max="1000.0" min="100.0" prefHeight="38.0" prefWidth="195.0" showTickLabels="true" showTickMarks="true" value="500.0" />
                   <Label text="Receiving speed (WPM)" />
                   <Slider fx:id="speedSlider" blockIncrement="1.0" max="40.0" min="5.0" showTickLabels="true" showTickMarks="true" value="20.0" />
                   <Label text="Volume" />

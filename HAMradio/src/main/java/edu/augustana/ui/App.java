@@ -2,6 +2,7 @@ package edu.augustana.ui;
 import com.google.gson.Gson;
 import edu.augustana.dataModel.CWMessage;
 import edu.augustana.data.HamRadio;
+import edu.augustana.helper.handler.MorseTranslator;
 import edu.augustana.helper.handler.StaticNoisePlayer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -104,6 +105,7 @@ public class App extends Application {
     public void onMessage(String jsonMessage) {
         System.out.println("DEBUG: Received WebSocket message: " + jsonMessage);
         CWMessage cwMessage = new Gson().fromJson(jsonMessage, CWMessage.class);
+        cwMessage = new CWMessage(MorseTranslator.instance.getMorseCodeForText(cwMessage.getCwText(),true),cwMessage.getCwText(),cwMessage.getFrequency());
         HamRadio.theRadio.receiveMessage(cwMessage);
 //        ADD HANDLING RECEIVING MESSAGE
     }
