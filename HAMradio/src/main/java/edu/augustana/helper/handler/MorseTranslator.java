@@ -53,18 +53,25 @@ public class MorseTranslator {
 
     // Translates from English to Morse Code
     public String getMorseCodeForText(String text) {
+        return getMorseCodeForText(text,false);
+    }
+    public String getMorseCodeForText(String text,boolean ignore) {
+
         StringBuilder morseCodeBuilder = new StringBuilder();
         for (char c : text.toUpperCase().toCharArray()) {
+
             if (c == ' ') {  // Double space to separate words
                 morseCodeBuilder.append("% ");
             } else {
-                    String morseCode = morseCodeMap.get(String.valueOf(c).toUpperCase());
-                    if (morseCode == null){
-                        throw new InputMismatchException(c + ": this character isn't supported");
-                    }
-                    if (!morseCode.isEmpty()) {
-                        morseCodeBuilder.append(morseCode).append(" ");
-                    }
+                String morseCode = morseCodeMap.get(String.valueOf(c).toUpperCase());
+                if (morseCode == null && !ignore){
+                    throw new InputMismatchException(c + ": this character isn't supported");
+                }else if (morseCode == null){
+                    continue;
+                }
+                if (!morseCode.isEmpty()) {
+                    morseCodeBuilder.append(morseCode).append(" ");
+                }
 
             }
         }
